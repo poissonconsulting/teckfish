@@ -1,9 +1,9 @@
 #' calculate growing season degree days.
 #'
-#' @param x vector of integer temperature data of DAILY VALUES
-#' @param k integer width of rolling mean window
-#' @param endtemp minimum weekly temperature to define end of growing season
-#' @param starttemp threshold temperature to define start of the growing season
+#' @param x vector of numeric temperature data. 
+#' @param rollmean_units positive whole number, width of rolling mean window. 
+#' @param endtemp minimum weekly temperature to define end of growing season. 
+#' @param starttemp threshold rolling average temperature to define start of the growing season
 #'
 #' @return
 #' @export
