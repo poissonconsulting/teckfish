@@ -11,7 +11,7 @@
 #' @examples
 #' day <- 1:365
 #' temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
-#' calculate_gsdd(x = temperature, k = 7, start_temp = 5, end_temp = 4)
+#' calculate_gsdd(x = temperature, rollmean_units = 7, start_temp = 5, end_temp = 4)
 #' 
 calculate_gsdd <- function(x, rollmean_units, start_temp = 5, end_temp = 4) {
   chk_vector(x)
