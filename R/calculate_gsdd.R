@@ -13,19 +13,19 @@
 #' temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
 #' calculate_gsdd(x = temperature, k = 7, starttemp = 5, endtemp =4)
 #' 
-calculate_gsdd <- function(x, k, starttemp, endtemp) {
+calculate_gsdd <- function(x, k, start_temp = 5, end_temp = 4) {
   # calculate rolling average
   x <- zoo::rollmean(x=x, k=k)
   
   # remove days that are above start temp and below end temp
-  start <- match(TRUE, x > starttemp)
+  start <- match(TRUE, x > start_temp)
   x <- x[start:length(x)]
   
-  end <- match(TRUE, x < endtemp)
+  end <- match(TRUE, x < end_temp)
   temperature_filtered <- x[1:end]
   
   # Subtract base temp (start temp) and sum for each season. 
-  cumulative_gsdd <- sum(temperature_filtered - starttemp)
+  cumulative_gsdd <- sum(temperature_filtered)
   return(cumulative_gsdd)
 }
 
