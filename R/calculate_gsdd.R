@@ -2,8 +2,9 @@
 #'
 #' @param x vector of numeric temperature data. 
 #' @param rollmean_units positive whole number, width of rolling mean window. 
-#' @param endtemp minimum weekly temperature to define end of growing season. 
-#' @param starttemp threshold rolling average temperature to define start of the growing season
+#' @param starttemp single numeric value, threshold rolling average temperature to define start of the growing season
+#' @param endtemp single numeric value, weekly temperature rolling average threshold to define end of growing season. 
+#' 
 #'
 #' @return
 #' @export
@@ -22,17 +23,14 @@ calculate_gsdd <- function(x, rollmean_units, start_temp = 5, end_temp = 4) {
   chk_numeric(start_temp)
   chk_numeric(end_temp)
 
-  # calculate rolling average
   x <- zoo::rollmean(x=x, rollmean_units=rollmean_units)
   
-  # remove days that are above start temp and below end temp
   start <- match(TRUE, x > start_temp)
   x <- x[(start-3):length(x)]
   
   end <- match(TRUE, x < end_temp)
   temperature_filtered <- x[1:(end+3)]
-  
-  # Subtract base temp (start temp) and sum for each season. 
+
   cumulative_gsdd <- sum(temperature_filtered)
   return(cumulative_gsdd)
 }
