@@ -2,18 +2,30 @@
 # teckfish
 
 <!-- badges: start -->
+
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of teckfish is to ...
+The goal of teckfish is to facilitate reproducible calculation of fish growth metrics such as seasonal growing degree days. 
+
+License: MIT + file LICENSE
 
 ## Installation
+```{r}
+remotes::install_github("poissonconsulting/teckfish")
+```
 
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
+calculate_gsdd() takes a numerical vector and returns a sum of the growing degree days. 
+```{r}
 library(teckfish)
-## basic example code
+set.seed(13)
+temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+calculate_gsdd(x = temperature, 
+               rollmean_units = 7,
+               start_temp = 5, 
+               end_temp = 4, 
+               n_consecutive = 5)
 ```
