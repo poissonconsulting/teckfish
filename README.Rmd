@@ -22,6 +22,7 @@ calculate_gsdd() takes a numerical vector and returns a sum of the growing degre
 ```{r}
 library(teckfish)
 set.seed(13)
+day <- 1:365
 temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
 calculate_gsdd(x = temperature, 
                rollmean_units = 7,
