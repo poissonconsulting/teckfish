@@ -11,18 +11,19 @@
 #'
 #' @examples
 #' set.seed(13)
+#' day <- 1:365
 #' temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
 #' calculate_gsdd(x = temperature, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
 #' 
 calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5) {
-  chk_vector(x)
-  chk_all(temperature, chk_number)
-  chk_length(start_temp, length = 1)
-  chk_length(end_temp, length = 1)
-  chk_count(rollmean_units)
-  chk_numeric(start_temp)
-  chk_numeric(end_temp)
-  chk_count(n_consecutive)
+  chk::chk_vector(x)
+  chk::chk_all(x, chk::chk_number)
+  chk::chk_length(start_temp, length = 1)
+  chk::chk_length(end_temp, length = 1)
+  chk::chk_count(rollmean_units)
+  chk::chk_numeric(start_temp)
+  chk::chk_numeric(end_temp)
+  chk::chk_count(n_consecutive)
   
   x <- zoo::rollmean(x=x, k=rollmean_units)
   
