@@ -2,7 +2,6 @@
 # teckfish
 
 <!-- badges: start -->
-
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
@@ -19,9 +18,10 @@ remotes::install_github("poissonconsulting/teckfish")
 ## Example
 
 calculate_gsdd() takes a numerical vector and returns a sum of the growing degree days. 
-```{r}
+``` r
 library(teckfish)
 day <- 1:365
 x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+
 calculate_gsdd(x=x, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
 ```
