@@ -25,19 +25,20 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   chk::chk_numeric(end_temp)
   chk::chk_count(n_consecutive)
   
-  x <- zoo::rollmean(x=x, k=rollmean_units)
+  rollmean <- zoo::rollmean(x=x, k=rollmean_units)
   
-  indices <- which(x > start_temp)
-  matches <- zoo::rollapply(indices, width = n_consecutive, FUN = function(x) all(diff(x) == 1))
+  indices <- which(rollmean > start_temp)
+  matches <- zoo::rollapply(indices, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
   first_match_index <- min(indices[matches])
   
-  x <- x[(first_match_index-3):length(x)]
+  rollmean <- rollmean[(first_match_index-3):length(rollmean)]
   
-  indices <- which(x < end_temp)
-  matches <- zoo::rollapply(indices, width = n_consecutive, FUN = function(x) all(diff(x) == 1))
+  
+  indices <- which(rollmean < end_temp)
+  matches <- zoo::rollapply(indices, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
   end_match_index <- min(indices[matches])
   
-  x <- x[1:(end_match_index+3)]
+  x <- x[(first_match_index-3):(end_match_index+3)]
  
   cumulative_gsdd <- sum(x)
   return(cumulative_gsdd)
