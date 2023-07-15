@@ -20,6 +20,7 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   chk::chk_all(x, chk::chk_number)
   chk::chk_length(start_temp, length = 1)
   chk::chk_length(end_temp, length = 1)
+  chk::chk_true(start_temp >= end_temp)
   chk::chk_count(rollmean_units)
   chk::chk_numeric(start_temp)
   chk::chk_numeric(end_temp)
