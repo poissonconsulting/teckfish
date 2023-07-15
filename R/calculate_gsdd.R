@@ -1,10 +1,13 @@
-#' calculate growing season degree days for a vector of temperature values. 
+#' Calculate growing season degree days for a vector of temperature values. 
+#' Growing season degree day metric is calculated by summing daily temperatures during the growing season.
+#' The start of the growing season is defined by the rolling mean temperature remaining above the start_temp for n_consecutive days. 
+#' The end of the growing season is defined by the rolling mean temperature remaining below the end_temp for n_consecutive days.
 #'
-#' @param x vector of numeric temperature data. 
-#' @param rollmean_units positive whole number, width of rolling mean window. 
-#' @param starttemp single numeric value, threshold rolling average temperature to define start of the growing season
-#' @param endtemp single numeric value, weekly temperature rolling average threshold to define end of growing season. 
-#' @param n_consecutive single positive whole number. Number of consecutive rolling average days above and below cut off temperatures to begin gsdd calculations
+#' @param x a vector of numeric temperature data. 
+#' @param rollmean_units a positive whole number, width of rolling mean window. 
+#' @param starttemp a single numeric value, threshold rolling average temperature to define start of the growing season
+#' @param endtemp a single numeric value, weekly temperature rolling average threshold to define end of growing season. 
+#' @param n_consecutive a single positive whole number. Number of consecutive rolling average days above and below cut off temperatures to begin gsdd calculations
 #'
 #' @return
 #' @export
