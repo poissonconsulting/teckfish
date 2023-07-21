@@ -26,3 +26,11 @@ testthat::test_that("if end_temp is not reached, gsdd calculated to end of vecto
   x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
   testthat::expect_warning(calculate_gsdd(x, rollmean_units = 7, start_temp = 5, end_temp = -40, n_consecutive = 5))
 })
+
+testthat::test_that("if end_temp is reached at end of vector x, indicies do not fall off the edge", {
+  set.seed(13)
+  day <- 1:365
+  x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+  gsdd <- calculate_gsdd(x, rollmean_units = 7, start_temp = 5, end_temp = -4, n_consecutive = 5)
+  testthat::expect_equal(gsdd, 3827.5905)
+})
