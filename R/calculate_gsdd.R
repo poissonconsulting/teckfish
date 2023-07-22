@@ -34,6 +34,8 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
     stop("Error: start_temp higher than max temperature in vector")
   }
   
+  index_adjust <- median(seq(1:k)) -1
+  
   rollmean <- zoo::rollmean(x=x, k=rollmean_units)
   
   index_start <- which(rollmean > start_temp)
@@ -44,20 +46,20 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   index_end <- which(rollmean < end_temp)
   
   if (length(index_end) == 0) {
-    index_end <- (length(rollmean) - 3)
+    index_end <- (length(rollmean) - index_adjust)
     warning("end_temp never reached, gsdd calculated for remainder of values")
-    x <- x[(first_match_index-3):length(x)]
+    x <- x[(first_match_index-index_adjust):length(x)]
   } 
   else {
   index_end <- index_end
   matches <- zoo::rollapply(index_end, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
   end_match_index <- suppressWarnings(min(index_end[matches]))
   
-  if ((end_match_index + 3) > length(x)) {
-    end_match_index <- length(x) - 3
+  if ((end_match_index + index_adjust) > length(x)) {
+    end_match_index <- length(x) -index_adjust
   }
   
-  x <- x[(first_match_index-3):(end_match_index+3)]
+  x <- x[(first_match_index-index_adjust):(end_match_index+index_adjust)]
   }
   cumulative_gsdd <- sum(x)
   return(cumulative_gsdd)
