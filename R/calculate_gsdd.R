@@ -27,6 +27,8 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   chk::chk_numeric(start_temp)
   chk::chk_numeric(end_temp)
   chk::chk_count(n_consecutive)
+  chk::chk_true(length(x) > rollmean_units)
+  chk::chk_true(length(x) > n_consecutive)
   if (start_temp < end_temp){
     stop("Error: start temp must be greater than or equal to end_temp")
     }
@@ -34,14 +36,16 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
     stop("Error: start_temp higher than max temperature in vector")
   }
   
-  index_adjust <- median(seq(1:k)) -1
+  index_adjust <- median(seq(1:rollmean_units))-1
   
   rollmean <- zoo::rollmean(x=x, k=rollmean_units)
   
-  index_start <- which(rollmean > start_temp)
-  matches <- zoo::rollapply(index_start, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
-  first_match_index <- min(index_start[matches])
-  rollmean <- rollmean[(first_match_index-3):length(rollmean)]
+  index_start_temps <- which(rollmean > start_temp)
+  
+  matches <- zoo::rollapply(index_start_temps, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
+  
+  first_match_index <- min(index_start_temps[matches])
+  rollmean <- rollmean[(first_match_index-index_adjust):length(rollmean)]
   
   index_end <- which(rollmean < end_temp)
   
