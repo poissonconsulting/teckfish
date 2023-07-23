@@ -22,6 +22,7 @@ testthat::test_that("vector must be longer than n_consecutive", {
 
 testthat::test_that("vector must not contain NA values", {
   set.seed(13)  
+  day <- 1:365
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
   random_indices <- sample(1:length(x), 40)
   x[random_indices] <- NA
