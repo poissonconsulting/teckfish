@@ -29,6 +29,7 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   chk::chk_count(n_consecutive)
   chk::chk_true(length(x) > rollmean_units)
   chk::chk_true(length(x) > n_consecutive)
+  chk::chk_false(anyNA(x))
   if (start_temp < end_temp){
     stop("Error: start temp must be greater than or equal to end_temp")
     }
