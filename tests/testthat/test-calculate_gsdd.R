@@ -6,6 +6,20 @@ testthat::test_that("output is a numeric value", {
   testthat::expect_true(is.numeric(output))
 })
 
+testthat::test_that("vector must be longer than rollmean_units", {
+  set.seed(13)
+  day <- 1:365
+  x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+  testthat::expect_error(calculate_gsdd(x, rollmean_units = 369, start_temp = 5, end_temp = 4, n_consecutive = 5))
+})
+
+testthat::test_that("vector must be longer than n_consecutive", {
+  set.seed(13)
+  day <- 1:365
+  x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+  testthat::expect_error(calculate_gsdd(x, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 369))
+})
+
 testthat::test_that("start temp must be greater than or equal to end temp", {
   set.seed(13)
   day <- 1:365
@@ -34,3 +48,9 @@ testthat::test_that("if end_temp is reached at end of vector x, indicies do not 
   gsdd <- calculate_gsdd(x, rollmean_units = 7, start_temp = 5, end_temp = -4, n_consecutive = 5)
   testthat::expect_equal(gsdd, 3827.5905)
 })
+
+
+
+
+
+
