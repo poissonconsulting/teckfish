@@ -43,9 +43,10 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   
   index_start_temps <- which(rollmean > start_temp)
   
-  matches <- zoo::rollapply(index_start_temps, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
+  matches <- zoo::rollapply(index_start_temps, width = n_consecutive, FUN = function(index_start_temps) all(diff(index_start_temps) == 1))
   
   first_match_index <- min(index_start_temps[matches])
+  
   rollmean <- rollmean[(first_match_index-index_adjust):length(rollmean)]
   
   index_end <- which(rollmean < end_temp)
