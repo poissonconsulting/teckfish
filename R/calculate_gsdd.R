@@ -46,27 +46,40 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   matches <- zoo::rollapply(index_start_temps, width = n_consecutive, FUN = function(index_start_temps) all(diff(index_start_temps) == 1))
   
   first_match_index <- min(index_start_temps[matches])
+
+  #cut off top of roll mean with first_match_index
+  rollmean <- rollmean[first_match_index:length(rollmean)]
   
-  rollmean <- rollmean[(first_match_index-index_adjust):length(rollmean)]
-  
+  # pick end of roll mean that satisfies conditions
   index_end <- which(rollmean < end_temp)
   
   if (length(index_end) == 0) {
-    index_end <- (length(rollmean) - index_adjust)
+    end_match_index <- length(rollmean)
     warning("end_temp never reached, gsdd calculated for remainder of values")
-    x <- x[(first_match_index-index_adjust):length(x)]
   } 
   else {
-  index_end <- index_end
-  matches <- zoo::rollapply(index_end, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
-  end_match_index <- suppressWarnings(min(index_end[matches]))
-  
-  if ((end_match_index + index_adjust) > length(x)) {
-    end_match_index <- length(x) -index_adjust
+    index_end <- index_end
+    matches <- zoo::rollapply(index_end, width = n_consecutive, FUN = function(rollmean) all(diff(rollmean) == 1))
+    end_match_index <- suppressWarnings(min(index_end[matches]))
   }
   
-  x <- x[(first_match_index-index_adjust):(end_match_index+index_adjust)]
+  adjusted_index_start <- first_match_index - index_adjust
+   if (adjusted_index_start < 0) {
+    select_start <- 1
+  } else {
+    select_start <- adjusted_index_start
   }
+  
+  adjusted_index_end <- end_match_index + index_adjust
+  
+  if (adjusted_index_end > length(x)) {
+    select_end <- length(x)
+  } else{
+    select_end <- adjusted_index_end
+  }
+  
+  x <- x[select_start:select_end]
+  
   cumulative_gsdd <- sum(x)
   return(cumulative_gsdd)
 }
