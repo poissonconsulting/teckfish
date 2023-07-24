@@ -59,7 +59,13 @@ testthat::test_that("if end_temp is reached at end of vector x, indicies do not 
 })
 
 
-
+testthat::test_that("if start_temp is reached at start of vector x, indicies do not fall off the edge", {
+  set.seed(13)
+  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
+  x <- x[163:length(x)]
+  gsdd <- calculate_gsdd(x, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 7)
+  testthat::expect_equal(gsdd, 2678.3522)
+})
 
 
 
