@@ -47,10 +47,8 @@ calculate_gsdd <- function(x, rollmean_units = 7, start_temp = 5, end_temp = 4, 
   
   first_match_index <- min(index_start_temps[matches])
 
-  #cut off top of roll mean with first_match_index
   rollmean <- rollmean[first_match_index:length(rollmean)]
   
-  # pick end of roll mean that satisfies conditions
   index_end <- which(rollmean < end_temp)
   
   if (length(index_end) == 0) {
