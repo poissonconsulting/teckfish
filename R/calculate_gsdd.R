@@ -1,6 +1,6 @@
-#' Calculate Growing Season Degree Days 
+#' Calculate Growing Season Degree Days (GSDD)
 #' 
-#' The growing season degree day metric is calculated by summing daily temperatures during the growing season.
+#' GSDD is calculated by summing daily temperatures during the growing season.
 #' The start of the growing season is defined by the rolling mean temperature remaining above the start_temp for n_consecutive days.
 #' The end of the growing season is defined by the rolling mean temperature remaining below the end_temp for n_consecutive days.
 #'
@@ -10,7 +10,7 @@
 #' @param end_temp A number indicating the weekly temperature rolling average threshold to define the end of growing season.
 #' @param n_consecutive A positive whole number indicating the number of consecutive rolling average days above and below cut off temperatures to begin GSDD calculations.
 #'
-#' @return cumulative_gsdd
+#' @return A number of the cumulative GSDD.
 #' @export
 #'
 #' @examples
