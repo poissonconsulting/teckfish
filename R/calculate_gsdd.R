@@ -96,6 +96,5 @@ calculate_gsdd <-
     
     x <- x[select_start:select_end]
     
-    cumulative_gsdd <- sum(x)
-    return(cumulative_gsdd)
+    sum(x)
   }
