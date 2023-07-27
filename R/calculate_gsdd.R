@@ -5,7 +5,7 @@
 #' The end of the growing season is defined by the rolling mean temperature remaining below the end_temp for n_consecutive days.
 #'
 #' @param x A vector of numeric temperature data.
-#' @param rollmean_units A positive whole number indicating the width of rolling mean window.
+#' @param window_width A positive whole number indicating the width of rolling mean window.
 #' @param start_temp A number indicating the threshold rolling average temperature to define the start of the growing season.
 #' @param end_temp A number indicating the weekly temperature rolling average threshold to define the end of growing season.
 #' @param n_consecutive A positive whole number indicating the number of consecutive rolling average days above and below cut off temperatures to begin GSDD calculations.
@@ -17,25 +17,24 @@
 #' set.seed(13)
 #' day <- 1:365
 #' temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
-#' calculate_gsdd(x = temperature, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
+#' calculate_gsdd(x = temperature, window_width = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
 #'
 calculate_gsdd <-
   function(x,
-           rollmean_units = 7,
+           window_width = 7,
            start_temp = 5,
            end_temp = 4,
            n_consecutive = 5) {
-    chk_vector(x)
-    chk_all(x, chk_number)
-    chk_length(start_temp, length = 1)
-    chk_length(end_temp, length = 1)
-    chk_count(rollmean_units)
-    chk_numeric(start_temp)
-    chk_numeric(end_temp)
+    
+    chk_numeric(x)
+    chk_number(start_temp)
+    chk_number(end_temp)
+    chk_count(window_width)
     chk_count(n_consecutive)
-    chk_true(length(x) > rollmean_units)
+    chk_true(length(x) > window_width)
     chk_true(length(x) > n_consecutive)
-    chk_false(anyNA(x))
+    chk_not_any_na(x)
+    
     if (start_temp < end_temp) {
       stop("Error: start temp must be greater than or equal to end_temp")
     }
@@ -43,9 +42,9 @@ calculate_gsdd <-
       stop("Error: start_temp higher than max temperature in vector")
     }
     
-    index_adjust <- stats::median(seq(1:rollmean_units)) - 1
+    index_adjust <- stats::median(seq(1:window_width)) - 1
     
-    rollmean <- zoo::rollmean(x = x, k = rollmean_units)
+    rollmean <- zoo::rollmean(x = x, k = window_width)
     
     index_start_temps <- which(rollmean > start_temp)
     

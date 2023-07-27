@@ -2,32 +2,32 @@
 % Please edit documentation in R/calculate_gsdd.R
 \name{calculate_gsdd}
 \alias{calculate_gsdd}
-\title{Calculate growing season degree days}
+\title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
 calculate_gsdd(
   x,
-  rollmean_units = 7,
+  window_width = 7,
   start_temp = 5,
   end_temp = 4,
   n_consecutive = 5
 )
 }
 \arguments{
-\item{x}{a vector of numeric temperature data.}
+\item{x}{A vector of numeric temperature data.}
 
-\item{rollmean_units}{a positive whole number, width of rolling mean window.}
+\item{window_width}{A positive whole number indicating the width of rolling mean window.}
 
-\item{start_temp}{a single numeric value, threshold rolling average temperature to define start of the growing season}
+\item{start_temp}{A number indicating the threshold rolling average temperature to define the start of the growing season.}
 
-\item{end_temp}{a single numeric value, weekly temperature rolling average threshold to define end of growing season.}
+\item{end_temp}{A number indicating the weekly temperature rolling average threshold to define the end of growing season.}
 
-\item{n_consecutive}{a single positive whole number. Number of consecutive rolling average days above and below cut off temperatures to begin gsdd calculations}
+\item{n_consecutive}{A positive whole number indicating the number of consecutive rolling average days above and below cut off temperatures to begin GSDD calculations.}
 }
 \value{
-cumulative_gsdd
+A number of the cumulative GSDD.
 }
 \description{
-Growing season degree day metric is calculated by summing daily temperatures during the growing season.
+GSDD is calculated by summing daily temperatures during the growing season.
 The start of the growing season is defined by the rolling mean temperature remaining above the start_temp for n_consecutive days.
 The end of the growing season is defined by the rolling mean temperature remaining below the end_temp for n_consecutive days.
 }
@@ -35,6 +35,6 @@ The end of the growing season is defined by the rolling mean temperature remaini
 set.seed(13)
 day <- 1:365
 temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
-calculate_gsdd(x = temperature, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
+calculate_gsdd(x = temperature, window_width = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
 
 }
