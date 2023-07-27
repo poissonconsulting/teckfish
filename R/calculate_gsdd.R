@@ -36,10 +36,10 @@ calculate_gsdd <-
     chk_not_any_na(x)
     
     if (start_temp < end_temp) {
-      stop("Error: start temp must be greater than or equal to end_temp")
+      abort_chk("`start_temp` must be greater than or equal to `end_temp`")
     }
     if (max(x) <= start_temp) {
-      stop("Error: start_temp higher than max temperature in vector")
+      abort_chk("`start_temp` is higher than max temperature in `x`")
     }
     
     index_adjust <- stats::median(seq(1:window_width)) - 1
