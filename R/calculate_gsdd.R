@@ -1,15 +1,16 @@
-#' Calculate growing season degree days for a vector of temperature values.
+#' Calculate growing season degree days 
+#' 
 #' Growing season degree day metric is calculated by summing daily temperatures during the growing season.
 #' The start of the growing season is defined by the rolling mean temperature remaining above the start_temp for n_consecutive days.
 #' The end of the growing season is defined by the rolling mean temperature remaining below the end_temp for n_consecutive days.
 #'
 #' @param x a vector of numeric temperature data.
 #' @param rollmean_units a positive whole number, width of rolling mean window.
-#' @param starttemp a single numeric value, threshold rolling average temperature to define start of the growing season
-#' @param endtemp a single numeric value, weekly temperature rolling average threshold to define end of growing season.
+#' @param start_temp a single numeric value, threshold rolling average temperature to define start of the growing season
+#' @param end_temp a single numeric value, weekly temperature rolling average threshold to define end of growing season.
 #' @param n_consecutive a single positive whole number. Number of consecutive rolling average days above and below cut off temperatures to begin gsdd calculations
 #'
-#' @return
+#' @return cumulative_gsdd
 #' @export
 #'
 #' @examples
@@ -24,17 +25,17 @@ calculate_gsdd <-
            start_temp = 5,
            end_temp = 4,
            n_consecutive = 5) {
-    chk::chk_vector(x)
-    chk::chk_all(x, chk::chk_number)
-    chk::chk_length(start_temp, length = 1)
-    chk::chk_length(end_temp, length = 1)
-    chk::chk_count(rollmean_units)
-    chk::chk_numeric(start_temp)
-    chk::chk_numeric(end_temp)
-    chk::chk_count(n_consecutive)
-    chk::chk_true(length(x) > rollmean_units)
-    chk::chk_true(length(x) > n_consecutive)
-    chk::chk_false(anyNA(x))
+    chk_vector(x)
+    chk_all(x, chk_number)
+    chk_length(start_temp, length = 1)
+    chk_length(end_temp, length = 1)
+    chk_count(rollmean_units)
+    chk_numeric(start_temp)
+    chk_numeric(end_temp)
+    chk_count(n_consecutive)
+    chk_true(length(x) > rollmean_units)
+    chk_true(length(x) > n_consecutive)
+    chk_false(anyNA(x))
     if (start_temp < end_temp) {
       stop("Error: start temp must be greater than or equal to end_temp")
     }
@@ -42,7 +43,7 @@ calculate_gsdd <-
       stop("Error: start_temp higher than max temperature in vector")
     }
     
-    index_adjust <- median(seq(1:rollmean_units)) - 1
+    index_adjust <- stats::median(seq(1:rollmean_units)) - 1
     
     rollmean <- zoo::rollmean(x = x, k = rollmean_units)
     
