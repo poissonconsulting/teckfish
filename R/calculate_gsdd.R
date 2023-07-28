@@ -59,9 +59,7 @@ calculate_gsdd <-
     
     first_match_index <- min(index_start_temps[matches])
     
-    rollmean <- rollmean[first_match_index:length(rollmean)]
-    
-    index_end <- which(rollmean < end_temp)
+    index_end <- which(which(rollmean < end_temp) > first_match_index)
     
     if (length(index_end) == 0) {
       end_match_index <- length(rollmean)
