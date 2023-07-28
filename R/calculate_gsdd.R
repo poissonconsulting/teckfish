@@ -18,6 +18,11 @@
 #' day <- 1:365
 #' temperature <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
 #' calculate_gsdd(x = temperature, window_width = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
+#' 
+#' # expect gsdd of 201
+#' x <- c(rep(1,10),rep(10,20), rep(1,10))
+#' calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+#'
 #'
 calculate_gsdd <-
   function(x,
