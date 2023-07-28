@@ -69,4 +69,10 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
 })
 
 
+test_that("output is consistent with expected value",{
+  x <- c(rep(1,10),rep(10,20), rep(1,10))
+  gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+  expect_equal(gsdd, 201)
+  })
+
 
