@@ -41,13 +41,14 @@ calculate_gsdd <-
     if (max(x) <= start_temp) {
       abort_chk("`start_temp` is higher than max temperature in `x`")
     }
-    
+    # calculating the length of sides in rolling window - expect 1
     index_adjust <- stats::median(seq(1:window_width)) - 1
     
     rollmean <- zoo::rollmean(x = x, k = window_width)
     
+    # pick which indices have values above start temp - expect 11:28
     index_start_temps <- which(rollmean > start_temp)
-    
+    # which of those indices are n_consecutive in a row 
     matches <-
       zoo::rollapply(
         index_start_temps,
@@ -55,16 +56,20 @@ calculate_gsdd <-
         FUN = function(index_start_temps)
           all(diff(index_start_temps) == 1)
       )
-    
+    # grab the smallest of the indices that are n_consecutive in a row - expect 11
     first_match_index <- min(index_start_temps[matches])
     
-    index_end <- which(which(rollmean < end_temp) > first_match_index)
+    # which indices in roll mean are below end_temp- expect 1:10 , 29:38
+    index_end <- which(rollmean < end_temp)
     
-    if (length(index_end) == 0) {
+    # remove indices that are lower than the first_match_index - expect 29-38
+    index_end <- index_end[index_end>first_match_index]
+    
+    # choosing smallest end index - expect 29
+    if (length(index_end) < 1) {
       end_match_index <- length(rollmean)
       warning("end_temp never reached, gsdd calculated for remainder of values")
-    }
-    else {
+    } else {
       index_end <- index_end
       matches <-
         zoo::rollapply(
@@ -76,15 +81,16 @@ calculate_gsdd <-
       end_match_index <- suppressWarnings(min(index_end[matches]))
     }
     
+    # adjust start index to subset x by the index adjustment for the rolling mean - expect 10
     adjusted_index_start <- first_match_index - index_adjust
-    if (adjusted_index_start < 0) {
+    if (adjusted_index_start < 1) {
       select_start <- 1
     } else {
       select_start <- adjusted_index_start
     }
     
+    #adjust the ending index to subset x - expect 30
     adjusted_index_end <- end_match_index + index_adjust
-    
     if (adjusted_index_end > length(x)) {
       select_end <- length(x)
     } else{
@@ -92,6 +98,6 @@ calculate_gsdd <-
     }
     
     x <- x[select_start:select_end]
-    
+    #expect 201
     sum(x)
   }
