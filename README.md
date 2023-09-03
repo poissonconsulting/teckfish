@@ -22,23 +22,13 @@ remotes::install_github("poissonconsulting/teckfish")
 
     ## Using github PAT from envvar GITHUB_PAT
 
-    ## Downloading GitHub repo poissonconsulting/teckfish@HEAD
-
-    ## 
-    ## ── R CMD build ─────────────────────────────────────────────────────────────────
-    ##      checking for file ‘/private/var/folders/1_/v3f3x7gj4kl88xm29qnsz3gw0000gn/T/RtmpDfYNyL/remotesb9f126bfc0e0/poissonconsulting-teckfish-41495090898720ddcc03387956bf7d6cb5b49c6e/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/1_/v3f3x7gj4kl88xm29qnsz3gw0000gn/T/RtmpDfYNyL/remotesb9f126bfc0e0/poissonconsulting-teckfish-41495090898720ddcc03387956bf7d6cb5b49c6e/DESCRIPTION’
-    ##   ─  preparing ‘teckfish’:
-    ##      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-    ##   ─  checking for LF line-endings in source and make files and shell scripts
-    ##   ─  checking for empty or unneeded directories
-    ##   ─  building ‘teckfish_0.0.0.9000.tar.gz’
-    ##      
-    ## 
+    ## Skipping install of 'teckfish' from a github remote, the SHA1 (9333055d) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
 
 ## Example
 
-calculate_gsdd() takes a numerical vector and returns a sum of the
-growing degree days.
+calculate_gsdd() takes a numerical vector of daily temperature values
+and calculates the growing degree days.
 
 ``` r
 library(teckfish)

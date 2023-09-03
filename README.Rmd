@@ -22,7 +22,7 @@ remotes::install_github("poissonconsulting/teckfish")
 
 ## Example
 
-calculate_gsdd() takes a numerical vector and returns a sum of the growing degree days. 
+calculate_gsdd() takes a numerical vector of daily temperature values and calculates the growing degree days. 
 ``` r
 library(teckfish)
 day <- 1:365
