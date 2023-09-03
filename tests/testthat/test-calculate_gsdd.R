@@ -78,3 +78,9 @@ test_that("output is consistent with expected value if x dips below end_temp for
   gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
   expect_equal(gsdd, 206)
 })
+
+test_that("if window_width for rolling mean is even and index adjust is not a whole number, final index will round down",{
+  x <- c(rep(0,10),rep(10,20), rep(0,10))
+  gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 4)
+  expect_equal(gsdd, 200)
+})
