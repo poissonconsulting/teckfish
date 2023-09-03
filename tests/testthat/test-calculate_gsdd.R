@@ -58,7 +58,6 @@ test_that("if end_temp is reached at end of vector x, indicies do not fall off t
   expect_equal(gsdd, 3827.5905)
 })
 
-
 test_that("if start_temp is reached at start of vector x, indicies do not fall off the edge", {
   set.seed(13)
   day <- 1:365
@@ -68,11 +67,14 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   expect_equal(gsdd, 2678.3522)
 })
 
-
 test_that("output is consistent with expected value",{
-  x <- c(rep(1,10),rep(10,20), rep(1,10))
+  x <- c(rep(0,10),rep(10,20), rep(0,10))
   gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
-  expect_equal(gsdd, 201)
+  expect_equal(gsdd, 200)
   })
 
-
+test_that("output is consistent with expected value if x dips below end_temp for n_consecutive - 1",{
+  x <- c(rep(0,10), rep(10,10), rep(8,2), rep(10,9), rep(0,10))
+  gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+  expect_equal(gsdd, 206)
+})

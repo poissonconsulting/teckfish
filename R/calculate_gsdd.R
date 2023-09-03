@@ -44,9 +44,9 @@ calculate_gsdd <-
       abort_chk("`start_temp` must be greater than or equal to `end_temp`")
     }
     if (max(x) <= start_temp) {
-      abort_chk("`start_temp` is higher than max temperature in `x`")
+      abort_chk("`start_temp` is higher than of equal to max temperature in `x`, choose a lower temperature")
     }
-    # calculating the length of sides in rolling window - expect 1
+    # calculating the length of sides in rolling window - expect 1 from 3 because 1 on each side. 
     index_adjust <- stats::median(seq(1:window_width)) - 1
     
     rollmean <- zoo::rollmean(x = x, k = window_width)
