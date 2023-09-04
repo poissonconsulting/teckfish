@@ -1,8 +1,8 @@
 #' Calculate Growing Season Degree Days (GSDD)
 #'
 #' GSDD is a continuous variable that is a measurement of thermal energy available for growth. GSDD is calculated by summing the average daily temperatures during the growing season.
-#' The start of the growing season is defined by when the rolling mean temperature remains above the start_temp for n_consecutive days.
-#' The end of the growing season is defined by when the rolling mean temperature remains below the end_temp for n_consecutive days.
+#' The start of the growing season is defined by when the rolling mean temperature remains above the start_temp for at least n_consecutive days.
+#' The end of the growing season is defined by when the rolling mean temperature remains below the end_temp for at least n_consecutive days.
 #'
 #' @param x A vector of numeric temperature data.
 #' @param window_width A positive whole number indicating the width of rolling mean window.
