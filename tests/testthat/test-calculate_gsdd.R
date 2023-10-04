@@ -24,7 +24,7 @@ test_that("vector must not contain NA values", {
   set.seed(13)
   day <- 1:365
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
-  random_indices <- sample(1:length(x), 40)
+  random_indices <- sample(seq_along(x), 40)
   x[random_indices] <- NA
   expect_chk_error(calculate_gsdd(x, window_width = 7, start_temp = 5, end_temp = 4, n_consecutive = 5))
 })
