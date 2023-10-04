@@ -7,33 +7,34 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/poissonconsulting/teckfish/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/teckfish/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/poissonconsulting/teckfish/branch/main/graph/badge.svg)](https://app.codecov.io/gh/poissonconsulting/teckfish?branch=main)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-The goal of teckfish is to facilitate reproducible calculation of fish
-growth metrics such as seasonal growing degree days.
-
-License: MIT + file LICENSE
+`teckfish` is an R package for Teck Fish and Aquatic Sciences Projects.
 
 ## Installation
 
 ``` r
-remotes::install_github("poissonconsulting/teckfish")
+# install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
+pak::pak("poissonconsulting/teckfish")
 ```
-
-    ## Using github PAT from envvar GITHUB_PAT
-
-    ## Skipping install of 'teckfish' from a github remote, the SHA1 (9333055d) has not changed since last install.
-    ##   Use `force = TRUE` to force installation
 
 ## Example
 
-calculate_gsdd() takes a numerical vector of daily temperature values
-and calculates the growing degree days.
+`calculate_gsdd()` takes a numerical vector of daily temperature values
+and calculates the growing season degree days (GSDD).
 
 ``` r
 library(teckfish)
+set.seed(13)
 day <- 1:365
-x <- -15 * cos((2*pi / 365) * (day-10)) + rnorm(365, mean = 10, sd = .5)
+x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
 
-calculate_gsdd(x=x, rollmean_units = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
+calculate_gsdd(x)
 ```
+
+    ## [1] 1691.579

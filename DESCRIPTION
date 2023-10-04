@@ -1,27 +1,23 @@
 Package: teckfish
-Title: Calculate Common Growth Metrics
+Title: R Tools for Teck Fish and Aquatic Sciences Projects
 Version: 0.0.0.9000
-Authors@R: 
-     c(person(given = "Joe",
-             family = "Thorley",
-             role = c("aut", "cre"),
-             email = "joe@poissonconsulting.ca",
-             comment = c(ORCID = "0000-0002-7683-4592")),
-   person(given = "Sebastian",
-             family = "Dalgarno",
-             role = "ctb",
-             comment = c(ORCID = "0000-0000-0000-0000")),
-   person(given = "Sarah",
-             family = "Lyons",
-             role = "aut",
-             comment = c(ORCID = "0000-0002-6745-6796")))
-Description: Allows reproducible calculation of fish growth metrics such as seasonal growing degree days. 
+Authors@R: c(
+    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7683-4592")),
+    person("Sebastian", "Dalgarno", role = "ctb",
+           comment = c(ORCID = "0000-0000-0000-0000")),
+    person("Sarah", "Lyons", role = "aut",
+           comment = c(ORCID = "0000-0002-6745-6796")),
+    person("Teck Resources", role = c("fnd", "cph"))
+  )
+Description: Currently only includes function to calculate growing season
+    degree days from daily water temperature data.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Config/testthat/edition: 3
 Imports: 
     chk,
     testthat,
     zoo
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
