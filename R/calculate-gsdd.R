@@ -1,10 +1,5 @@
 #' Calculate Growing Season Degree Days (GSDD)
 #'
-<<<<<<< HEAD:R/calculate_gsdd.R
-#' GSDD is a continuous variable that is a measurement of thermal energy available for growth. GSDD is calculated by summing the average daily temperatures during the growing season.
-#' The start of the growing season is defined by when the rolling mean temperature remains above the start_temp for at least n_consecutive days.
-#' The end of the growing season is defined by when the rolling mean temperature remains below the end_temp for at least n_consecutive days.
-=======
 #' Growing Season Degree Days (GSDD) is a water temperature metric
 #' that is a useful predictor of Cutthroat trout size at the 
 #' beginning of winter. It is the accumulated thermal units (in C)
@@ -22,7 +17,6 @@
 #' 
 #' For the purposes of the calculation week is assumed to refer to a 
 #' seven day rolling average as opposed to the calendar week.
->>>>>>> c1b7a3671eaabd4e3dbcda28be6f888bde750ac5:R/calculate-gsdd.R
 #'
 #' @param x A numeric vector of mean daily water temperature data from 
 #' before to after the growing season in C.
