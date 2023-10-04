@@ -84,3 +84,18 @@ test_that("if window_width for rolling mean is even and index adjust is not a wh
   gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 4)
   expect_equal(gsdd, 200)
 })
+
+test_that("if x dips below end_temp but rollingmean does not stay below end_temp for n_consecutive days or more indicies are still chosen correctly.",{
+  x <- c(rep(0,10), rep(10,10), rep(8,2), rep(10,9), rep(0,10))
+  gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+  expect_equal(gsdd, 206)
+})
+
+test_that("If temperature jumps above start_temp but for too short a period of time for rolling mean to be above start_temp for longer than n_consecutive it will not start counting gsdd until rollmean remains above start_temp for n_consecutive days.",{
+  set.seed(13)
+  day <- 1:365
+  x <- -15 * cos((2*pi / 365) * (day-10))
+  x[99] <- 9
+  gsdd<-calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+  expect_equal(gsdd, 1422.9838)
+})
