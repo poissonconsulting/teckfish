@@ -5,5 +5,5 @@
 #' @keywords internal
 #' @name params
 #'
-#' 
+#'
 NULL

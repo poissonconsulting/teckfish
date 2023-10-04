@@ -1,3 +1,3 @@
 #' @import chk testthat
-#' 
+#'
 NULL
