@@ -1,28 +1,47 @@
 #' Calculate Growing Season Degree Days (GSDD)
 #'
-#' GSDD is a continuous variable that is a measurement of thermal energy available for growth. GSDD is calculated by summing the average daily temperatures during the growing season.
-#' The start of the growing season is defined by when the rolling mean temperature remains above the start_temp for n_consecutive days.
-#' The end of the growing season is defined by when the rolling mean temperature remains below the end_temp for n_consecutive days.
+#' Growing Season Degree Days (GSDD) is a water temperature metric
+#' that is a useful predictor of Cutthroat trout size at the 
+#' beginning of winter. It is the accumulated thermal units (in C)
+#' during the growing season.
+#' 
+#' By default the growing season is as defined by 
+#' Coleman and Fausch (2007) who stated that
+#' 
+#' We defined the start of the growing season as the 
+#' beginning of the first week that average stream temperatures exceeded and
+#' remained above 5C for the season; 
+#' the end of the growing season was defined as 
+#' the last day of the first week that 
+#' average stream temperature dropped below 4C.
+#' 
+#' For the purposes of the calculation week is assumed to refer to a 
+#' seven day rolling average as opposed to the calendar week.
 #'
-#' @param x A vector of numeric temperature data.
-#' @param window_width A positive whole number indicating the width of rolling mean window.
-#' @param start_temp A number indicating the threshold rolling average temperature to define the start of the growing season.
-#' @param end_temp A number indicating the weekly temperature rolling average threshold to define the end of growing season.
-#' @param n_consecutive A positive whole number indicating the number of consecutive rolling average days above and below cut off temperatures to begin GSDD calculations.
+#' @param x A numeric vector of mean daily water temperature data from 
+#' before to after the growing season in C.
+#' @param window_width A positive whole number of the 
+#' width of the rolling mean window in days.
+#' @param start_temp A number of the average water temperature 
+#' at the start of the growing season in C.
+#' @param end_temp A number of the average water temperature
+#'  at the end of the growing season in C.
+#' @param n_consecutive A positive whole number indicating the 
+#' number of consecutive rolling average days above and below cut off 
+#' temperatures to begin GSDD calculations.
+#' temperatures to begin GSDD calculations.
+#' temperatures to begin GSDD calculations.
 #'
-#' @return A number of the cumulative GSDD.
+#' @return A number of the GSDD.
 #' @export
 #'
 #' @examples
-#'
 #' x <- c(rep(1, 10), rep(10, 20), rep(1, 10))
-#' calculate_gsdd(x, window_width = 3, start_temp = 9, end_temp = 9, n_consecutive = 3)
+#' calculate_gsdd(x)
 #'
-#' #' set.seed(13)
+#' set.seed(13)
 #' day <- 1:365
-#' temperature <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
-#' calculate_gsdd(x = temperature, window_width = 7, start_temp = 5, end_temp = 4, n_consecutive = 5)
-#'
+# x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
 calculate_gsdd <-
   function(x,
            window_width = 7,
