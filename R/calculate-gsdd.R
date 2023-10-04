@@ -32,15 +32,13 @@ calculate_gsdd <-
     chk_numeric(x)
     chk_number(start_temp)
     chk_number(end_temp)
+    chk_gte(start_temp, end_temp)
     chk_count(window_width)
     chk_count(n_consecutive)
     chk_true(length(x) > window_width)
     chk_true(length(x) > n_consecutive)
     chk_not_any_na(x)
-
-    if (start_temp < end_temp) {
-      abort_chk("`start_temp` must be greater than or equal to `end_temp`")
-    }
+  
     if (max(x) <= start_temp) {
       abort_chk(
         "`start_temp` is higher than of equal to max temperature in `x`, choose a lower temperature"
