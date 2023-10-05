@@ -43,66 +43,76 @@
 #' set.seed(13)
 #' day <- 1:365
 # x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
-gsdd_cf <-
-  function(x,
-           entire = TRUE,
-           start_temp = 5,
-           end_temp = 4,
-           window_width = 7,
-           quiet = FALSE
-           ) {
-    
-    chk_numeric(x)
-    chk_vector(x)
-    chk_not_any_na(x)
-    chk_length(x, 180, 366)
-    
-    chk_flag(entire)
-    
-    chk_number(start_temp)
-    chk_number(end_temp)
-    chk_gte(start_temp, end_temp)
-    
-    chk_count(window_width)
-    chk_range(window_width, c(3, 14))
-    if(is_even(window_width)) {
-      abort_chk("`window_width` must be odd.")
-    }
-    
-    # create rolling mean vector from x and window width
-    rollmean <- zoo::rollmean(x = x, k = window_width)
-    
-    # pick which indices have values above start temp that begin runs
-    index_start <- index_begin_run(rollmean > start_temp)
-    
-    # no GSDD if season never starts
-    if(!length(index_start)) return(0)
-    
-    # pick which indices have values above and temp that begin runs
-    index_end <- index_begin_run(rollmean < end_temp)
-    
-    index_end <- index_end[index_end > index_start[1]]
+gsdd_cf <-function(x,
+                   entire = TRUE,
+                   start_temp = 5,
+                   end_temp = 4,
+                   window_width = 7,
+                   quiet = FALSE
+) 
+{
   
-    if(!length(index_end)) {
-      warning("end_temp never reached")
-      if(entire) {
-        return(NA_real_)
-      }
-      index_end <- length(rollmean)
+  chk_numeric(x)
+  chk_vector(x)
+  chk_not_any_na(x)
+  chk_length(x, 180, 366)
+  
+  chk_flag(entire)
+  
+  chk_number(start_temp)
+  chk_number(end_temp)
+  chk_gte(start_temp, end_temp)
+  
+  chk_count(window_width)
+  chk_range(window_width, c(3, 14))
+  if(is_even(window_width)) {
+    abort_chk("`window_width` must be odd.")
+  }
+  
+  # create rolling mean vector from x and window width
+  rollmean <- zoo::rollmean(x = x, k = window_width)
+  
+  # pick which indices have values above start temp that begin runs
+  index_start <- index_begin_run(rollmean > start_temp)
+  
+  # no GSDD if season never starts
+  if(!length(index_start)) return(0)
+  
+  # pick which indices have values above and temp that begin runs
+  index_end <- index_begin_run(rollmean < end_temp)
+  
+  index_end <- index_end[index_end > index_start[1]]
+  
+  if(!length(index_end)) {
+    warning("end_temp never reached")
+    if(entire) {
+      return(NA_real_)
     }
-    data <- tidyr::expand_grid(index_start = index_start, 
-                               index_end = index_end) |>
-      dplyr::filter(.data$index_start <= .data$index_end)  |>
-      dplyr::group_by(.data$index_start) |>
-      dplyr::arrange(.data$index_end) |>
-      dplyr::slice(1) |>
-      dplyr::ungroup() |>
-      dplyr::group_by(.data$index_end) |>
-      dplyr::arrange(.data$index_start) |>
-      dplyr::slice(1) |>
-      dplyr::ungroup() |>
-      dplyr::mutate(index_end = .data$index_end + (window_width - 1)) |>
-      dplyr::mutate(gsdd = sum(x[.data$index_start:.data$index_end])) 
-        
-    return(max(data$gsdd))
+    index_end <- length(rollmean)
+  }
+  data <- tidyr::expand_grid(index_start = index_start, 
+                             index_end = index_end) |>
+    dplyr::filter(.data$index_start <= .data$index_end)  |>
+    dplyr::group_by(.data$index_start) |>
+    dplyr::arrange(.data$index_end) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::group_by(.data$index_end) |>
+    dplyr::arrange(.data$index_start) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(index_end = .data$index_end + (window_width - 1),
+                  ndays = .data$index_end - .data$index_start + 1) |>
+    dplyr::mutate(gsdd = purrr::map2_dbl(
+      .x = .data$index_start, 
+      .y = .data$index_end,
+      .f = sum_vector,
+      ..vector = x
+      )) |>
+    dplyr::arrange(dplyr::desc(.data$gsdd), 
+                   dplyr::desc(.data$ndays), 
+                   dplyr::desc(.data$index_start)) |>
+    dplyr::slice(1)
+  
+  data$gsdd
 }

@@ -3,7 +3,7 @@ test_that("output is a numeric value", {
   day <- 1:365
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
   output <- gsdd_cf(x)
-#  expect_equal(3901.01849569098) this is what calculate_gsdd gets
+  #  expect_equal(3901.01849569098) this is what calculate_gsdd gets
   expect_equal(output, 3902.33018879598) 
 })
 
@@ -34,7 +34,7 @@ test_that("if max temp in vector is lower than start_temp the function will erro
   set.seed(13)
   day <- 1:365
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
-#  expect_chk_error(gsdd_cf(x = x, start_temp = 50, end_temp = 4))
+  #  expect_chk_error(gsdd_cf(x = x, start_temp = 50, end_temp = 4))
   output <- gsdd_cf(x, start_temp = 50)
   expect_identical(output, 0) 
 })
@@ -51,7 +51,7 @@ test_that("if end_temp is reached at end of vector x, indicies do not fall off t
   day <- 1:365
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
   gsdd <- gsdd_cf(x, end_temp = -4)
-#  expect_equal(gsdd, 3827.5905) this is what calculate_gsdd gets
+  #  expect_equal(gsdd, 3827.5905) this is what calculate_gsdd gets
   expect_equal(gsdd, 3828.24748908639) 
 })
 
@@ -61,7 +61,7 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
   x <- x[163:length(x)]
   gsdd <- gsdd_cf(x, end_temp = 4)
-#  expect_equal(gsdd, 2678.3522) this is what calculate_gsdd gets
+  #  expect_equal(gsdd, 2678.3522) this is what calculate_gsdd gets
   expect_equal(gsdd, 2687.98160174586) 
 })
 
@@ -77,6 +77,12 @@ test_that("If temperature jumps above start_temp but for too short a period of t
   x <- -15 * cos((2*pi / 365) * (day-10))
   x[99] <- 9
   gsdd<-gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
-#  expect_equal(gsdd, 1422.9838) this what calculate_gsdd gets
+  #  expect_equal(gsdd, 1422.9838) this what calculate_gsdd gets
   expect_equal(gsdd, 1431.4310554115) 
+})
+
+test_that("Gets growth period with higher GSDD even though shorter period.",{
+  x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
+  gsdd<-gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
+  expect_equal(gsdd, 800)
 })

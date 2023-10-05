@@ -1,3 +1,7 @@
+sum_vector <- function(from, to, ..vector) {
+  sum(..vector[from:to])
+}
+
 is_even <- function(x) {
   !(x %% 2)
 }
