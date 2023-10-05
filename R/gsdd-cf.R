@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @examples
-#' x <- c(rep(1, 10), rep(10, 20), rep(1, 10))
+#' x <- c(rep(1, 10), rep(10, 20), rep(1, 200))
 #' gsdd_cf(x)
 #'
 #' set.seed(13)
