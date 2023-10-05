@@ -16,6 +16,7 @@ License: MIT + file LICENSE
 Imports: 
     chk,
     dplyr,
+    purrr,
     tidyr,
     zoo
 Suggests:
