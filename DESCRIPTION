@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-7683-4592")),
     person("Sebastian", "Dalgarno", role = "ctb",
            comment = c(ORCID = "0000-0000-0000-0000")),
-    person("Sarah", "Lyons", role = "aut",
+    person("Sarah", "Lyons", role = "ctb",
            comment = c(ORCID = "0000-0002-6745-6796")),
     person("Teck Resources", role = c("fnd", "cph"))
   )
