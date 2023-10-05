@@ -4,9 +4,9 @@
 \name{teckfish-package}
 \alias{teckfish}
 \alias{teckfish-package}
-\title{teckfish: Calculate Common Growth Metrics}
+\title{teckfish: R Tools for Teck Fish and Aquatic Sciences Projects}
 \description{
-Allows reproducible calculation of fish growth metrics such as seasonal growing degree days.
+Currently only includes function to calculate growing season degree days from daily water temperature data.
 }
 \author{
 \strong{Maintainer}: Joe Thorley \email{joe@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-7683-4592}{ORCID})
@@ -19,6 +19,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Sebastian Dalgarno (\href{https://orcid.org/0000-0000-0000-0000}{ORCID}) [contributor]
+  \item Teck Resources [funder, copyright holder]
 }
 
 }
