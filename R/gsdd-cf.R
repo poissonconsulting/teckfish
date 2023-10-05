@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' x <- c(rep(1, 10), rep(10, 20), rep(1, 10))
-#' gsdd(x)
+#' gsdd_cf(x)
 #'
 #' set.seed(13)
 #' day <- 1:365
