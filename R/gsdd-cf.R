@@ -71,25 +71,35 @@ gsdd_cf <-function(x,
   
   # create rolling mean vector from x and window width
   rollmean <- zoo::rollmean(x = x, k = window_width)
-  
+
   # pick which indices have values above start temp that begin runs
   index_start <- index_begin_run(rollmean > start_temp)
   
   # no GSDD if season never starts
   if(!length(index_start)) return(0)
   
-  # pick which indices have values above and temp that begin runs
-  index_end <- index_begin_run(rollmean < end_temp)
-  
-  index_end <- index_end[index_end > index_start[1]]
-  
-  if(!length(index_end)) {
-    warning("end_temp never reached")
+  if(index_start[1] == 1L) {
+    if(!quiet) {
+      warning("growing season left truncated")
+    }
     if(entire) {
       return(NA_real_)
     }
-    index_end <- length(rollmean)
   }
+  
+  # pick which indices have values above and temp that begin runs
+  index_end <- index_begin_run(rollmean < end_temp)
+
+  if(!length(index_end) || max(index_start) > max(index_end)) {
+    if(!quiet) {
+      warning("growing season right truncated")
+    }
+    if(entire) {
+      return(NA_real_)
+    }
+    index_end <- c(index_end, length(rollmean))
+  }
+  
   data <- tidyr::expand_grid(index_start = index_start, 
                              index_end = index_end) |>
     dplyr::filter(.data$index_start <= .data$index_end)  |>
@@ -108,11 +118,11 @@ gsdd_cf <-function(x,
       .y = .data$index_end,
       .f = sum_vector,
       ..vector = x
-      )) |>
+    )) |>
     dplyr::arrange(dplyr::desc(.data$gsdd), 
                    dplyr::desc(.data$ndays), 
                    dplyr::desc(.data$index_start)) |>
     dplyr::slice(1)
-  
+
   data$gsdd
 }
