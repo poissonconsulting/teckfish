@@ -2,6 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @import chk testthat
+#' @import chk
 ## usethis namespace: end
 NULL
