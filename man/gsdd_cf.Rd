@@ -59,7 +59,7 @@ assumed to be the longest period of time between the start and end dates.
 }
 \examples{
 x <- c(rep(1, 10), rep(10, 20), rep(1, 10))
-gsdd(x)
+gsdd_cf(x)
 
 set.seed(13)
 day <- 1:365
