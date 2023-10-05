@@ -58,7 +58,7 @@ if there are multiple start and/or end dates the growing season is
 assumed to be the longest period of time between the start and end dates.
 }
 \examples{
-x <- c(rep(1, 10), rep(10, 20), rep(1, 10))
+x <- c(rep(1, 10), rep(10, 20), rep(1, 200))
 gsdd_cf(x)
 
 set.seed(13)
