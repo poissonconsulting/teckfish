@@ -68,6 +68,26 @@ classify_water_temp_data <- function(data,
   chk::chk_number(erroneous_hours)
   chk::chk_number(gap_range)
   
+  data <- 
+    data |>
+    dplyr::arrange(.data$temperature_date_time) |>
+    dplyr::mutate(
+      status_id = 1L,
+      
+      # questionable ranges
+      status_id = dplyr::case_when(
+        .data$water_temperature < questionable_min ~ 2L, 
+        .data$water_temperature > questionable_max ~ 2L,
+        TRUE ~ .data$status_id
+      ),
+      # error ranges
+      status_id = dplyr::case_when(
+        .data$water_temperature < erroneous_min ~ 3L, 
+        .data$water_temperature > erroneous_max ~ 3L,
+        TRUE ~ .data$status_id
+      )
+    )
+
   data
   
 }

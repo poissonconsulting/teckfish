@@ -144,7 +144,7 @@ test_that("erroneous temperatures are classified correctly with default values",
         "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
       )), 
       water_temperature = c(4.124, -0.6, -1, 41, 60, 6.712),
-      status_id = c(1L, 1L, 3L, 3L, 3L, 1L)
+      status_id = c(1L, 3L, 3L, 3L, 3L, 1L)
     )
   )
 })
@@ -227,7 +227,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", 
       "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
     )), 
-    water_temperature = c(4.7, -0.4, -2, 23, 15, 45)
+    water_temperature = c(4.7, -0.9, -2, 23, 15, 45)
   )
   
   classified_data <- classify_water_temp_data(
@@ -245,7 +245,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
         "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", 
         "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
       )), 
-      water_temperature = c(4.7, -0.4, -2, 23, 15, 45),
+      water_temperature = c(4.7, -0.9, -2, 23, 15, 45),
       status_id = c(1L, 2L, 3L, 2L, 1L, 3L)
     )
   )
