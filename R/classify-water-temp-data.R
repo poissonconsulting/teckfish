@@ -49,4 +49,12 @@ classify_water_temp_data <- function(data,
                                      erroneous_hours = 1,
                                      gap_range = 5) {
 
+  chk::check_data(
+    data,
+    values = list(
+      temperature_date_time = as.POSIXct("2021-05-07 08:00:00"),
+      water_temperature = 1.5
+    )
+  )
+  
 }
