@@ -1,3 +1,3 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
+test_that("column names of simulated_data are correct", {
+  expect_identical(c("date", "synthetic"), colnames(simulated_data))
+  })
