@@ -24,7 +24,7 @@ pak::pak("poissonconsulting/teckfish")
 
 ## Example
 
-`calculate_gsdd()` takes a numerical vector of daily temperature values and 
+`gsdd_cf()` takes a numerical vector of daily temperature values and 
 calculates the growing season degree days (GSDD). 
 ```{r}
 library(teckfish)
