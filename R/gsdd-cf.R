@@ -43,7 +43,7 @@
 #'
 #' set.seed(13)
 #' day <- 1:365
-#' x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
+#' x <- pmax(-15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, sd = .5), 0)
 gsdd_cf <- function(x,
                     ignore_truncation = FALSE,
                     start_temp = 5,
