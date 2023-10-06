@@ -29,5 +29,5 @@ calculates the growing season degree days (GSDD).
 ```{r}
 library(teckfish)
 x <- teckfish::simulated_data
-gsdd_cf(x)
+gsdd_cf(x$synthetic)
 ```
