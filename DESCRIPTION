@@ -4,10 +4,10 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7683-4592")),
+    person("Sarah", "Lyons", role = "aut",
+           comment = c(ORCID = "0000-0002-6745-6796")),
     person("Sebastian", "Dalgarno", role = "ctb",
            comment = c(ORCID = "0000-0000-0000-0000")),
-    person("Sarah", "Lyons", role = "ctb",
-           comment = c(ORCID = "0000-0002-6745-6796")),
     person("Teck Resources", role = c("fnd", "cph"))
   )
 Description: Currently only includes function to calculate growing season
