@@ -3,7 +3,7 @@
 \docType{data}
 \name{simulated_data}
 \alias{simulated_data}
-\title{Sample Data for Population A}
+\title{Sample Data for GSDD Calculation Demonstration}
 \format{
 A tibble with columns:
 \describe{
@@ -15,8 +15,7 @@ A tibble with columns:
 simulated_data
 }
 \description{
-The data contains recruitment information for boreal caribou population B
-which spans 26 years.
+The data is a synthetic time series of daily temperature data for the year 2019.
 }
 \details{
 The data is released under the \href{https://open.alberta.ca/licence}{Open Government Licence - Alberta}
