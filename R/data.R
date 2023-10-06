@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#' Sample Data for Population A
+#' Sample Data for GSDD Calculation Demonstration
 #'
-#' The data contains recruitment information for boreal caribou population B
-#' which spans 26 years.
+#' The data is a synthetic time series of daily temperature data for the year 2019.
+#' 
 #'
 #' @details The data is released under the [Open Government Licence -
 #' Alberta](https://open.alberta.ca/licence)
