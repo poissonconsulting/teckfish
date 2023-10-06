@@ -57,10 +57,13 @@ questionable (2), or erroneous (3) by adding a new column to the data frame
 called status_id with the vales of 1, 2, or 3 for each point.
 }
 \examples{
-data <- data.frame(temperature_date_time = as.POSIXct(c("2021-05-07
-08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", "2021-05-07
-11:00:00", "2021-05-07 12:00:00")), water_temperature = c(4.124, 4.078,
-4.102, 4.189, 4.243))
+data <- data.frame(
+  temperature_date_time = 
+    as.POSIXct(c("2021-05-07 08:00:00", "2021-05-07 09:00:00", 
+      "2021-05-07 10:00:00", "2021-05-07 11:00:00", "2021-05-07 12:00:00")
+    ), 
+  water_temperature = c(4.124, 4.078, 4.102, 4.189, 4.243)
+)
 
 classified_data <- classify_water_temp_data(data)
 }
