@@ -56,6 +56,8 @@ classify_water_temp_data <- function(data,
       water_temperature = 1.5
     )
   )
+  ### TODO Add all intermediate columns to chk_not_subset and the corresponding tests
+  chk::chk_not_subset(colnames(data), c("status_id"))
   chk::chk_number(questionable_min)
   chk::chk_number(questionable_max)
   chk::chk_number(erroneous_min)
