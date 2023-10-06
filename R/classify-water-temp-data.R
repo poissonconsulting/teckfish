@@ -56,5 +56,16 @@ classify_water_temp_data <- function(data,
       water_temperature = 1.5
     )
   )
+  chk::chk_number(questionable_min)
+  chk::chk_number(questionable_max)
+  chk::chk_number(erroneous_min)
+  chk::chk_number(erroneous_max)
+  chk::chk_number(questionable_rate)
+  chk::chk_number(erroneous_rate)
+  chk::chk_number(questionable_hours)
+  chk::chk_number(erroneous_hours)
+  chk::chk_number(gap_range)
+  
+  data
   
 }
