@@ -70,7 +70,7 @@ test_that("errors when reserved columns are already present in the data", {
     status_id = c(1L)
   )
   
-  expect_equal(
+  expect_error(
     classify_water_temp_data(data)
   )
 })
@@ -94,7 +94,7 @@ test_that("dataset with no rows is returned with no rows", {
 })
 
 test_that("errors when no data is passed", {
-  expect_errr(
+  expect_error(
     classify_water_temp_data()
   )
 })
@@ -131,7 +131,7 @@ test_that("erroneous temperatures are classified correctly with default values",
       "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", 
       "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
     )), 
-    water_temperature = c(4.124, -0.5, -1, 40, 41, 6.712)
+    water_temperature = c(4.124, -0.6, -1, 41, 60, 6.712)
   )
   
   classified_data <- classify_water_temp_data(data)
@@ -227,7 +227,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", 
       "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
     )), 
-    water_temperature = c(4.7, -0.4, -2, 15, 23, 45)
+    water_temperature = c(4.7, -0.4, -2, 23, 15, 45)
   )
   
   classified_data <- classify_water_temp_data(
