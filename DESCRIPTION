@@ -19,6 +19,7 @@ Imports:
     chk,
     dplyr,
     purrr,
+    rlang,
     tidyr,
     zoo
 Suggests:
