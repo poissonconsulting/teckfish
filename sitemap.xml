@@ -31,13 +31,10 @@
     <loc>/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>/reference/calculate_gsdd.html</loc>
+    <loc>/reference/gsdd_cf.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/params.html</loc>
   </url>
   <url>
     <loc>/reference/teckfish-package.html</loc>
