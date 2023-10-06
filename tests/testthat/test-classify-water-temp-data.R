@@ -250,3 +250,366 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     )
   )
 })
+
+test_that("small rates of changes are not classified as not resonable", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  2.877,
+    "2021-05-07 08:15:00",  3.012,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.268,
+    "2021-05-07 09:15:00",  3.115,
+    "2021-05-07 09:30:00",  3.048,
+    "2021-05-07 09:45:00",  2.987
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  2.877,              1L,
+      "2021-05-07 08:15:00",  3.012,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.124,              1L,
+      "2021-05-07 09:00:00",  3.268,              1L,
+      "2021-05-07 09:15:00",  3.115,              1L,
+      "2021-05-07 09:30:00",  3.048,              1L,
+      "2021-05-07 09:45:00",  2.987,              1L
+    )
+  )
+})
+
+test_that("erroneous rates of change are classifed with default values at end of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  2.877,
+    "2021-05-07 08:15:00",  3.012,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.268,
+    "2021-05-07 09:15:00",  4.789,
+    "2021-05-07 09:30:00",  6.257,
+    "2021-05-07 09:45:00",  8.657
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  2.877,              1L,
+      "2021-05-07 08:15:00",  3.012,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.124,              1L,
+      "2021-05-07 09:00:00",  3.268,              1L,
+      "2021-05-07 09:15:00",  4.789,              3L,
+      "2021-05-07 09:30:00",  6.257,              3L,
+      "2021-05-07 09:45:00",  8.657,              3L
+    )
+  )
+})
+
+test_that("erroneous rates of change are classifed with default values at start of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  4.789,
+    "2021-05-07 08:15:00",  6.257,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  4.789,              3L,
+      "2021-05-07 08:15:00",  6.257,              3L,
+      "2021-05-07 08:30:00",  3.147,              3L,
+      "2021-05-07 08:45:00",  3.124,              1L,
+      "2021-05-07 09:00:00",  3.068,              1L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L
+    )
+  )
+})
+
+test_that("erroneous rates of change are classifed with default values in the middle of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  3.589,
+    "2021-05-07 08:15:00",  3.324,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  10.124,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  3.589,              1L,
+      "2021-05-07 08:15:00",  3.324,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  10.124,             3L,
+      "2021-05-07 09:00:00",  3.068,              3L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})
+
+test_that("questionable rates of change are classifed with default values at end of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  2.877,
+    "2021-05-07 08:15:00",  3.012,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.268,
+    "2021-05-07 09:15:00",  3.989,
+    "2021-05-07 09:30:00",  4.557,
+    "2021-05-07 09:45:00",  5.657
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  2.877,              1L,
+      "2021-05-07 08:15:00",  3.012,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.124,              1L,
+      "2021-05-07 09:00:00",  3.268,              1L,
+      "2021-05-07 09:15:00",  3.989,              2L,
+      "2021-05-07 09:30:00",  4.557,              2L,
+      "2021-05-07 09:45:00",  5.657,              2L
+    )
+  )
+})
+
+test_that("questionable rates of change are classifed with default values at start of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  4.189,
+    "2021-05-07 08:15:00",  3.657,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  4.189,              2L,
+      "2021-05-07 08:15:00",  3.657,              2L,
+      "2021-05-07 08:30:00",  3.147,              2L,
+      "2021-05-07 08:45:00",  3.124,              1L,
+      "2021-05-07 09:00:00",  3.068,              1L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L
+    )
+  )
+})
+
+test_that("questionable rates of change are classifed with default values in the middle of values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  3.589,
+    "2021-05-07 08:15:00",  3.324,
+    "2021-05-07 08:30:00",  3.147,
+    "2021-05-07 08:45:00",  3.724,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  3.589,              1L,
+      "2021-05-07 08:15:00",  3.324,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.724,              2L,
+      "2021-05-07 09:00:00",  3.068,              2L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})
+
+test_that("questionable and erronous rates of change with default values", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  20.124,
+    "2021-05-07 08:15:00",  18.782,
+    "2021-05-07 08:30:00",  14.579,
+    "2021-05-07 08:45:00",  3.724,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  20.124,             3L,
+      "2021-05-07 08:15:00",  18.782,             3L,
+      "2021-05-07 08:30:00",  14.579,             3L,
+      "2021-05-07 08:45:00",  3.724,              3L,
+      "2021-05-07 09:00:00",  3.068,              2L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})
+
+test_that("questionable and erronous rates of change set with parameter", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  20.124,
+    "2021-05-07 08:15:00",  18.782,
+    "2021-05-07 08:30:00",  14.579,
+    "2021-05-07 08:45:00",  3.724,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_rate = 5,
+    erroneous_rate = 20
+  )
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  20.124,             2L,
+      "2021-05-07 08:15:00",  18.782,             2L,
+      "2021-05-07 08:30:00",  14.579,             2L,
+      "2021-05-07 08:45:00",  3.724,              3L,
+      "2021-05-07 09:00:00",  3.068,              1L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})
+
+test_that("questionable rate of change set with parameter", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  20.124,
+    "2021-05-07 08:15:00",  18.782,
+    "2021-05-07 08:30:00",  14.579,
+    "2021-05-07 08:45:00",  3.724,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_rate = 1
+  )
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  20.124,             3L,
+      "2021-05-07 08:15:00",  18.782,             3L,
+      "2021-05-07 08:30:00",  14.579,             3L,
+      "2021-05-07 08:45:00",  3.724,              3L,
+      "2021-05-07 09:00:00",  3.168,              2L,
+      "2021-05-07 09:15:00",  2.877,              2L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})
+
+test_that("erronous rate of change set with parameter", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 08:00:00",  20.124,
+    "2021-05-07 08:15:00",  18.782,
+    "2021-05-07 08:30:00",  14.579,
+    "2021-05-07 08:45:00",  3.724,
+    "2021-05-07 09:00:00",  3.068, 
+    "2021-05-07 09:15:00",  2.877,
+    "2021-05-07 09:30:00",  2.987,
+    "2021-05-07 09:45:00",  3.012,
+    "2021-05-07 10:00:00",  3.122
+  )
+  
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_rate = 15
+  )
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 08:00:00",  20.124,             2L,
+      "2021-05-07 08:15:00",  18.782,             2L,
+      "2021-05-07 08:30:00",  14.579,             3L,
+      "2021-05-07 08:45:00",  3.724,              3L,
+      "2021-05-07 09:00:00",  3.168,              2L,
+      "2021-05-07 09:15:00",  2.877,              2L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
+    )
+  )
+})

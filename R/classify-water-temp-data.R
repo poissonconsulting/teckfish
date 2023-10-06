@@ -80,11 +80,24 @@ classify_water_temp_data <- function(data,
         .data$water_temperature > questionable_max ~ 2L,
         TRUE ~ .data$status_id
       ),
-      # error ranges
+      # erroneous ranges
       status_id = dplyr::case_when(
         .data$water_temperature < erroneous_min ~ 3L,
         .data$water_temperature > erroneous_max ~ 3L,
         TRUE ~ .data$status_id
+      ),
+      # rate of change
+      lag_temp = dplyr::lag(water_temperature),
+      diff_temp = abs(water_temperature - lag_temp),
+      lag_time = dplyr::lag(temperature_date_time),
+      diff_time = as.numeric(difftime(temperature_date_time, lag_time, units = "hours")),
+      rate_temp_per_time = abs(diff_temp / diff_time),
+      status_id = dplyr::case_when(
+        # erroneous rate of change
+        rate_temp_per_time > erroneous_rate ~ 3L,
+        # questionable rate of change
+        rate_temp_per_time > questionable_rate ~ 2L, 
+        TRUE ~ status_id
       )
     )
 
