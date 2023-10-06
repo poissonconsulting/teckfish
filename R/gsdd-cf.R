@@ -52,7 +52,7 @@ gsdd_cf <- function(x,
   chk_numeric(x)
   chk_vector(x)
   chk_not_any_na(x)
-  chk_length(x, 180, 366)
+  chk_length(x, 28, 366)
 
   chk_flag(entire)
 
