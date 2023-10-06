@@ -15,7 +15,7 @@
 #' Sample Data for GSDD Calculation Demonstration
 #'
 #' The data is a synthetic time series of daily temperature data for the year 2019.
-#' 
+#'
 #'
 #' @details The data is released under the [Open Government Licence -
 #' Alberta](https://open.alberta.ca/licence)
