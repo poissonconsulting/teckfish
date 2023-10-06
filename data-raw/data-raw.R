@@ -19,6 +19,6 @@ simulated_data[simulated_data < 0] <- 0
 
 simulated_data <- tibble::tibble(
   date = seq.Date(from = as.Date("2019-01-01"), to = as.Date("2019-12-31"), by = "day"),
-  value = simulated_data
+  synthetic = simulated_data
 )
 usethis::use_data(simulated_data, overwrite = TRUE)
