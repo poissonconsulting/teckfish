@@ -31,20 +31,21 @@
 #' @examples
 #' data <- data.frame(temperature_date_time = as.POSIXct(c("2021-05-07
 #' 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00", "2021-05-07
-#' 11:00:00", "2021-05-07 12:00:00")), water_temperature = c(4.124, 4.078,
-#' 4.102, 4.189, 4.243))
+#' 11:00:00", "2021-05-07 12:00:00")), water_temperature = c(
+#'   4.124, 4.078,
+#'   4.102, 4.189, 4.243
+#' ))
 #'
 #' classified_data <- classify_water_temp_data(data)
-classify_water_temp_data <- function(data, 
-                                     questionable_min = 0, 
-                                     questionable_max = 30, 
+classify_water_temp_data <- function(data,
+                                     questionable_min = 0,
+                                     questionable_max = 30,
                                      erroneous_min = -0.5,
                                      erroneous_max = 40,
                                      questionable_rate = 2,
                                      erroneous_rate = 5,
                                      questionable_hours = 1,
                                      erroneous_hours = 1,
-                                     gap_range = 5
-                                     ) {
-  
+                                     gap_range = 5) {
+
 }
