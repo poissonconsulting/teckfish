@@ -32,9 +32,9 @@ and calculates the growing season degree days (GSDD).
 library(teckfish)
 set.seed(13)
 day <- 1:365
-x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
+x <- pmax(-15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, sd = .5), 0)
 
-calculate_gsdd(x)
+gsdd_cf(x)
 ```
 
-    ## [1] 1691.579
+    ## [1] 1692.979
