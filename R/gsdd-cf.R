@@ -44,6 +44,7 @@
 #' day <- 1:365
 #' x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
 gsdd_cf <- function(x,
+                    truncated = FALSE,
                     entire = TRUE,
                     start_temp = 5,
                     end_temp = 4,
@@ -76,7 +77,12 @@ gsdd_cf <- function(x,
   if (!length(index_start)) {
     return(0)
   }
-
+# 
+  
+  # where truncated can be FALSE (the default) error is thrown saying gsdd is truncated. 
+  # left to allow left or right to allow right and no warning is thrown?
+  # both to accept left and right or TRUE which is the same as both and no warning is thrown?
+  
   if (index_start[1] == 1L) {
     if (!quiet) {
       warning("growing season left truncated")
@@ -85,7 +91,8 @@ gsdd_cf <- function(x,
       return(NA_real_)
     }
   }
-
+ 
+  
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
 
