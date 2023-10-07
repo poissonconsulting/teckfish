@@ -75,27 +75,30 @@ gsdd_cf <- function(x,
     return(0)
   }
   
+  # if season starts on first day, truncate left
   if (index_start[1] == 1L) {
+    if (!quiet) {
+      warning("growing season left truncated")
+    }
     if(truncate == "left" || truncate == "both"){
-      
     }
     if(truncate == "right" || truncate == FALSE){
-      if (!quiet) {
-        warning("growing season left truncated")
-      }
+      return(NA_real_) 
     }
   }
   
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
+  
+  # if season doesnt end truncate right
   if (!length(index_end) || max(index_start) > max(index_end)) {
+    if (!quiet) {
+      warning("growing season right truncated")
+    }
     if(truncate == "right" || truncate == "both"){
-      
     }
     if(truncate == "left" || truncate == FALSE){
-      if (!quiet) {
-        warning("growing season left truncated")
-      }
+      return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
   }
