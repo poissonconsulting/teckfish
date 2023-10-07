@@ -88,17 +88,18 @@ gsdd_cf <- function(x,
   
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
-  
   if (!length(index_end) || max(index_start) > max(index_end)) {
-    if (truncate == "right" || truncate == "both") {
+    if(truncate == "right" || truncate == "both"){
       
     }
-    if (truncate == "left" || truncate == FALSE) {
+    if(truncate == "left" || truncate == FALSE){
       if (!quiet) {
-        warning("growing season right truncated")
+        warning("growing season left truncated")
       }
     }
+    index_end <- c(index_end, length(rollmean))
   }
+  
   
   
   
