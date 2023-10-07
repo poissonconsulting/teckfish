@@ -102,151 +102,501 @@ test_that("errors when no data is passed", {
 ### TODO Add tests for each of the input parameters to the function to test the type is correct
 
 test_that("questionable temperatures are classified correctly with default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(4.124, -0.1, 0, 30, 31, 6.712)
-  )
-
-  classified_data <- classify_water_temp_data(data)
-
-  expect_equal(
-    classified_data,
+  output_1 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(4.124, -0.1, 0, 30, 31, 6.712),
-      status_id = c(1L, 2L, 1L, 1L, 2L, 1L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(0)
     )
   )
+  
+  output_2 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(-0.1)
+    )
+  )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(30.01)
+    )
+  )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(30)
+    )
+  )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(39.9998124)
+    )
+  ) 
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(34.24)
+    )
+  ) 
+  
+  expect_equal(
+    output_1,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(0),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_2,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(-0.1),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_3,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(30.01),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_4,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(30),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_5,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(39.9998124),
+      status_id = c(2L)
+    )
+  )
+
+  expect_equal(
+    output_6,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(34.24),
+      status_id = c(2L)
+    )
+  )
+
 })
 
 test_that("erroneous temperatures are classified correctly with default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(4.124, -0.6, -1, 41, 60, 6.712)
+  output_1 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.6)
+    )
+  )
+  
+  output_2 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-1)
+    )
+  )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(41)
+    )
+  )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(60)
+    )
   )
 
-  classified_data <- classify_water_temp_data(data)
-
-  expect_equal(
-    classified_data,
+  output_5 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(4.124, -0.6, -1, 41, 60, 6.712),
-      status_id = c(1L, 3L, 3L, 3L, 3L, 1L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(6.712)
+    )
+  )
+  
+  expect_equal(
+    output_1,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.6),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_2,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-1),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_3,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(41),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_4,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(60),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_5,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(6.712),
+      status_id = c(1L)
     )
   )
 })
 
 test_that("erroneous and questionable temperature lower bounds are classified correctly with default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(0, -0.3, -0.5, -.6, -1, -10)
-  )
-
-  classified_data <- classify_water_temp_data(data)
-
-  expect_equal(
-    classified_data,
+  output_1 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(0, -0.3, -0.5, -.6, -1, -10),
-      status_id = c(1L, 2L, 2L, 3L, 3L, 3L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(0)
     )
   )
+  
+  output_2 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.3)
+    )
+  )
+
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.5)
+    )
+  )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.6)
+    )
+  )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-1)
+    )
+  )
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-10)
+    )
+  )
+  
+  expect_equal(
+    output_1,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(0),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_2,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.3),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_3,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.5),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_4,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.6),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_5,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-1),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_6,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-10),
+      status_id = c(3L)
+    )
+  )
+
 })
 
 test_that("erroneous and questionable temperature upper bounds are classified correctly with default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(25, 30, 35, 40, 45, 70)
-  )
-
-  classified_data <- classify_water_temp_data(data)
-
-  expect_equal(
-    classified_data,
+  output_1 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(25, 30, 35, 40, 45, 70),
-      status_id = c(1L, 1L, 2L, 2L, 3L, 3L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(25)
     )
   )
-})
-
-test_that("erroneous and questionable temperatures are classified correctly with default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(4.7, -0.4, -1, 22, 32, 45)
-  )
-
-  classified_data <- classify_water_temp_data(data)
-
-  expect_equal(
-    classified_data,
+  
+  output_2 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(4.7, -0.4, -1, 22, 32, 45),
-      status_id = c(1L, 2L, 3L, 1L, 2L, 3L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(30)
+    )
+  )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(35)
+    )
+  )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(40)
+    )
+  )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(45)
+    )
+  )
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(60)
+    )
+  )
+  
+  expect_equal(
+    output_1,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(25),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_2,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(30),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_3,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(35),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_4,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(40),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_5,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(45),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_6,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(60),
+      status_id = c(3L)
     )
   )
 })
 
 test_that("erroneous and questionable temperatures are classified correctly not using default values", {
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c(
-      "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-      "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-    )),
-    water_temperature = c(4.7, -0.9, -2, 23, 15, 45)
-  )
-
-  classified_data <- classify_water_temp_data(
-    data,
+  output_1 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(4.7)
+    ),
     questionable_min = -0.8,
     questionable_max = 20,
     erroneous_min = -1,
     erroneous_max = 25
   )
 
-  expect_equal(
-    classified_data,
+  output_2 <- classify_water_temp_data(
     data.frame(
-      temperature_date_time = as.POSIXct(c(
-        "2021-05-07 08:00:00", "2021-05-07 09:00:00", "2021-05-07 10:00:00",
-        "2021-05-07 11:00:00", "2021-05-07 12:00:00", "2021-05-07 13:00:00"
-      )),
-      water_temperature = c(4.7, -0.9, -2, 23, 15, 45),
-      status_id = c(1L, 2L, 3L, 2L, 1L, 3L)
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.9)
+    ),
+    questionable_min = -0.8,
+    questionable_max = 20,
+    erroneous_min = -1,
+    erroneous_max = 25
+  )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-2)
+    ),
+    questionable_min = -0.8,
+    questionable_max = 20,
+    erroneous_min = -1,
+    erroneous_max = 25
+  )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(23)
+    ),
+    questionable_min = -0.8,
+    questionable_max = 20,
+    erroneous_min = -1,
+    erroneous_max = 25
+  )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(15)
+    ),
+    questionable_min = -0.8,
+    questionable_max = 20,
+    erroneous_min = -1,
+    erroneous_max = 25
+  )
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(45)
+    ),
+    questionable_min = -0.8,
+    questionable_max = 20,
+    erroneous_min = -1,
+    erroneous_max = 25
+  )
+  
+  expect_equal(
+    output_1,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(4.7),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_2,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.9),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_3,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-2),
+      status_id = c(3L)
+    )
+  )
+  
+  expect_equal(
+    output_4,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(23),
+      status_id = c(2L)
+    )
+  )
+  
+  expect_equal(
+    output_5,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(15),
+      status_id = c(1L)
+    )
+  )
+  
+  expect_equal(
+    output_6,
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(45),
+      status_id = c(3L)
     )
   )
 })
