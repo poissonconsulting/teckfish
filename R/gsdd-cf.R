@@ -100,9 +100,6 @@ gsdd_cf <- function(x,
     index_end <- c(index_end, length(rollmean))
   }
   
-  
-  
-  
   data <- tidyr::expand_grid(
     index_start = index_start,
     index_end = index_end
