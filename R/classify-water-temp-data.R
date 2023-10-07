@@ -87,18 +87,26 @@ classify_water_temp_data <- function(data,
         TRUE ~ .data$status_id
       ),
       # rate of change
-      lag_temp = dplyr::lag(water_temperature),
-      diff_temp = abs(water_temperature - lag_temp),
-      lag_time = dplyr::lag(temperature_date_time),
-      diff_time = as.numeric(difftime(temperature_date_time, lag_time, units = "hours")),
-      rate_temp_per_time = abs(diff_temp / diff_time),
+      lag_temp = dplyr::lag(.data$water_temperature),
+      diff_temp = abs(.data$water_temperature - .data$lag_temp),
+      lag_time = dplyr::lag(.data$temperature_date_time),
+      diff_time = as.numeric(difftime(
+        .data$temperature_date_time, 
+        .data$lag_time, 
+        units = "hours")
+      ),
+      rate_temp_per_time = abs(.data$diff_temp / .data$diff_time),
       status_id = dplyr::case_when(
         # erroneous rate of change
-        rate_temp_per_time > erroneous_rate ~ 3L,
+        .data$rate_temp_per_time > erroneous_rate ~ 3L,
         # questionable rate of change
-        rate_temp_per_time > questionable_rate ~ 2L, 
-        TRUE ~ status_id
+        .data$rate_temp_per_time > questionable_rate ~ 2L, 
+        TRUE ~ .data$status_id
       )
+    ) |>
+    dplyr::select(
+      -"lag_temp", -"diff_temp", -"lag_time", -"diff_time", 
+      -"rate_temp_per_time"
     )
 
   data
