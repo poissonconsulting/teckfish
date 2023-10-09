@@ -6,7 +6,7 @@
 \usage{
 gsdd_cf(
   x,
-  entire = TRUE,
+  truncate = FALSE,
   start_temp = 5,
   end_temp = 4,
   window_width = 7,
@@ -18,9 +18,6 @@ gsdd_cf(
 before to after the growing season in C. It must be at least 180
 and no more than 366 days in length.}
 
-\item{entire}{A flag specifying whether to only calculate GSDD
-for the entire season.}
-
 \item{start_temp}{A number of the average water temperature
 at the start of the growing season in C.}
 
@@ -31,6 +28,9 @@ at the end of the growing season in C.}
 width of the rolling mean window in days.}
 
 \item{quiet}{A flag specifying whether to suppress warnings.}
+
+\item{entire}{A flag specifying whether to only calculate GSDD
+for the entire season.}
 }
 \value{
 A number of the GSDD.
