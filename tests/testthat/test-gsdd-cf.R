@@ -1,7 +1,5 @@
 test_that("output is a numeric value", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
+  x <- simulated_data$synthetic
   output <- gsdd_cf(x)
   #  expect_equal(3901.01849569098) this is what calculate_gsdd gets
   expect_equal(output, 3902.33018879598)
@@ -56,13 +54,11 @@ test_that("if end_temp is reached at end of vector x, indicies do not fall off t
 })
 
 test_that("if start_temp is reached at start of vector x, indicies do not fall off the edge", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
+  x <- simulated_data$synthetic
   x <- x[163:length(x)]
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE)
   expect_equal(gsdd, NA_real_)
-  gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, entire = FALSE)
+  gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, truncate = TRUE)
   expect_equal(gsdd, 2687.98160174586)
 })
 
@@ -95,8 +91,11 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
   gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x,
-    window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
-    entire = FALSE
+    window_width = 3, 
+    start_temp = 9, 
+    end_temp = 9, 
+    quiet = TRUE,
+    truncate = TRUE
   )
   expect_equal(gsdd, 800)
 })
