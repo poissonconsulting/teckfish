@@ -108,6 +108,29 @@ classify_water_temp_data <- function(data,
       -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
       -"rate_temp_per_time"
     )
+  
+  questionable_rows <- which(data$status_id == 2)
+  error_rows <- which(data$status_id == 3)
+  
+  data <- 
+    data |>
+    dplyr::mutate(
+      id = dplyr::row_number()
+    ) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      # find closest questionable/erroneous value above and below
+      ### TODO: split min/max into seperate lines, then replace Infs with NA's, then add na.rm = TRUE to function
+      
+      quest_id_above = questionable_rows[which(questionable_rows > .data$id)],
+      quest_id_above = dplyr::na_if(quest_id_above, Inf),
+      quest_id_above = min(quest_id_above),
+      
+      quest_id_below = max(qquestionable_rows[which(questionable_rows < .data$id)])
+    )
+  
+  
+  
 
   data
 }

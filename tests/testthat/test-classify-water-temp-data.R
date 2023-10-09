@@ -985,25 +985,95 @@ test_that("erronous rate of change set with parameter", {
   )
 })
 
-#
-# data
-#
-# data |>
-#   dplyr::arrange(.data$temperature_date_time) |>
-#   dplyr::mutate(
-#     status_id = 1L,
-#
-#     # rate of change
-#     lag_temp = dplyr::lag(water_temperature),
-#     diff_temp = abs(water_temperature - lag_temp),
-#     lag_time = dplyr::lag(temperature_date_time),
-#     diff_time = as.numeric(difftime(temperature_date_time, lag_time, units = "hours")),
-#     rate_temp_per_time = abs(diff_temp / diff_time),
-#     status_id = dplyr::case_when(
-#       # erroneous rate of change
-#       rate_temp_per_time > 5 ~ 3L,
-#       # questionable rate of change
-#       rate_temp_per_time > 2 ~ 2L,
-#       TRUE ~ status_id
-#     )
-#   )
+
+
+
+questionable_min <- 0
+questionable_max <- 30
+erroneous_min <- -0.5
+erroneous_max <- 40
+questionable_rate <- 2
+erroneous_rate <- 5
+questionable_hours <- 1
+erroneous_hours <- 1
+
+
+
+data <- tibble::tribble(
+  ~temperature_date_time, ~water_temperature,
+  "2021-05-07 08:00:00",  20.124,
+  "2021-05-07 08:15:00",  18.782,
+  "2021-05-07 08:30:00",  14.579,
+  "2021-05-07 08:45:00",  3.724,
+  "2021-05-07 09:00:00",  3.168,
+  "2021-05-07 09:15:00",  2.877,
+  "2021-05-07 09:30:00",  2.987,
+  "2021-05-07 09:45:00",  3.012,
+  "2021-05-07 10:00:00",  3.122
+) |>
+  dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
+
+
+data <-
+  data |>
+  dplyr::arrange(.data$temperature_date_time) |>
+  dplyr::mutate(
+    status_id = 1L,
+    
+    # questionable ranges
+    status_id = dplyr::case_when(
+      .data$water_temperature < questionable_min ~ 2L,
+      .data$water_temperature > questionable_max ~ 2L,
+      TRUE ~ .data$status_id
+    ),
+    # erroneous ranges
+    status_id = dplyr::case_when(
+      .data$water_temperature < erroneous_min ~ 3L,
+      .data$water_temperature > erroneous_max ~ 3L,
+      TRUE ~ .data$status_id
+    ),
+    # rate of change
+    lag_temp = dplyr::lag(.data$water_temperature),
+    diff_temp = abs(.data$water_temperature - .data$lag_temp),
+    lag_time = dplyr::lag(.data$temperature_date_time),
+    diff_time = as.numeric(difftime(
+      .data$temperature_date_time,
+      .data$lag_time,
+      units = "hours"
+    )),
+    rate_temp_per_time = abs(.data$diff_temp / .data$diff_time),
+    status_id = dplyr::case_when(
+      # erroneous rate of change
+      .data$rate_temp_per_time > erroneous_rate ~ 3L,
+      # questionable rate of change
+      .data$rate_temp_per_time > questionable_rate ~ 2L,
+      TRUE ~ .data$status_id
+    )
+  ) |>
+  dplyr::select(
+    -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
+    -"rate_temp_per_time"
+  )
+
+questionable_rows <- which(data$status_id == 2L)
+error_rows <- which(data$status_id == 3L)
+
+data <- 
+  data |>
+  dplyr::mutate(
+    id = dplyr::row_number()
+  ) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(
+    # find closest questionable/erroneous value above and below
+    ### TODO: split min/max into seperate lines, then replace Infs with NA's, then add na.rm = TRUE to function
+    
+    quest_id_above = min(
+      replace(
+        questionable_rows[which(questionable_rows < .data$id)],
+        is.infinite(questionable_rows[which(questionable_rows < .data$id)]),
+        NA
+    )
+  )
+
+data
