@@ -62,7 +62,7 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   x <- x[163:length(x)]
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE)
   expect_equal(gsdd, NA_real_)
-  gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, entire = FALSE)
+  gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, ignore_truncation = TRUE)
   expect_equal(gsdd, 2687.98160174586)
 })
 
@@ -96,7 +96,13 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x,
     window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
-    entire = FALSE
+    ignore_truncation = TRUE
   )
   expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth gives warnings with truncation.", {
+  x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
+  expect_warning(expect_identical(gsdd_cf(x), NA_real_), "growing season left truncated")
+  expect_warning(expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "growing season left truncated"), "growing season right truncated")
 })
