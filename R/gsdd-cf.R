@@ -53,56 +53,56 @@ gsdd_cf <- function(x,
   chk_vector(x)
   chk_not_any_na(x)
   chk_length(x, 28, 366)
-  
+
   chk_number(start_temp)
   chk_number(end_temp)
   chk_gte(start_temp, end_temp)
-  
+
   chk_count(window_width)
   chk_range(window_width, c(3, 14))
   if (is_even(window_width)) {
     abort_chk("`window_width` must be odd.")
   }
-  
+
   # create rolling mean vector from x and window width
   rollmean <- zoo::rollmean(x = x, k = window_width)
-  
+
   # pick which indices have values above start temp that begin runs
   index_start <- index_begin_run(rollmean > start_temp)
-  
+
   # no GSDD if season never starts
   if (!length(index_start)) {
     return(0)
   }
-  
+
   # if season starts on first day, truncate left
   if (index_start[1] == 1L) {
     if (!quiet) {
       warning("Growing season is left truncated. ")
     }
-    if(truncate == "left" || truncate == "both"){
+    if (truncate == "left" || truncate == "both") {
     }
-    if(truncate == "right" || truncate == FALSE){
-      return(NA_real_) 
+    if (truncate == "right" || truncate == FALSE) {
+      return(NA_real_)
     }
   }
-  
+
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
-  
+
   # if season doesnt end truncate right
   if (!length(index_end) || max(index_start) > max(index_end)) {
     if (!quiet) {
       warning("Growing season is right truncated.")
     }
-    if(truncate == "right" || truncate == "both"){
+    if (truncate == "right" || truncate == "both") {
     }
-    if(truncate == "left" || truncate == FALSE){
+    if (truncate == "left" || truncate == FALSE) {
       return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
   }
-  
+
   data <- tidyr::expand_grid(
     index_start = index_start,
     index_end = index_end
@@ -132,6 +132,6 @@ gsdd_cf <- function(x,
       dplyr::desc(.data$index_start)
     ) |>
     dplyr::slice(1)
-  
+
   data$gsdd
 }

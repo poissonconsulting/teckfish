@@ -66,9 +66,9 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
   gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x,
-    window_width = 3, 
-    start_temp = 9, 
-    end_temp = 9, 
+    window_width = 3,
+    start_temp = 9,
+    end_temp = 9,
     quiet = TRUE,
     truncate = TRUE
   )
