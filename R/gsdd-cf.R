@@ -23,8 +23,8 @@
 #' @param x A numeric vector of mean daily water temperature data from
 #' before to after the growing season in C. It must be at least 180
 #' and no more than 366 days in length.
-#' @param entire A flag specifying whether to only calculate GSDD
-#' for the entire season.
+#' @param truncate A flag specifying whether to allow GSDD calulations
+#' for the truncated periods of time.
 #' @param start_temp A number of the average water temperature
 #' at the start of the growing season in C.
 #' @param end_temp A number of the average water temperature
