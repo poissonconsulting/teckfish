@@ -1,56 +1,41 @@
 test_that("output is a numeric value", {
   x <- simulated_data$synthetic
   output <- gsdd_cf(x)
-  #  expect_equal(3901.01849569098) this is what calculate_gsdd gets
   expect_equal(output, 3902.33018879598)
 })
 
 test_that("vector must be longer than window_width", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
+  x <- simulated_data$synthetic
   expect_chk_error(gsdd_cf(x, window_width = 369))
 })
 
 test_that("vector must not contain NA values", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
+  x <- simulated_data$synthetic
   random_indices <- sample(seq_along(x), 40)
   x[random_indices] <- NA
   expect_chk_error(gsdd_cf(x, end_temp = 4))
 })
 
 test_that("start temp must be greater than or equal to end temp", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
-  expect_chk_error(gsdd_cf(x, end_temp = 40))
+  x <- simulated_data$synthetic
+  expect_chk_error(gsdd_cf(x, end_temp = 40, start_temp = 30))
 })
 
-test_that("if max temp in vector is lower than start_temp the function will error", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
-  #  expect_chk_error(gsdd_cf(x = x, start_temp = 50, end_temp = 4))
+test_that("if max temp in vector is lower than start_temp the function return 0", {
+  x <- simulated_data$synthetic
   output <- gsdd_cf(x, start_temp = 50)
   expect_identical(output, 0)
 })
 
 test_that("if end_temp is not reached, gsdd calculated to end of vector and warning is shown", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
+  x <- simulated_data$synthetic
   expect_warning(gsdd_cf(x, end_temp = -40))
 })
 
 test_that("if end_temp is reached at end of vector x, indicies do not fall off the edge", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = .5)
-  gsdd <- gsdd_cf(x, end_temp = -4)
-  #  expect_equal(gsdd, 3827.5905) this is what calculate_gsdd gets
-  expect_equal(gsdd, 3828.24748908639)
+  x <- simulated_data$synthetic
+  gsdd <- gsdd_cf(x, end_temp = -4, quiet = TRUE, truncate = TRUE)
+  expect_equal(gsdd, 3921.63308)
 })
 
 test_that("if start_temp is reached at start of vector x, indicies do not fall off the edge", {
