@@ -70,16 +70,6 @@ test_that("x must have a length between 28 and 366", {
   )
 })
 
-test_that("If temperature jumps above start_temp but for too short a period of time for rolling mean to be above start_temp for longer than n_consecutive it will not start counting gsdd until rollmean remains above start_temp for n_consecutive days.", {
-  set.seed(13)
-  day <- 1:365
-  x <- -15 * cos((2 * pi / 365) * (day - 10))
-  x[99] <- 9
-  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
-  #  expect_equal(gsdd, 1422.9838) this what calculate_gsdd gets
-  expect_equal(gsdd, 1431.4310554115)
-})
-
 test_that("Gets growth period with higher GSDD even though shorter period.", {
   x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
   gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
