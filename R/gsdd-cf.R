@@ -78,7 +78,7 @@ gsdd_cf <- function(x,
   # if season starts on first day, truncate left
   if (index_start[1] == 1L) {
     if (!quiet) {
-      warning("growing season left truncated")
+      warning("Growing season is left truncated. ")
     }
     if(truncate == "left" || truncate == "both"){
     }
@@ -93,7 +93,7 @@ gsdd_cf <- function(x,
   # if season doesnt end truncate right
   if (!length(index_end) || max(index_start) > max(index_end)) {
     if (!quiet) {
-      warning("growing season right truncated")
+      warning("Growing season is right truncated.")
     }
     if(truncate == "right" || truncate == "both"){
     }
