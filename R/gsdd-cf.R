@@ -84,10 +84,12 @@ gsdd_cf <- function(x,
     return(0)
   }
   
+  truncated <- FALSE
   # if season starts on first day, ignore_truncation left
   if (index_start[1] == 1L) {
+    truncated <- TRUE
     if (!quiet) {
-      warning("growing season left truncated")
+      warning("Growing season truncated.")
     }
     if(ignore_truncation %in% c("none", "right")){
       return(NA_real_) 
@@ -99,8 +101,8 @@ gsdd_cf <- function(x,
   
   # if season doesnt end ignore_truncation right
   if (!length(index_end) || max(index_start) > max(index_end)) {
-    if (!quiet) {
-      warning("growing season right truncated")
+    if (!truncated && !quiet) {
+      warning("Growing season truncated.")
     }
     if(ignore_truncation %in% c("none", "left")){
       return(NA_real_) 
