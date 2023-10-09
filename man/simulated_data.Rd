@@ -8,14 +8,16 @@
 A tibble with columns:
 \describe{
 \item{Date}{date for each calendar year}
-\item{synthetic}{synthetic yearly temperature data for demonstration and testing}
+\item{synthetic}{synthetic yearly temperature data for demonstration and
+testing}
 }
 }
 \usage{
 simulated_data
 }
 \description{
-The data is a synthetic time series of daily temperature data for the year 2019.
+The data is a synthetic time series of daily temperature data for the year
+2019.
 }
 \details{
 The data is released under the \href{https://open.alberta.ca/licence}{Open Government Licence - Alberta}
