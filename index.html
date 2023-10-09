@@ -75,15 +75,12 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p><code>calculate_gsdd()</code> takes a numerical vector of daily temperature values and calculates the growing season degree days (GSDD).</p>
+<p><code><a href="reference/gsdd_cf.html">gsdd_cf()</a></code> takes a numerical vector of daily temperature values and calculates the growing season degree days (GSDD).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">teckfish</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">13</span><span class="op">)</span></span>
-<span><span class="va">day</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">365</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="op">-</span><span class="fl">15</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> <span class="fl">365</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">day</span> <span class="op">-</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">365</span>, sd <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/gsdd_cf.html">gsdd_cf</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1692.979</span></span></code></pre></div>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">teckfish</span><span class="fu">::</span><span class="va"><a href="reference/simulated_data.html">simulated_data</a></span></span>
+<span><span class="fu"><a href="reference/gsdd_cf.html">gsdd_cf</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">synthetic</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 3902.33</span></span></code></pre></div>
 </div>
 </div>
   </div>

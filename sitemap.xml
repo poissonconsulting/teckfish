@@ -37,6 +37,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/simulated_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/teckfish-package.html</loc>
   </url>
 </urlset>
