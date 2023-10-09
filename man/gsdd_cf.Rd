@@ -32,9 +32,6 @@ at the end of the growing season in C.}
 width of the rolling mean window in days.}
 
 \item{quiet}{A flag specifying whether to suppress warnings.}
-
-\item{entire}{A flag specifying whether to only calculate GSDD
-for the entire season.}
 }
 \value{
 A number of the GSDD.
