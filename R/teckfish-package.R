@@ -3,5 +3,6 @@
 
 ## usethis namespace: start
 #' @import chk
+#' @importFrom tibble tibble
 ## usethis namespace: end
 NULL
