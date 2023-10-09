@@ -1068,12 +1068,26 @@ data <-
     # find closest questionable/erroneous value above and below
     ### TODO: split min/max into seperate lines, then replace Infs with NA's, then add na.rm = TRUE to function
     
-    quest_id_above = min(
-      replace(
-        questionable_rows[which(questionable_rows < .data$id)],
-        is.infinite(questionable_rows[which(questionable_rows < .data$id)]),
-        NA
+    # quest_id_above = min(
+    #   replace_inf(questionable_rows[which(questionable_rows < .data$id)])
+    # ),
+    
+    quest_id_above2 = list(
+      questionable_rows[which(questionable_rows < .data$id)]
     )
+    
+    
+    
   )
 
 data
+
+replace_inf <- function(x) {
+  x[is.infinite(x)] <- NA
+  return(x)
+}
+
+
+replace(c(1, Inf), is.infinite(c(1, Inf)), 1000)
+
+x[is.infinite(x)] <- NA
