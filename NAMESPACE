@@ -2,3 +2,4 @@
 
 export(gsdd_cf)
 import(chk)
+importFrom(tibble,tibble)
