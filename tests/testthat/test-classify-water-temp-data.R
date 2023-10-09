@@ -988,106 +988,182 @@ test_that("erronous rate of change set with parameter", {
 
 
 
-questionable_min <- 0
-questionable_max <- 30
-erroneous_min <- -0.5
-erroneous_max <- 40
-questionable_rate <- 2
-erroneous_rate <- 5
-questionable_hours <- 1
-erroneous_hours <- 1
+# questionable_min <- 0
+# questionable_max <- 30
+# erroneous_min <- -0.5
+# erroneous_max <- 40
+# questionable_rate <- 2
+# erroneous_rate <- 5
+# questionable_hours <- 1
+# erroneous_hours <- 1
+# 
+# 
+# data <- tibble::tribble(
+#   ~temperature_date_time, ~water_temperature,
+#   "2021-05-07 08:00:00",  20.124,
+#   "2021-05-07 08:15:00",  18.782,
+#   "2021-05-07 08:30:00",  14.579,
+#   "2021-05-07 08:45:00",  3.724,
+#   "2021-05-07 09:00:00",  3.168,
+#   "2021-05-07 09:15:00",  2.877,
+#   "2021-05-07 09:30:00",  2.987,
+#   "2021-05-07 09:45:00",  3.012,
+#   "2021-05-07 10:00:00",  3.122,
+#   "2021-05-07 10:15:00",  18.782,
+#   "2021-05-07 10:30:00",  14.579,
+#   "2021-05-07 10:45:00",  3.724,
+#   "2021-05-07 11:00:00",  3.168,
+#   "2021-05-07 11:15:00",  2.877,
+#   "2021-05-07 11:30:00",  2.987,
+#   "2021-05-07 11:45:00",  3.012,
+#   "2021-05-07 12:00:00",  3.122
+# ) |>
+#   dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
+# 
+# 
+# data <-
+#   data |>
+#   dplyr::arrange(.data$temperature_date_time) |>
+#   dplyr::mutate(
+#     status_id = 1L,
+#     
+#     # questionable ranges
+#     status_id = dplyr::case_when(
+#       .data$water_temperature < questionable_min ~ 2L,
+#       .data$water_temperature > questionable_max ~ 2L,
+#       TRUE ~ .data$status_id
+#     ),
+#     # erroneous ranges
+#     status_id = dplyr::case_when(
+#       .data$water_temperature < erroneous_min ~ 3L,
+#       .data$water_temperature > erroneous_max ~ 3L,
+#       TRUE ~ .data$status_id
+#     ),
+#     # rate of change
+#     lag_temp = dplyr::lag(.data$water_temperature),
+#     diff_temp = abs(.data$water_temperature - .data$lag_temp),
+#     lag_time = dplyr::lag(.data$temperature_date_time),
+#     diff_time = as.numeric(difftime(
+#       .data$temperature_date_time,
+#       .data$lag_time,
+#       units = "hours"
+#     )),
+#     rate_temp_per_time = abs(.data$diff_temp / .data$diff_time),
+#     status_id = dplyr::case_when(
+#       # erroneous rate of change
+#       .data$rate_temp_per_time > erroneous_rate ~ 3L,
+#       # questionable rate of change
+#       .data$rate_temp_per_time > questionable_rate ~ 2L,
+#       TRUE ~ .data$status_id
+#     )
+#   ) |>
+#   dplyr::select(
+#     -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
+#     -"rate_temp_per_time"
+#   )
+# 
+# questionable_rows <- which(data$status_id == 2L)
+# error_rows <- which(data$status_id == 3L)
+# 
+# data <- 
+#   data |>
+#   dplyr::mutate(
+#     id = dplyr::row_number()
+#   ) |>
+#   dplyr::rowwise() |>
+#   dplyr::mutate(
+#     # find closest questionable/erroneous value above and below
+#     quest_id_above = list(
+#       questionable_rows[which(questionable_rows > .data$id)]
+#     ),
+#     quest_id_below = list(
+#       questionable_rows[which(questionable_rows < .data$id)]
+#     ),
+#     
+#     error_id_above = list(
+#       error_rows[which(error_rows > .data$id)]
+#     ),
+#     error_id_below = list(
+#       error_rows[which(error_rows < .data$id)]
+#     )
+#     
+#   ) |>
+#   dplyr::ungroup() |>
+#   dplyr::mutate(
+#     quest_id_above = purrr::map_int(quest_id_above, min2),
+#     quest_id_below = purrr::map_int(quest_id_below, max2),
+#     
+#     error_id_above = purrr::map_int(error_id_above, min2),
+#     error_id_below = purrr::map_int(error_id_below, max2),
+# 
+#     quest_id_above2 = temperature_date_time[quest_id_above],
+#     quest_id_below2 = temperature_date_time[quest_id_below],
+#     error_id_above2 = temperature_date_time[error_id_above],
+#     error_id_below2 = temperature_date_time[error_id_below],
+#     
+#     quest_id_above3 = as.numeric(
+#       difftime(quest_id_above2, temperature_date_time, units = "hours")
+#     ),
+#     quest_id_below3 = diff_hours(temperature_date_time, quest_id_below2),
+#     error_id_above3 = diff_hours(error_id_above2, temperature_date_time),
+#     error_id_below3 = diff_hours(temperature_date_time, error_id_below2),
+#     
+#     # anything within an hour of a questionable value is questionable
+#     status_id = dplyr::if_else(
+#       status_id == 1 & quest_id_above3 <= questionable_hours, 
+#       2, 
+#       status_id, 
+#       status_id
+#     ),
+#     status_id = dplyr::if_else(
+#       status_id == 1 & quest_id_below3 <= questionable_hours, 
+#       2, 
+#       status_id, 
+#       status_id
+#     ),
+#     
+#     # anything within an hour of an erroneous value is erroneous
+#     status_id = dplyr::if_else(
+#       status_id %in% c(1, 2) & error_id_above3 <= erroneous_hours, 
+#       3, 
+#       status_id, 
+#       status_id
+#     ),
+#     status_id = dplyr::if_else(
+#       status_id %in% c(1, 2) & error_id_below3 <= erroneous_hours, 
+#       3, 
+#       status_id, 
+#       status_id
+#     ),
+#     
+#     # Fill in gap between questionable/erroneous values 
+#     gap_above = pmin(error_id_above2, quest_id_above2, na.rm = TRUE),
+#     gap_above_type = dplyr::case_when(
+#       gap_above == error_id_above2 ~ "err",
+#       gap_above == quest_id_above2 ~ "quest",
+#       TRUE ~ NA_character_
+#     ),
+#     gap_below = pmax(error_id_below2, quest_id_below2, na.rm = TRUE),
+#     gap_below_type = dplyr::case_when(
+#       gap_below == error_id_below2 ~ "err",
+#       gap_below == quest_id_below2 ~ "quest",
+#       TRUE ~ NA_character_
+#     ),
+#     gap_diff = diff_hours(gap_above, gap_below),
+#     
+#     status_id = dplyr::case_when(
+#       # if the gap less then 5 and at least one value is erroneous code the gap as erroneous
+#       status_id == 1 & gap_diff <= 5 & (gap_above_type == "err" | gap_below_type == "err")   ~ 3,
+#       # if the gap less then 5 (and not touching erroneous) then code as questionable 
+#       status_id == 1 & gap_diff <= 5   ~ 2,
+#       TRUE ~ status_id
+#     )
+#     
+#   )
+# 
+# data
 
 
 
-data <- tibble::tribble(
-  ~temperature_date_time, ~water_temperature,
-  "2021-05-07 08:00:00",  20.124,
-  "2021-05-07 08:15:00",  18.782,
-  "2021-05-07 08:30:00",  14.579,
-  "2021-05-07 08:45:00",  3.724,
-  "2021-05-07 09:00:00",  3.168,
-  "2021-05-07 09:15:00",  2.877,
-  "2021-05-07 09:30:00",  2.987,
-  "2021-05-07 09:45:00",  3.012,
-  "2021-05-07 10:00:00",  3.122
-) |>
-  dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
 
-data <-
-  data |>
-  dplyr::arrange(.data$temperature_date_time) |>
-  dplyr::mutate(
-    status_id = 1L,
-    
-    # questionable ranges
-    status_id = dplyr::case_when(
-      .data$water_temperature < questionable_min ~ 2L,
-      .data$water_temperature > questionable_max ~ 2L,
-      TRUE ~ .data$status_id
-    ),
-    # erroneous ranges
-    status_id = dplyr::case_when(
-      .data$water_temperature < erroneous_min ~ 3L,
-      .data$water_temperature > erroneous_max ~ 3L,
-      TRUE ~ .data$status_id
-    ),
-    # rate of change
-    lag_temp = dplyr::lag(.data$water_temperature),
-    diff_temp = abs(.data$water_temperature - .data$lag_temp),
-    lag_time = dplyr::lag(.data$temperature_date_time),
-    diff_time = as.numeric(difftime(
-      .data$temperature_date_time,
-      .data$lag_time,
-      units = "hours"
-    )),
-    rate_temp_per_time = abs(.data$diff_temp / .data$diff_time),
-    status_id = dplyr::case_when(
-      # erroneous rate of change
-      .data$rate_temp_per_time > erroneous_rate ~ 3L,
-      # questionable rate of change
-      .data$rate_temp_per_time > questionable_rate ~ 2L,
-      TRUE ~ .data$status_id
-    )
-  ) |>
-  dplyr::select(
-    -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
-    -"rate_temp_per_time"
-  )
-
-questionable_rows <- which(data$status_id == 2L)
-error_rows <- which(data$status_id == 3L)
-
-data <- 
-  data |>
-  dplyr::mutate(
-    id = dplyr::row_number()
-  ) |>
-  dplyr::rowwise() |>
-  dplyr::mutate(
-    # find closest questionable/erroneous value above and below
-    ### TODO: split min/max into seperate lines, then replace Infs with NA's, then add na.rm = TRUE to function
-    
-    # quest_id_above = min(
-    #   replace_inf(questionable_rows[which(questionable_rows < .data$id)])
-    # ),
-    
-    quest_id_above2 = list(
-      questionable_rows[which(questionable_rows < .data$id)]
-    )
-    
-    
-    
-  )
-
-data
-
-replace_inf <- function(x) {
-  x[is.infinite(x)] <- NA
-  return(x)
-}
-
-
-replace(c(1, Inf), is.infinite(c(1, Inf)), 1000)
-
-x[is.infinite(x)] <- NA
