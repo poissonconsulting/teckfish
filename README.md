@@ -25,16 +25,13 @@ pak::pak("poissonconsulting/teckfish")
 
 ## Example
 
-`calculate_gsdd()` takes a numerical vector of daily temperature values
-and calculates the growing season degree days (GSDD).
+`gsdd_cf()` takes a numerical vector of daily temperature values and
+calculates the growing season degree days (GSDD).
 
 ``` r
 library(teckfish)
-set.seed(13)
-day <- 1:365
-x <- pmax(-15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, sd = .5), 0)
-
-gsdd_cf(x)
+x <- teckfish::simulated_data
+gsdd_cf(x$synthetic)
 ```
 
-    ## [1] 1692.979
+    ## [1] 3902.33

@@ -40,9 +40,9 @@
 #' x <- c(rep(1, 10), rep(10, 20), rep(1, 200))
 #' gsdd_cf(x)
 #'
-#' set.seed(13)
-#' day <- 1:365
-#' x <- pmax(-15 * cos((2*pi / 365) * (day-10)) + rnorm(365, sd = .5), 0)
+#' x <- teckfish::simulated_data$synthetic
+#' output <- gsdd_cf(x)
+#' print(output)
 gsdd_cf <- function(x,
                     entire = TRUE,
                     start_temp = 5,
@@ -52,7 +52,7 @@ gsdd_cf <- function(x,
   chk_numeric(x)
   chk_vector(x)
   chk_not_any_na(x)
-  chk_length(x, 180, 366)
+  chk_length(x, 28, 366)
 
   chk_flag(entire)
 

@@ -61,17 +61,16 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   x <- -15 * cos((2 * pi / 365) * (day - 10)) + rnorm(365, mean = 10, sd = 0.5)
   x <- x[163:length(x)]
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE)
-  #  expect_equal(gsdd, 2678.3522) this is what calculate_gsdd gets
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, entire = FALSE)
   expect_equal(gsdd, 2687.98160174586)
 })
 
-test_that("x must have a length between 180 and 366", {
-  x <- c(rep(0, 10), rep(10, 20), rep(0, 10))
+test_that("x must have a length between 28 and 366", {
+  x <- c(rep(0, 1), rep(10, 20), rep(0, 1))
   expect_error(
     gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9),
-    "`x` must have a length between 180 and 366 not 40\\."
+    "`x` must have a length between 28 and 366 not 22\\."
   )
 })
 
