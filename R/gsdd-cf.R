@@ -56,7 +56,7 @@ gsdd_cf <- function(x,
   chk_length(x, 28, 366)
 
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
-  if(isTRUE(ignore_truncation)) {
+  if (isTRUE(ignore_truncation)) {
     ignore_truncation <- "both"
   } else if (isFALSE(ignore_truncation)) {
     ignore_truncation <- "none"
@@ -81,14 +81,14 @@ gsdd_cf <- function(x,
   if (!length(index_start)) {
     return(0)
   }
-  
+
   # if season starts on first day, ignore_truncation left
   if (index_start[1] == 1L) {
     if (!quiet) {
       warning("Growing season is left truncated. ")
     }
-    if(ignore_truncation %in% c("none", "right")){
-      return(NA_real_) 
+    if (ignore_truncation %in% c("none", "right")) {
+      return(NA_real_)
     }
   }
 
@@ -99,8 +99,8 @@ gsdd_cf <- function(x,
     if (!quiet) {
       warning("Growing season is right truncated.")
     }
-    if(ignore_truncation %in% c("none", "left")){
-      return(NA_real_) 
+    if (ignore_truncation %in% c("none", "left")) {
+      return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
   }
