@@ -137,73 +137,71 @@ classify_water_temp_data <- function(data,
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      quest_id_above = purrr::map_int(quest_id_above, min2),
-      quest_id_below = purrr::map_int(quest_id_below, max2),
+      quest_id_above = purrr::map_int(.data$quest_id_above, min2),
+      quest_id_below = purrr::map_int(.data$quest_id_below, max2),
       
-      error_id_above = purrr::map_int(error_id_above, min2),
-      error_id_below = purrr::map_int(error_id_below, max2),
+      error_id_above = purrr::map_int(.data$error_id_above, min2),
+      error_id_below = purrr::map_int(.data$error_id_below, max2),
       
-      quest_id_above2 = temperature_date_time[quest_id_above],
-      quest_id_below2 = temperature_date_time[quest_id_below],
-      error_id_above2 = temperature_date_time[error_id_above],
-      error_id_below2 = temperature_date_time[error_id_below],
+      quest_id_above2 = .data$temperature_date_time[.data$quest_id_above],
+      quest_id_below2 = .data$temperature_date_time[.data$quest_id_below],
+      error_id_above2 = .data$temperature_date_time[.data$error_id_above],
+      error_id_below2 = .data$temperature_date_time[.data$error_id_below],
       
-      quest_id_above3 = as.numeric(
-        difftime(quest_id_above2, temperature_date_time, units = "hours")
-      ),
-      quest_id_below3 = diff_hours(temperature_date_time, quest_id_below2),
-      error_id_above3 = diff_hours(error_id_above2, temperature_date_time),
-      error_id_below3 = diff_hours(temperature_date_time, error_id_below2),
+      quest_id_above3 = diff_hours(.data$quest_id_above2, .data$temperature_date_time),
+      quest_id_below3 = diff_hours(.data$temperature_date_time, .data$quest_id_below2),
+      error_id_above3 = diff_hours(.data$error_id_above2, .data$temperature_date_time),
+      error_id_below3 = diff_hours(.data$temperature_date_time, .data$error_id_below2),
       
       # anything within an hour of a questionable value is questionable
       status_id = dplyr::if_else(
-        status_id == 1 & quest_id_above3 <= questionable_hours, 
+        .data$status_id == 1 & .data$quest_id_above3 <= questionable_hours, 
         2, 
-        status_id, 
-        status_id
+        .data$status_id, 
+        .data$status_id
       ),
       status_id = dplyr::if_else(
-        status_id == 1 & quest_id_below3 <= questionable_hours, 
+        .data$status_id == 1 & .data$quest_id_below3 <= questionable_hours, 
         2, 
-        status_id, 
-        status_id
+        .data$status_id, 
+        .data$status_id
       ),
       
       # anything within an hour of an erroneous value is erroneous
       status_id = dplyr::if_else(
-        status_id %in% c(1, 2) & error_id_above3 <= erroneous_hours, 
+        .data$status_id %in% c(1, 2) & .data$error_id_above3 <= erroneous_hours, 
         3, 
-        status_id, 
-        status_id
+        .data$status_id, 
+        .data$status_id
       ),
       status_id = dplyr::if_else(
-        status_id %in% c(1, 2) & error_id_below3 <= erroneous_hours, 
+        .data$status_id %in% c(1, 2) & .data$error_id_below3 <= erroneous_hours, 
         3, 
-        status_id, 
-        status_id
+        .data$status_id, 
+        .data$status_id
       ),
       
       # Fill in gap between questionable/erroneous values 
-      gap_above = pmin(error_id_above2, quest_id_above2, na.rm = TRUE),
+      gap_above = pmin(.data$error_id_above2, .data$quest_id_above2, na.rm = TRUE),
       gap_above_type = dplyr::case_when(
-        gap_above == error_id_above2 ~ "err",
-        gap_above == quest_id_above2 ~ "quest",
+        .data$gap_above == .data$error_id_above2 ~ "err",
+        .data$gap_above == .data$quest_id_above2 ~ "quest",
         TRUE ~ NA_character_
       ),
-      gap_below = pmax(error_id_below2, quest_id_below2, na.rm = TRUE),
+      gap_below = pmax(.data$error_id_below2, .data$quest_id_below2, na.rm = TRUE),
       gap_below_type = dplyr::case_when(
-        gap_below == error_id_below2 ~ "err",
-        gap_below == quest_id_below2 ~ "quest",
+        .data$gap_below == .data$error_id_below2 ~ "err",
+        .data$gap_below == .data$quest_id_below2 ~ "quest",
         TRUE ~ NA_character_
       ),
-      gap_diff = diff_hours(gap_above, gap_below),
+      gap_diff = diff_hours(.data$gap_above, .data$gap_below),
       
       status_id = dplyr::case_when(
         # if the gap less then 5 and at least one value is erroneous code the gap as erroneous
-        status_id == 1 & gap_diff <= 5 & (gap_above_type == "err" | gap_below_type == "err")   ~ 3,
+        .data$status_id == 1 & .data$gap_diff <= 5 & (.data$gap_above_type == "err" | .data$gap_below_type == "err")   ~ 3,
         # if the gap less then 5 (and not touching erroneous) then code as questionable 
-        status_id == 1 & gap_diff <= 5   ~ 2,
-        TRUE ~ status_id
+        .data$status_id == 1 & .data$gap_diff <= 5   ~ 2,
+        TRUE ~ .data$status_id
       )
       
     )
