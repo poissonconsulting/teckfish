@@ -74,6 +74,6 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
 
 test_that("Gets growth gives warnings with truncation.", {
   x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
-  expect_warning(expect_identical(gsdd_cf(x), NA_real_), "Growing season is left truncated.")
-  expect_warning(expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "Growing season is left truncated."), "Growing season is right truncated.")
+  expect_warning(expect_identical(gsdd_cf(x), NA_real_), "Growing season truncated\\.")
+  expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "Growing season truncated\\.")
 })
