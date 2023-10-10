@@ -103,11 +103,11 @@ classify_water_temp_data <- function(data,
         .data$rate_temp_per_time > questionable_rate ~ 2L,
         TRUE ~ .data$status_id
       )
-    ) |>
-    dplyr::select(
-      -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
-      -"rate_temp_per_time"
-    )
+    ) #|>
+    # dplyr::select(
+    #   -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
+    #   -"rate_temp_per_time"
+    # )
   
   questionable_rows <- which(data$status_id == 2)
   error_rows <- which(data$status_id == 3)
@@ -198,13 +198,24 @@ classify_water_temp_data <- function(data,
       
       status_id = dplyr::case_when(
         # if the gap less then 5 and at least one value is erroneous code the gap as erroneous
-        .data$status_id == 1 & .data$gap_diff <= 5 & (.data$gap_above_type == "err" | .data$gap_below_type == "err")   ~ 3,
+        .data$status_id == 1 & .data$gap_diff <= gap_range & (.data$gap_above_type == "err" | .data$gap_below_type == "err") ~ 3,
         # if the gap less then 5 (and not touching erroneous) then code as questionable 
-        .data$status_id == 1 & .data$gap_diff <= 5   ~ 2,
+        .data$status_id == 1 & .data$gap_diff <= gap_range ~ 2,
         TRUE ~ .data$status_id
       )
-      
-    )
+    ) #|>
+    # dplyr::select(
+    #   -"id",
+    #   -"quest_id_above", -"quest_id_below", 
+    #   -"error_id_above", -"error_id_below",
+    #   -"quest_id_above2", -"quest_id_below2", 
+    #   -"error_id_above2", -"error_id_below2",
+    #   -"quest_id_above3", -"quest_id_below3", 
+    #   -"error_id_above3", -"error_id_below3",
+    #   -"gap_above", -"gap_above_type", 
+    #   -"gap_below", -"gap_below_type", 
+    #   -"gap_diff"
+    # )
 
   data
 }
