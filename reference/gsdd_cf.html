@@ -55,7 +55,7 @@ during the growing season.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gsdd_cf</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  entire <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ignore_truncation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  start_temp <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  end_temp <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  window_width <span class="op">=</span> <span class="fl">7</span>,</span>
@@ -71,9 +71,10 @@ before to after the growing season in C. It must be at least 180
 and no more than 366 days in length.</p></dd>
 
 
-<dt>entire</dt>
-<dd><p>A flag specifying whether to only calculate GSDD
-for the entire season.</p></dd>
+<dt>ignore_truncation</dt>
+<dd><p>A flag specifying whether to ignore truncation
+when calculating the GSDD or a string of "left", "right", "none" or "both"
+specifying which type of truncation to ignore.</p></dd>
 
 
 <dt>start_temp</dt>
