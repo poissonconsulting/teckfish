@@ -29,12 +29,12 @@ test_that("if max temp in vector is lower than start_temp the function return 0"
 
 test_that("if end_temp is not reached, gsdd calculated to end of vector and warning is shown", {
   x <- simulated_data$synthetic
-  expect_warning(gsdd_cf(x, end_temp = -40))
+  expect_warning(gsdd_cf(x, end_temp = -40, ))
 })
 
 test_that("if end_temp is reached at end of vector x, indicies do not fall off the edge", {
   x <- simulated_data$synthetic
-  gsdd <- gsdd_cf(x, end_temp = -4, quiet = TRUE, truncate = TRUE)
+  gsdd <- gsdd_cf(x, end_temp = -4, quiet = TRUE, ignore_truncation = TRUE)
   expect_equal(gsdd, 3921.63308)
 })
 
@@ -74,6 +74,6 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
 
 test_that("Gets growth gives warnings with truncation.", {
   x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
-  expect_warning(expect_identical(gsdd_cf(x), NA_real_), "growing season left truncated")
-  expect_warning(expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "growing season left truncated"), "growing season right truncated")
+  expect_warning(expect_identical(gsdd_cf(x), NA_real_), "Growing season is left truncated.")
+  expect_warning(expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "Growing season is left truncated."), "Growing season is right truncated.")
 })

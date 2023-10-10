@@ -65,7 +65,6 @@ gsdd_cf <- function(x,
   chk_number(start_temp)
   chk_number(end_temp)
   chk_gte(start_temp, end_temp)
-
   chk_count(window_width)
   chk_range(window_width, c(3, 14))
   if (is_even(window_width)) {
