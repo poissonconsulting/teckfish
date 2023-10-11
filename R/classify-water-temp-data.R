@@ -340,13 +340,9 @@ classify_water_temp_data <- function(data,
   data
 }
 
-
-
-
 diff_hours <- function(x, y) {
   as.numeric(difftime(x, y, units = "hours"))
 }
-
 
 min2 <- function(x) {
   if (length(x) == 0) {
@@ -363,17 +359,3 @@ max2 <- function(x) {
     max(x)
   }
 }
-
-
-
-data <- data.frame(
-   temperature_date_time =
-     as.POSIXct(c(
-       "2021-05-07 08:00:00", "2021-05-07 09:00:00",
-       "2021-05-07 10:00:00", "2021-05-07 11:00:00", "2021-05-07 12:00:00",
-       "2021-05-07 13:00:00"
-     )),
-   water_temperature = c(4.124, 4.078, 4.102, 4.189, 4.243, 6.578)
-)
-
-classified_data <- classify_water_temp_data(data)
