@@ -93,11 +93,11 @@ test_that("dataset with no rows is returned with no rows", {
     ) |>
       dplyr::mutate(
         status_id = factor(
-        status_id, 
-        levels = c("reasonable", "questionable", "erroneous"),
-        ordered = TRUE
+          status_id,
+          levels = c("reasonable", "questionable", "erroneous"),
+          ordered = TRUE
+        )
       )
-    )
   )
 })
 
@@ -115,7 +115,7 @@ test_that("status_id column is output as a factor", {
       water_temperature = c(0)
     )
   )
-  
+
   expect_type(output_1$status_id, "integer")
   expect_s3_class(output_1$status_id, c("ordered"))
   expect_s3_class(output_1$status_id, c("factor"))
@@ -128,7 +128,7 @@ test_that("table output type is tibble", {
       water_temperature = c(0)
     )
   )
-  
+
   expect_s3_class(output_1, c("tbl_df"))
   expect_s3_class(output_1, c("tbl"))
   expect_s3_class(output_1, c("data.frame"))
@@ -715,7 +715,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`erroneous_max` must be greater than 20, not 10."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -727,7 +727,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`questionable_max` must be greater than 40, not 20."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -739,7 +739,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`questionable_max` must be greater than -2, not -30."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -751,7 +751,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`erroneous_max` must be greater than 40, not 20."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -776,7 +776,7 @@ test_that("rates parameter checks", {
     ),
     regexp = "`questionable_rate` must be greater than or equal to 0, not -2."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -787,7 +787,7 @@ test_that("rates parameter checks", {
     ),
     regexp = "`erroneous_rate` must be greater than or equal to 0, not -2."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -812,7 +812,7 @@ test_that("buffer parameter checks", {
     ),
     regexp = "`questionable_buffer` must be greater than or equal to 0, not -2."
   )
-  
+
   expect_error(
     classify_water_temp_data(
       data.frame(
@@ -888,7 +888,7 @@ test_that("erroneous rates are classifed, bad values at end of series", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
@@ -958,8 +958,7 @@ test_that("erroneous rates are classifed, bad values at beginning", {
       "2021-05-07 09:30:00",  2.987,              1L,
       "2021-05-07 09:45:00",  3.012,              1L,
       "2021-05-07 10:15:00",  3.112,              1L,
-      "2021-05-07 10:35:00",  3.042,              1L 
-      
+      "2021-05-07 10:35:00",  3.042,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1009,7 +1008,6 @@ test_that("erroneous rates are classifed, bad values in middle of series", {
       "2021-05-07 10:00:00",  3.122,              1L,
       "2021-05-07 10:15:00",  3.100,              1L,
       "2021-05-07 10:30:00",  3.120,              1L
-      
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1342,18 +1340,18 @@ test_that("erroneous rates are buffered, bad values at end of series", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1388,13 +1386,13 @@ test_that("erroneous rates are buffered, bad values at beginning", {
     "2021-05-07 10:35:00",  3.042
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1408,8 +1406,7 @@ test_that("erroneous rates are buffered, bad values at beginning", {
       "2021-05-07 09:30:00",  2.987,              3L,
       "2021-05-07 09:45:00",  3.012,              3L,
       "2021-05-07 10:15:00",  3.112,              1L,
-      "2021-05-07 10:35:00",  3.042,              1L 
-      
+      "2021-05-07 10:35:00",  3.042,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1434,13 +1431,13 @@ test_that("erroneous rates are buffered, bad values in middle of series", {
     "2021-05-07 10:30:00",  3.120
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1459,7 +1456,6 @@ test_that("erroneous rates are buffered, bad values in middle of series", {
       "2021-05-07 10:00:00",  3.122,              3L,
       "2021-05-07 10:15:00",  3.100,              3L,
       "2021-05-07 10:30:00",  3.120,              1L
-      
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1480,13 +1476,13 @@ test_that("questionable rates are buffered, bad values at end of series", {
     "2021-05-07 09:45:00",  5.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1522,13 +1518,13 @@ test_that("questionable rates are buffered, bad values at beginning", {
     "2021-05-07 10:30:00",  3.120,
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1568,13 +1564,13 @@ test_that("questionable rates are buffered, bad values in middle of series", {
     "2021-05-07 10:30:00",  3.120
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1620,13 +1616,13 @@ test_that("questionable and erronous rates buffered", {
     "2021-05-07 10:30:00",  3.122
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1669,14 +1665,14 @@ test_that("questionable buffer set with parameter to be smaller", {
     "2021-05-07 10:30:00",  3.120,
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0,
     questionable_buffer = 0.5
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1716,14 +1712,14 @@ test_that("questionable buffer set with parameter to be larger", {
     "2021-05-07 11:15:00",  3.120
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0,
     questionable_buffer = 2
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1757,19 +1753,19 @@ test_that("erroneous buffer set with parameter to be smaller", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     erroneous_buffer = 0.25,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1802,19 +1798,19 @@ test_that("erroneous buffer set with parameter to be larger", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     erroneous_buffer = 2,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1854,17 +1850,17 @@ test_that("gaps are filled in", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1908,18 +1904,18 @@ test_that("gaps not filled in when set to zero", {
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -1963,18 +1959,18 @@ test_that("gaps does not over fill gap difference is 2.5 and parameter set to 1"
     "2021-05-07 08:30:00",  3.147,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 1
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2018,36 +2014,36 @@ test_that("missing values in water temp are retained", {
     "2021-05-07 08:30:00",  NA_real_,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:15:00",  4.789,
     "2021-05-07 09:30:00",  6.257,
     "2021-05-07 09:45:00",  8.657
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(data) |>
-    dplyr::mutate(status_id = as.integer(status_id)) 
-  
+    dplyr::mutate(status_id = as.integer(status_id))
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              3L,
-      "2021-05-07 06:45:00",  NA_real_,              NA_integer_,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              3L,
-      "2021-05-07 07:45:00",  2.867,              3L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  NA_real_,              NA_integer_,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 3L,
+      "2021-05-07 06:45:00", NA_real_, NA_integer_,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 3L,
+      "2021-05-07 07:45:00", 2.867, 3L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", NA_real_, NA_integer_,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -2070,17 +2066,17 @@ test_that("status id values are coded as correct factor levels and integer value
     "2021-05-07 08:30:00",  NA_real_,
     "2021-05-07 08:45:00",  3.124,
     "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  3.789, 
+    "2021-05-07 09:15:00",  3.789,
     "2021-05-07 09:30:00",  4.104,
     "2021-05-07 09:45:00",  4.178
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     gap_range = 0
   )
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2103,20 +2099,20 @@ test_that("status id values are coded as correct factor levels and integer value
       "2021-05-07 09:30:00",  4.104,              "questionable",
       "2021-05-07 09:45:00",  4.178,              "questionable"
     ) |>
-    dplyr::mutate(
-      temperature_date_time = as.POSIXct(temperature_date_time),
-      status_id = factor(
-        status_id, 
-        levels = c("reasonable", "questionable", "erroneous"),
-        ordered = TRUE
+      dplyr::mutate(
+        temperature_date_time = as.POSIXct(temperature_date_time),
+        status_id = factor(
+          status_id,
+          levels = c("reasonable", "questionable", "erroneous"),
+          ordered = TRUE
+        )
       )
-    )
   )
-    
-    classified_data <- classified_data |>
-      dplyr::mutate(status_id = as.integer(status_id))
-    
-    expect_equal(
+
+  classified_data <- classified_data |>
+    dplyr::mutate(status_id = as.integer(status_id))
+
+  expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
@@ -2138,8 +2134,8 @@ test_that("status id values are coded as correct factor levels and integer value
       "2021-05-07 09:30:00",  4.104,              2L,
       "2021-05-07 09:45:00",  4.178,              2L
     ) |>
-    dplyr::mutate(
-      temperature_date_time = as.POSIXct(temperature_date_time)
-    )
+      dplyr::mutate(
+        temperature_date_time = as.POSIXct(temperature_date_time)
+      )
   )
 })

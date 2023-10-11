@@ -1,7 +1,7 @@
 #' Classify Water Temperature Data
 #'
 #' Water temperature data will be either classified as reasonable,
-#' questionable, or erroneous in the status_id column. 
+#' questionable, or erroneous in the status_id column.
 #'
 #' @param data A data frame.
 #' @param questionable_min A numeric value indicating the lower bound of the
@@ -26,11 +26,11 @@
 #'
 #' @return A data frame
 #' @export
-#' @details The function only works on a single deployment of a logger. The 
+#' @details The function only works on a single deployment of a logger. The
 #'   table output will be sorted by temperature_date_time.
-#'   
-#'   The rules are as follows: 
-#' 
+#'
+#'   The rules are as follows:
+#'
 #'
 #' @examples
 #' data <- data.frame(
@@ -61,44 +61,44 @@ classify_water_temp_data <- function(data,
     )
   )
   chk::chk_unique(data$temperature_date_time)
-  
+
   ### TODO Add all intermediate columns to chk_not_subset and the corresponding tests
   chk::chk_not_subset(colnames(data), c("status_id"))
   chk::chk_number(questionable_min)
   chk::chk_number(questionable_max)
   chk::chk_gt(questionable_max, questionable_min)
-  
+
   chk::chk_number(erroneous_min)
   chk::chk_number(erroneous_max)
   chk::chk_gt(erroneous_max, erroneous_min)
-  
+
   chk::chk_gt(erroneous_max, questionable_max)
   chk::chk_lt(erroneous_min, questionable_min)
-  
+
   chk::chk_number(questionable_rate)
   chk::chk_gte(questionable_rate, 0)
-  
+
   chk::chk_number(erroneous_rate)
   chk::chk_gte(erroneous_rate, 0)
-  
+
   chk::chk_gte(erroneous_rate, questionable_rate)
-  
+
   chk::chk_number(questionable_buffer)
   chk::chk_gte(questionable_buffer, 0)
-  
+
   chk::chk_number(erroneous_buffer)
   chk::chk_gte(erroneous_buffer, 0)
-  
+
   chk::chk_number(gap_range)
   chk::chk_gte(gap_range, 0)
-  
+
   if (nrow(data) == 0) {
-    data <- 
+    data <-
       data |>
       dplyr::mutate(
         status_id = integer(),
         status_id = factor(
-          .data$status_id, 
+          .data$status_id,
           levels = c("reasonable", "questionable", "erroneous"),
           ordered = TRUE
         )
@@ -106,19 +106,19 @@ classify_water_temp_data <- function(data,
       tibble::as_tibble()
     return(data)
   }
-  
-  missing_rows <- 
+
+  missing_rows <-
     data |>
     dplyr::filter(is.na(.data$water_temperature)) |>
     dplyr::mutate(
       status_id = NA_integer_,
       status_id = factor(
-        .data$status_id, 
+        .data$status_id,
         levels = c("reasonable", "questionable", "erroneous"),
         ordered = TRUE
       )
     )
-    
+
   data <-
     data |>
     dplyr::filter(!is.na(.data$water_temperature)) |>
@@ -156,7 +156,7 @@ classify_water_temp_data <- function(data,
     dplyr::rowwise() |>
     dplyr::mutate(
       status_id = max(
-        .data$status_id, .data$lag_id, .data$lead_id, 
+        .data$status_id, .data$lag_id, .data$lead_id,
         na.rm = TRUE
       )
     ) |>
@@ -168,8 +168,8 @@ classify_water_temp_data <- function(data,
 
   questionable_rows <- which(data$status_id == 2)
   error_rows <- which(data$status_id == 3)
-  
-  data <- 
+
+  data <-
     data |>
     dplyr::mutate(
       id = dplyr::row_number()
@@ -183,64 +183,59 @@ classify_water_temp_data <- function(data,
       quest_id_below = list(
         questionable_rows[which(questionable_rows < .data$id)]
       ),
-      
       error_id_above = list(
         error_rows[which(error_rows > .data$id)]
       ),
       error_id_below = list(
         error_rows[which(error_rows < .data$id)]
       )
-      
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
       quest_id_above = purrr::map_int(.data$quest_id_above, min2),
       quest_id_below = purrr::map_int(.data$quest_id_below, max2),
-      
       error_id_above = purrr::map_int(.data$error_id_above, min2),
       error_id_below = purrr::map_int(.data$error_id_below, max2),
-      
       quest_id_above2 = .data$temperature_date_time[.data$quest_id_above],
       quest_id_below2 = .data$temperature_date_time[.data$quest_id_below],
       error_id_above2 = .data$temperature_date_time[.data$error_id_above],
       error_id_below2 = .data$temperature_date_time[.data$error_id_below],
-      
       quest_id_above3 = diff_hours(.data$quest_id_above2, .data$temperature_date_time),
       quest_id_below3 = diff_hours(.data$temperature_date_time, .data$quest_id_below2),
       error_id_above3 = diff_hours(.data$error_id_above2, .data$temperature_date_time),
       error_id_below3 = diff_hours(.data$temperature_date_time, .data$error_id_below2),
-      
+
       # anything within an hour of a questionable value is questionable
       status_id = dplyr::if_else(
-        .data$status_id == 1L & .data$quest_id_above3 <= questionable_buffer, 
-        2L, 
-        .data$status_id, 
+        .data$status_id == 1L & .data$quest_id_above3 <= questionable_buffer,
+        2L,
+        .data$status_id,
         .data$status_id
       ),
       status_id = dplyr::if_else(
-        .data$status_id == 1L & .data$quest_id_below3 <= questionable_buffer, 
-        2L, 
-        .data$status_id, 
+        .data$status_id == 1L & .data$quest_id_below3 <= questionable_buffer,
+        2L,
+        .data$status_id,
         .data$status_id
       ),
-      
+
       # anything within an hour of an erroneous value is erroneous
       status_id = dplyr::if_else(
-        .data$status_id %in% c(1L, 2L) & .data$error_id_above3 <= erroneous_buffer, 
-        3L, 
-        .data$status_id, 
+        .data$status_id %in% c(1L, 2L) & .data$error_id_above3 <= erroneous_buffer,
+        3L,
+        .data$status_id,
         .data$status_id
       ),
       status_id = dplyr::if_else(
-        .data$status_id %in% c(1L, 2L) & .data$error_id_below3 <= erroneous_buffer, 
-        3L, 
-        .data$status_id, 
+        .data$status_id %in% c(1L, 2L) & .data$error_id_below3 <= erroneous_buffer,
+        3L,
+        .data$status_id,
         .data$status_id
       ),
-      
-      # Fill in gap between questionable/erroneous values 
+
+      # Fill in gap between questionable/erroneous values
       gap_above = pmin(
-        .data$error_id_above2, .data$quest_id_above2, 
+        .data$error_id_above2, .data$quest_id_above2,
         na.rm = TRUE
       ),
       gap_above_type = dplyr::case_when(
@@ -249,7 +244,7 @@ classify_water_temp_data <- function(data,
         TRUE ~ NA_character_
       ),
       gap_below = pmax(
-        .data$error_id_below2, .data$quest_id_below2, 
+        .data$error_id_below2, .data$quest_id_below2,
         na.rm = TRUE
       ),
       gap_below_type = dplyr::case_when(
@@ -258,21 +253,20 @@ classify_water_temp_data <- function(data,
         TRUE ~ NA_character_
       ),
       gap_diff = diff_hours(.data$gap_above, .data$gap_below),
-      
       status_id = dplyr::case_when(
         # if the gap less then gap range and at least one value is erroneous code the gap as erroneous
         .data$status_id == 1L & .data$gap_diff <= gap_range & (.data$gap_above_type == "err" | .data$gap_below_type == "err") ~ 3L,
-        # if the gap less then gap range (and not touching erroneous) then code as questionable 
+        # if the gap less then gap range (and not touching erroneous) then code as questionable
         .data$status_id == 1L & .data$gap_diff <= gap_range ~ 2L,
         TRUE ~ .data$status_id
       ),
       status_id = dplyr::case_when(
-       .data$status_id == 3L ~ "erroneous",
-       .data$status_id == 2L ~ "questionable",
-       .data$status_id == 1L ~ "reasonable"
+        .data$status_id == 3L ~ "erroneous",
+        .data$status_id == 2L ~ "questionable",
+        .data$status_id == 1L ~ "reasonable"
       ),
       status_id = factor(
-        .data$status_id, 
+        .data$status_id,
         levels = c("reasonable", "questionable", "erroneous"),
         ordered = TRUE
       )
@@ -291,11 +285,11 @@ classify_water_temp_data <- function(data,
     ) |>
     tibble::as_tibble()
 
-  data <- 
+  data <-
     dplyr::bind_rows(data, missing_rows) |>
     dplyr::arrange(.data$temperature_date_time) |>
     tibble::as_tibble()
-  
+
   data
 }
 
