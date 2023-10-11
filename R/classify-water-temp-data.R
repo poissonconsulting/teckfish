@@ -95,24 +95,36 @@ classify_water_temp_data <- function(data,
   if (nrow(data) == 0) {
     data <- 
       data |>
-      dplyr::mutate(status_id = integer()) |>
+      dplyr::mutate(
+        status_id = integer(),
+        status_id = factor(
+          .data$status_id, 
+          levels = c("reasonable", "questionable", "erroneous"),
+          ordered = TRUE
+        )
+      ) |>
       tibble::as_tibble()
     return(data)
   }
   
   missing_rows <- 
     data |>
-    dplyr::filter(is.na(water_temperature)) |>
-    ### TODO update to character when next step is complete
-    dplyr::mutate(status_id = NA_integer_)
+    dplyr::filter(is.na(.data$water_temperature)) |>
+    dplyr::mutate(
+      status_id = NA_integer_,
+      status_id = factor(
+        .data$status_id, 
+        levels = c("reasonable", "questionable", "erroneous"),
+        ordered = TRUE
+      )
+    )
     
   data <-
     data |>
-    dplyr::filter(!is.na(water_temperature)) |>
+    dplyr::filter(!is.na(.data$water_temperature)) |>
     dplyr::arrange(.data$temperature_date_time) |>
     dplyr::mutate(
       status_id = 1L,
-
       # questionable ranges
       status_id = dplyr::case_when(
         .data$water_temperature < questionable_min ~ 2L,
@@ -248,6 +260,16 @@ classify_water_temp_data <- function(data,
         # if the gap less then 5 (and not touching erroneous) then code as questionable 
         .data$status_id == 1L & .data$gap_diff <= gap_range ~ 2L,
         TRUE ~ .data$status_id
+      ),
+      status_id = dplyr::case_when(
+       .data$status_id == 3L ~ "erroneous",
+       .data$status_id == 2L ~ "questionable",
+       .data$status_id == 1L ~ "reasonable"
+      ),
+      status_id = factor(
+        .data$status_id, 
+        levels = c("reasonable", "questionable", "erroneous"),
+        ordered = TRUE
       )
     ) |>
     dplyr::select(
@@ -266,7 +288,7 @@ classify_water_temp_data <- function(data,
 
   data <- 
     dplyr::bind_rows(data, missing_rows) |>
-    dplyr::arrange(temperature_date_time) |>
+    dplyr::arrange(.data$temperature_date_time) |>
     tibble::as_tibble()
   
   data
