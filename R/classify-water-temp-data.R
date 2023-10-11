@@ -49,7 +49,7 @@
 #'
 #'   The data is processed by:
 #'
-#'   1. Classifying the temperature values based on their absolute values
+#'   1. Classifying the temperature values based on their values
 #'   (questionable_min, questionable_max, erroneous_min, erroneous_max). 2. The
 #'   rate of change between adjacent values is calculate and values are
 #'   classified based on the rate parameters (questionable_rate,
@@ -252,7 +252,7 @@ classify_water_temp_data <- function(data,
       .error_higher_time_diff_h = diff_hours(.data$.error_higher_next_time, .data$temperature_date_time),
       .error_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.error_lower_next_time),
 
-      # anything within an hour of a questionable value is questionable
+      # anything within questionable_buffer of a questionable value is questionable
       status_id = dplyr::if_else(
         .data$status_id == 1L & .data$.quest_higher_time_diff_h <= questionable_buffer,
         2L,
@@ -266,7 +266,7 @@ classify_water_temp_data <- function(data,
         .data$status_id
       ),
 
-      # anything within an hour of an erroneous value is erroneous
+      # anything within erroneous_buffer of an erroneous value is erroneous
       status_id = dplyr::if_else(
         .data$status_id %in% c(1L, 2L) & .data$.error_higher_time_diff_h <= erroneous_buffer,
         3L,

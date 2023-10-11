@@ -78,7 +78,7 @@ the output by using \code{\link[tidyr:drop_na]{tidyr::drop_na()}}.
 
 The data is processed by:
 \enumerate{
-\item Classifying the temperature values based on their absolute values
+\item Classifying the temperature values based on their values
 (questionable_min, questionable_max, erroneous_min, erroneous_max). 2. The
 rate of change between adjacent values is calculate and values are
 classified based on the rate parameters (questionable_rate,
