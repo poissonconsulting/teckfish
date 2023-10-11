@@ -1,0 +1,19 @@
+---
+title: "Classify water temperature time series values into reasonable, questionable, or erroneous"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Classify water temperature time series values into reasonable, questionable, or erroneous}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(teckfish)
+```
