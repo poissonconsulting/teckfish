@@ -300,12 +300,12 @@ classify_water_temp_data <- function(data,
         TRUE ~ NA_character_
       ),
       .gap_diff_time_h = diff_hours(.data$.gap_fill_higher_time, .data$.gap_fill_lower_time),
-      status_id = dplyr::case_when(
-        # if the gap less then gap range and at least one value is erroneous code the gap as erroneous
-        .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range & (.data$.gap_fill_higher_type == "err" | .data$.gap_fill_lower_type == "err") ~ 3L,
-        # if the gap less then gap range (and not touching erroneous) then code as questionable
-        .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range ~ 2L,
-        TRUE ~ .data$status_id
+      # if gap is less then gap range then code as questionable
+      status_id = dplyr::if_else(
+        .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range,
+        2L,
+        .data$status_id,
+        .data$status_id
       ),
       status_id = dplyr::case_when(
         .data$status_id == 3L ~ "erroneous",
