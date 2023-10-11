@@ -816,7 +816,12 @@ test_that("small rates of changes are classified as resonable", {
     ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
