@@ -14,6 +14,180 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning=FALSE, message=FALSE}
 library(teckfish)
+library(dplyr)
+library(tibble)
+library(ggplot2)
+library(scales)
+```
+
+Raw logger temperature time series data can be run through `classify_water_temp_data()` to classify each value as reasonable, questionable, or erroneous. 
+Only a single deployment can be classified at a time.
+Users are responsible for ensuring that the data are in the correct format before running this function.
+
+The values are classified following these rules:
+
+1. If the temperature is greater then or equal to or less then or equal to the min and max parameters (`questionable_min`, `questionable_max`, `erroneous_min`, `erroneous_max`). 
+2. If the rate of change (degrees per hour) between the adjacent lag value is greater then or equal to the rate parameters (`questionable_rate`, `erroneous_rate`).
+3. A value adjacent to a questionable/erroneous value are coded as questionable/erroneous. 
+4. A time buffer (hours) is added to the questionable/erroneous values such that adjacent values within or equal to the buffer (`questionable_buffer`, `erroneous_buffer`) are coded as questionable/erroneous.
+5. Reasonable values identified between questionable or erroneous values are coded as questionable if the gap between the nearest questionable or erroneous value is less then or equal to the `gap_range` parameter.
+6 If a temperature value is missing the function will ignore the value and not classify it.
+
+## Usage 
+
+```{r}
+data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 00:00:00",  40.145,
+    "2021-05-07 01:00:00",  20.257,
+    "2021-05-07 02:00:00",  6.257,
+    "2021-05-07 03:00:00",  5.245,
+    "2021-05-07 04:00:00",  2.567,
+    "2021-05-07 05:00:00",  2.687,
+    "2021-05-07 06:00:00",  2.175,
+    "2021-05-07 07:00:00",  2.817,
+    "2021-05-07 08:00:00",  2.917,
+    "2021-05-07 09:00:00",  2.817,
+    "2021-05-07 10:00:00",  2.867,
+    "2021-05-07 11:00:00",  2.817,
+    "2021-05-07 12:00:00",  2.917,
+    "2021-05-07 13:00:00",  2.817,
+    "2021-05-07 14:00:00",  2.867,
+    "2021-05-07 15:00:00",  2.877,
+    "2021-05-07 16:00:00",  3.012,
+    "2021-05-07 17:00:00",  3.045,
+    "2021-05-07 18:00:00",  3.124,
+    "2021-05-07 19:00:00",  3.268,
+    "2021-05-07 20:00:00",  3.789,
+    "2021-05-07 21:00:00",  4.104,
+    "2021-05-07 22:00:00",  4.178
+  ) |>
+    dplyr::mutate(
+      temperature_date_time = as.POSIXct(temperature_date_time, tz = "UTC")
+    )
+
+  classified_data <- classify_water_temp_data(data)
+  
+  classified_data
+```
+
+```{r, out.width = "100%", fig.width = 10, fig.height = 5}
+ggplot(classified_data) +
+  geom_point(
+    aes(
+      x = temperature_date_time,
+      y = water_temperature, 
+      color = status_id
+    ),
+    alpha = 0.5
+  ) +
+  labs(
+    y = "Temperature",
+    x = "Datetime"
+  ) +
+  theme_bw() +
+  scale_x_datetime(
+    breaks = date_breaks("4 hour"),
+    labels = date_format("%H:%M")
+  ) +
+  scale_y_continuous(
+    breaks = seq(-5, 45, 5),
+    limits = c(-2, 42)
+  ) +
+  scale_color_manual(
+    "Status ID",
+    values = c(
+      "reasonable" = "black",
+      "questionable" = "orange",
+      "erroneous" = "red"
+    )
+  )
+```
+
+### Changing temperature min and max parameters 
+
+
+```{r}
+classify_water_temp_data(
+  data,
+  questionable_max = 1,
+  erroneous_max = 20
+)
+```
+
+### Changing rate of change parameters
+
+```{r}
+classify_water_temp_data(
+  data,
+  questionable_rate = 1,
+  erroneous_rate = 10
+)
+```
+
+### Removing the time buffer
+
+```{r}
+classify_water_temp_data(
+  data,
+  questionable_buffer = 0,
+  erroneous_buffer = 0
+)
+```
+
+### Removing the gap filling
+
+```{r}
+classify_water_temp_data(
+  data,
+  gap_range = 0
+)
+```
+
+## Process
+
+1. Read in a logger file
+2. Create date time column and name it `temperature_date_time`
+3. Ensure the temperature column is named `water_temperature`
+4. Confirm data is from a single deployment
+5. Run data through `classify_water_temp_data()` function
+6. Save data to a csv file
+
+```{r, eval=FALSE}
+# install.packages("tidyverse")
+# install.packages("devtools")
+# devtools::install_github("poissonconsulting/teckfish")
+
+library(teckfish)
+library(tidyverse)
+
+# read in logger file
+data <- readr::read_csv("path/to/file.csv")
+
+# create date time column
+data <- data |>
+  dplyr::mutate(
+    temperature_date_time = as.POSIXct(temperature_date_time, tz = "UTC")
+  )
+
+# ensure temperature column is named water_temperature
+data <- data |>
+  dplyr::rename(
+    water_temperature = temperature
+  )
+
+# confirm data is from a single deployment
+data <- 
+  data |>
+  dplyr::filter(
+    deployment_id == "12345"
+  )
+
+# run data through classify_water_temp_data() function
+classified_data <- classify_water_temp_data(data)
+
+# save data to a csv file
+readr::write_csv(classified_data, "path/to/file.csv")
 ```
