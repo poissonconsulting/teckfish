@@ -12,8 +12,8 @@ classify_water_temp_data(
   erroneous_max = 40,
   questionable_rate = 2,
   erroneous_rate = 5,
-  questionable_hours = 1,
-  erroneous_hours = 1,
+  questionable_buffer = 1,
+  erroneous_buffer = 1,
   gap_range = 5
 )
 }
@@ -39,10 +39,10 @@ questionable.}
 \item{erroneous_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered erroneous.}
 
-\item{questionable_hours}{A numeric value indicating a time buffer for
+\item{questionable_buffer}{A numeric value indicating a time buffer for
 questionable values.}
 
-\item{erroneous_hours}{A numeric value indicating a time buffer for erroneous
+\item{erroneous_buffer}{A numeric value indicating a time buffer for erroneous
 values.}
 
 \item{gap_range}{A numeric value indicating the range of hours between two
@@ -52,9 +52,14 @@ non reasonable values that will be coded as questionable or erroneous.}
 A data frame
 }
 \description{
-Water temperature data will be either classified as reasonable (1),
-questionable (2), or erroneous (3) by adding a new column to the data frame
-called status_id with the vales of 1, 2, or 3 for each point.
+Water temperature data will be either classified as reasonable,
+questionable, or erroneous in the status_id column.
+}
+\details{
+The function only works on a single deployment of a logger. The
+table output will be sorted by temperature_date_time.
+
+The rules are as follows:
 }
 \examples{
 data <- data.frame(
