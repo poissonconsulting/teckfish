@@ -395,6 +395,15 @@ test_that("questionable temperatures are classified correctly with default value
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
 
+  expect_equal(
+    output_1,
+    tibble::tibble(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(0),
+      status_id = c(2L)
+    )
+  )
+  
   output_2 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -402,47 +411,6 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-
-  output_3 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(30.01)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_4 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(30)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_5 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(39.9998124)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_6 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(34.24)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  expect_equal(
-    output_1,
-    tibble::tibble(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(0),
-      status_id = c(1L)
-    )
-  )
 
   expect_equal(
     output_2,
@@ -452,24 +420,48 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(29.45)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_3,
     tibble::tibble(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(30.01),
-      status_id = c(2L)
+      water_temperature = c(29.45),
+      status_id = c(1L)
     )
   )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(30)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_4,
     tibble::tibble(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       water_temperature = c(30),
-      status_id = c(1L)
+      status_id = c(2L)
     )
   )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(39.9998124)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_5,
@@ -479,6 +471,14 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(34.24)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_6,
@@ -586,6 +586,15 @@ test_that("erroneous and questionable temperature lower bounds are classified co
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
 
+  expect_equal(
+    output_1,
+    tibble::tibble(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(0),
+      status_id = c(2L)
+    )
+  )
+  
   output_2 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -593,47 +602,6 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-
-  output_3 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(-0.5)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_4 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(-0.6)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_5 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(-1)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_6 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(-10)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  expect_equal(
-    output_1,
-    tibble::tibble(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(0),
-      status_id = c(1L)
-    )
-  )
 
   expect_equal(
     output_2,
@@ -643,15 +611,31 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(2L)
     )
   )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.5)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_3,
     tibble::tibble(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
       water_temperature = c(-0.5),
-      status_id = c(2L)
+      status_id = c(3L)
     )
   )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-0.6)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_4,
@@ -661,6 +645,14 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-1)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_5,
@@ -670,7 +662,15 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(-10)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
+  
   expect_equal(
     output_6,
     tibble::tibble(
@@ -690,46 +690,6 @@ test_that("erroneous and questionable temperature upper bounds are classified co
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
 
-  output_2 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(30)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_3 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(35)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_4 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(40)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_5 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(45)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
-  output_6 <- classify_water_temp_data(
-    data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
-      water_temperature = c(60)
-    )
-  ) |>
-    dplyr::mutate(status_id = as.integer(status_id))
-
   expect_equal(
     output_1,
     tibble::tibble(
@@ -738,15 +698,31 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(1L)
     )
   )
+  
+  output_2 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(30)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_2,
     tibble::tibble(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
       water_temperature = c(30),
-      status_id = c(1L)
+      status_id = c(2L)
     )
   )
+  
+  output_3 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(35)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_3,
@@ -756,15 +732,31 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(2L)
     )
   )
+  
+  output_4 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(40)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_4,
     tibble::tibble(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
       water_temperature = c(40),
-      status_id = c(2L)
+      status_id = c(3L)
     )
   )
+  
+  output_5 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(45)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_5,
@@ -774,6 +766,14 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(3L)
     )
   )
+  
+  output_6 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+      water_temperature = c(60)
+    )
+  ) |>
+    dplyr::mutate(status_id = as.integer(status_id))
 
   expect_equal(
     output_6,

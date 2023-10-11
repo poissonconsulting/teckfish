@@ -173,14 +173,14 @@ classify_water_temp_data <- function(data,
       status_id = 1L,
       # questionable ranges
       status_id = dplyr::case_when(
-        .data$water_temperature < questionable_min ~ 2L,
-        .data$water_temperature > questionable_max ~ 2L,
+        .data$water_temperature <= questionable_min ~ 2L,
+        .data$water_temperature >= questionable_max ~ 2L,
         TRUE ~ .data$status_id
       ),
       # erroneous ranges
       status_id = dplyr::case_when(
-        .data$water_temperature < erroneous_min ~ 3L,
-        .data$water_temperature > erroneous_max ~ 3L,
+        .data$water_temperature <= erroneous_min ~ 3L,
+        .data$water_temperature >= erroneous_max ~ 3L,
         TRUE ~ .data$status_id
       ),
       # rate of change
@@ -191,9 +191,9 @@ classify_water_temp_data <- function(data,
       .rate_temp_per_time = abs(.data$.diff_temp / .data$.diff_time),
       status_id = dplyr::case_when(
         # erroneous rate of change
-        .data$.rate_temp_per_time > erroneous_rate ~ 3L,
+        .data$.rate_temp_per_time >= erroneous_rate ~ 3L,
         # questionable rate of change
-        .data$.rate_temp_per_time > questionable_rate ~ 2L,
+        .data$.rate_temp_per_time >= questionable_rate ~ 2L,
         TRUE ~ .data$status_id
       ),
       # classify adjacent values
