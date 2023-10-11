@@ -760,7 +760,7 @@ test_that("rates parameter checks", {
       questionable_rate = 5,
       erroneous_rate = 3
     ),
-    regexp = "`erroneous_rate` must be greater than 5, not 3."
+    regexp = "`erroneous_rate` must be greater than or equal to 5, not 3."
   )
 })
 
@@ -835,7 +835,7 @@ test_that("small rates of changes are classified as resonable", {
   )
 })
 
-test_that("erroneous values are classifed and spread, erroneous values start at end of series", {
+test_that("erroneous rates are classifed, erroneous values start at end of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 07:30:00",  2.817,
@@ -851,7 +851,12 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
@@ -860,9 +865,9 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
       "2021-05-07 07:30:00",  2.817,              1L,
       "2021-05-07 07:45:00",  2.867,              1L,
       "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
+      "2021-05-07 08:15:00",  3.012,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.124,              1L,
       "2021-05-07 09:00:00",  3.268,              3L,
       "2021-05-07 09:15:00",  4.789,              3L,
       "2021-05-07 09:30:00",  6.257,              3L,
@@ -872,7 +877,7 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
   )
 })
 
-test_that("erroneous values are classifed and spread, erroneous values start at start of series", {
+test_that("erroneous values are classifed, erroneous values start at start of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 08:00:00",  4.789,
@@ -888,7 +893,12 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
@@ -898,9 +908,9 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
       "2021-05-07 08:15:00",  6.257,              3L,
       "2021-05-07 08:30:00",  3.147,              3L,
       "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
+      "2021-05-07 09:00:00",  3.068,              1L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
       "2021-05-07 09:45:00",  3.012,              1L,
       "2021-05-07 10:15:00",  3.112,              1L,
       "2021-05-07 10:35:00",  3.042,              1L 
@@ -929,7 +939,12 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
@@ -937,15 +952,15 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
       ~temperature_date_time, ~water_temperature, ~status_id,
       "2021-05-07 07:30:00",  3.589,              1L,
       "2021-05-07 07:45:00",  3.489,              1L,
-      "2021-05-07 08:00:00",  3.589,              3L,
-      "2021-05-07 08:15:00",  3.324,              3L,
+      "2021-05-07 08:00:00",  3.589,              1L,
+      "2021-05-07 08:15:00",  3.324,              1L,
       "2021-05-07 08:30:00",  3.147,              3L,
       "2021-05-07 08:45:00",  10.124,             3L,
       "2021-05-07 09:00:00",  3.068,              3L,
       "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              3L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L,
       "2021-05-07 10:15:00",  3.100,              1L,
       "2021-05-07 10:30:00",  3.120,              1L
       
@@ -970,7 +985,12 @@ test_that("questionable values are classifed and spread, questionable values sta
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
@@ -979,9 +999,9 @@ test_that("questionable values are classifed and spread, questionable values sta
       "2021-05-07 07:30:00",  2.817,              1L,
       "2021-05-07 07:45:00",  2.867,              1L,
       "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
+      "2021-05-07 08:15:00",  3.012,              1L,
+      "2021-05-07 08:30:00",  3.147,              1L,
+      "2021-05-07 08:45:00",  3.124,              1L,
       "2021-05-07 09:00:00",  3.268,              2L,
       "2021-05-07 09:15:00",  3.989,              2L,
       "2021-05-07 09:30:00",  4.557,              2L,
@@ -1008,7 +1028,12 @@ test_that("questionable values are classifed and spread, questionable values sta
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
@@ -1018,9 +1043,9 @@ test_that("questionable values are classifed and spread, questionable values sta
       "2021-05-07 08:15:00",  3.657,              2L,
       "2021-05-07 08:30:00",  3.147,              2L,
       "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
+      "2021-05-07 09:00:00",  3.068,              1L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
       "2021-05-07 09:45:00",  3.012,              1L,
       "2021-05-07 10:00:00",  3.122,              1L,
       "2021-05-07 10:15:00",  3.100,              1L,
@@ -1049,23 +1074,28 @@ test_that("questionable values are classifed and spread, questionable values sta
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
       "2021-05-07 07:30:00",  3.589,              1L,
-      "2021-05-07 07:45:00",  3.489,              2L,
-      "2021-05-07 08:00:00",  3.589,              2L,
-      "2021-05-07 08:15:00",  3.324,              2L,
+      "2021-05-07 07:45:00",  3.489,              1L,
+      "2021-05-07 08:00:00",  3.589,              1L,
+      "2021-05-07 08:15:00",  3.324,              1L,
       "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  NA,                 2L,
+      "2021-05-07 08:45:00",  3.724,              2L,
       "2021-05-07 09:00:00",  3.068,              2L,
       "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
-      "2021-05-07 09:45:00",  3.012,              2L,
-      "2021-05-07 10:00:00",  3.122,              2L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L,
       "2021-05-07 10:15:00",  3.100,              1L,
       "2021-05-07 10:30:00",  3.120,              1L
     ) |>
@@ -1076,7 +1106,6 @@ test_that("questionable values are classifed and spread, questionable values sta
 test_that("questionable and erronous values classfied and spread", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
-    "2021-05-07 06:30:00",  3.042,
     "2021-05-07 06:45:00",  3.142,
     "2021-05-07 07:00:00",  3.042,
     "2021-05-07 07:15:00",  3.142,
@@ -1091,34 +1120,36 @@ test_that("questionable and erronous values classfied and spread", {
     "2021-05-07 09:30:00",  2.987,
     "2021-05-07 09:45:00",  3.012,
     "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.022,
-    "2021-05-07 10:30:00",  3.122
+    "2021-05-07 10:15:00",  3.022
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
-  classified_data <- classify_water_temp_data(data)
+  classified_data <- classify_water_temp_data(
+    data,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
+  )
 
   expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
-      "2021-05-07 06:30:00",  3.042,              1L,
       "2021-05-07 06:45:00",  3.142,              1L,
-      "2021-05-07 07:00:00",  3.042,              3L,
-      "2021-05-07 07:15:00",  3.142,              3L,
-      "2021-05-07 07:30:00",  3.345,              3L,
+      "2021-05-07 07:00:00",  3.042,              1L,
+      "2021-05-07 07:15:00",  3.142,              1L,
+      "2021-05-07 07:30:00",  3.345,              1L,
       "2021-05-07 07:45:00",  3.478,              3L,
       "2021-05-07 08:00:00",  20.124,             3L,
       "2021-05-07 08:15:00",  18.782,             3L,
       "2021-05-07 08:30:00",  14.579,             3L,
       "2021-05-07 08:45:00",  3.724,              3L,
       "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              2L,
+      "2021-05-07 09:15:00",  2.877,              2L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L,
       "2021-05-07 10:15:00",  3.022,              1L,
-      "2021-05-07 10:30:00",  3.122,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1142,21 +1173,24 @@ test_that("questionable and erronous rates of change set with parameter", {
   classified_data <- classify_water_temp_data(
     data,
     questionable_rate = 5,
-    erroneous_rate = 20
+    erroneous_rate = 20,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
   )
 
   expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
-      "2021-05-07 08:00:00",  20.124,             3L,
-      "2021-05-07 08:15:00",  18.782,             3L,
+      "2021-05-07 08:00:00",  20.124,             2L,
+      "2021-05-07 08:15:00",  18.782,             2L,
       "2021-05-07 08:30:00",  14.579,             3L,
       "2021-05-07 08:45:00",  3.724,              3L,
       "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
+      "2021-05-07 09:15:00",  2.877,              1L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
       "2021-05-07 10:00:00",  3.122,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
@@ -1180,7 +1214,10 @@ test_that("questionable rate of change set with parameter", {
 
   classified_data <- classify_water_temp_data(
     data,
-    questionable_rate = 1
+    questionable_rate = 1,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
   )
 
   expect_equal(
@@ -1192,10 +1229,10 @@ test_that("questionable rate of change set with parameter", {
       "2021-05-07 08:30:00",  14.579,             3L,
       "2021-05-07 08:45:00",  3.724,              3L,
       "2021-05-07 09:00:00",  3.168,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              2L
+      "2021-05-07 09:15:00",  2.877,              2L,
+      "2021-05-07 09:30:00",  2.987,              2L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
@@ -1218,22 +1255,25 @@ test_that("erronous rate of change set with parameter", {
 
   classified_data <- classify_water_temp_data(
     data,
-    erroneous_rate = 15
+    erroneous_rate = 15,
+    questionable_buffer = 0,
+    erroneous_buffer = 0,
+    gap_range = 0
   )
 
   expect_equal(
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
-      "2021-05-07 08:00:00",  20.124,             3L,
+      "2021-05-07 08:00:00",  20.124,             2L,
       "2021-05-07 08:15:00",  18.782,             3L,
       "2021-05-07 08:30:00",  14.579,             3L,
       "2021-05-07 08:45:00",  3.724,              3L,
       "2021-05-07 09:00:00",  3.168,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              2L
+      "2021-05-07 09:15:00",  2.877,              2L,
+      "2021-05-07 09:30:00",  2.987,              1L,
+      "2021-05-07 09:45:00",  3.012,              1L,
+      "2021-05-07 10:00:00",  3.122,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
