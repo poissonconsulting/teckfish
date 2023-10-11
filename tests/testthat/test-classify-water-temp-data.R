@@ -1938,3 +1938,54 @@ test_that("gaps does not over fill gap difference is 2.5 and parameter set to 1"
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
 })
+
+test_that("missing values in water temp are retained", {
+  data <- tibble::tribble(
+    ~temperature_date_time, ~water_temperature,
+    "2021-05-07 05:45:00",  6.257,
+    "2021-05-07 06:00:00",  2.817,
+    "2021-05-07 06:15:00",  2.917,
+    "2021-05-07 06:30:00",  2.817,
+    "2021-05-07 06:45:00",  NA_real_,
+    "2021-05-07 07:00:00",  2.817,
+    "2021-05-07 07:15:00",  2.917,
+    "2021-05-07 07:30:00",  2.817,
+    "2021-05-07 07:45:00",  2.867,
+    "2021-05-07 08:00:00",  2.877,
+    "2021-05-07 08:15:00",  3.012,
+    "2021-05-07 08:30:00",  NA_real_,
+    "2021-05-07 08:45:00",  3.124,
+    "2021-05-07 09:00:00",  3.268,
+    "2021-05-07 09:15:00",  4.789, 
+    "2021-05-07 09:30:00",  6.257,
+    "2021-05-07 09:45:00",  8.657
+  ) |>
+    dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
+  
+  classified_data <- classify_water_temp_data(data)
+  
+  expect_equal(
+    classified_data,
+    tibble::tribble(
+      ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 05:45:00",  6.257,              3L,
+      "2021-05-07 06:00:00",  2.817,              3L,
+      "2021-05-07 06:15:00",  2.917,              3L,
+      "2021-05-07 06:30:00",  2.817,              3L,
+      "2021-05-07 06:45:00",  NA_real_,              NA_integer_,
+      "2021-05-07 07:00:00",  2.817,              3L,
+      "2021-05-07 07:15:00",  2.917,              3L,
+      "2021-05-07 07:30:00",  2.817,              3L,
+      "2021-05-07 07:45:00",  2.867,              3L,
+      "2021-05-07 08:00:00",  2.877,              3L,
+      "2021-05-07 08:15:00",  3.012,              3L,
+      "2021-05-07 08:30:00",  NA_real_,              NA_integer_,
+      "2021-05-07 08:45:00",  3.124,              3L,
+      "2021-05-07 09:00:00",  3.268,              3L,
+      "2021-05-07 09:15:00",  4.789,              3L,
+      "2021-05-07 09:30:00",  6.257,              3L,
+      "2021-05-07 09:45:00",  8.657,              3L
+    ) |>
+      dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
+  )
+})

@@ -57,7 +57,7 @@ classify_water_temp_data <- function(data,
     data,
     values = list(
       temperature_date_time = as.POSIXct("2021-05-07 08:00:00"),
-      water_temperature = 1.5
+      water_temperature = c(1.5, NA_real_)
     )
   )
   chk::chk_unique(data$temperature_date_time)
@@ -100,8 +100,15 @@ classify_water_temp_data <- function(data,
     return(data)
   }
   
+  missing_rows <- 
+    data |>
+    dplyr::filter(is.na(water_temperature)) |>
+    ### TODO update to character when next step is complete
+    dplyr::mutate(status_id = NA_integer_)
+    
   data <-
     data |>
+    dplyr::filter(!is.na(water_temperature)) |>
     dplyr::arrange(.data$temperature_date_time) |>
     dplyr::mutate(
       status_id = 1L,
@@ -257,6 +264,11 @@ classify_water_temp_data <- function(data,
     ) |>
     tibble::as_tibble()
 
+  data <- 
+    dplyr::bind_rows(data, missing_rows) |>
+    dplyr::arrange(temperature_date_time) |>
+    tibble::as_tibble()
+  
   data
 }
 
