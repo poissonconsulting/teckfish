@@ -1060,7 +1060,7 @@ test_that("gap range parameter checks", {
   )
 })
 
-test_that("small rates of changes are classified as resonable", {
+test_that("small rates of changes are classified as reasonable", {
   data <-
     tibble::tribble(
       ~temperature_date_time, ~water_temperature,
@@ -1372,7 +1372,7 @@ test_that("questionable rates are classifed, bad values in middle of series", {
   )
 })
 
-test_that("questionable and erronous rates classfied", {
+test_that("questionable and erroneous rates classfied", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 06:45:00",  3.142,
@@ -1425,7 +1425,7 @@ test_that("questionable and erronous rates classfied", {
   )
 })
 
-test_that("questionable and erronous rates of change set with parameter", {
+test_that("questionable and erroneous rates of change set with parameter", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 08:00:00",  20.124,
@@ -1510,7 +1510,7 @@ test_that("questionable rate of change set with parameter", {
   )
 })
 
-test_that("erronous rate of change set with parameter", {
+test_that("erroneous rate of change set with parameter", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 08:00:00",  20.124,
@@ -1816,7 +1816,7 @@ test_that("questionable rates are buffered, bad values in middle of series", {
   )
 })
 
-test_that("questionable and erronous rates buffered", {
+test_that("questionable and erroneous rates buffered", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 06:30:00",  3.042,
