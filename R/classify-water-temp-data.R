@@ -92,6 +92,14 @@ classify_water_temp_data <- function(data,
   chk::chk_number(gap_range)
   chk::chk_gte(gap_range, 0)
   
+  if (nrow(data) == 0) {
+    data <- 
+      data |>
+      dplyr::mutate(status_id = integer()) |>
+      tibble::as_tibble()
+    return(data)
+  }
+  
   data <-
     data |>
     dplyr::arrange(.data$temperature_date_time) |>
@@ -126,11 +134,18 @@ classify_water_temp_data <- function(data,
         # questionable rate of change
         .data$rate_temp_per_time > questionable_rate ~ 2L,
         TRUE ~ .data$status_id
-      )
+      ),
+      lag_id = dplyr::lag(.data$status_id),
+      lead_id = dplyr::lead(.data$status_id)
     ) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      status_id = max(.data$status_id, .data$lag_id, .data$lead_id, na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
     dplyr::select(
       -"lag_temp", -"diff_temp", -"lag_time", -"diff_time",
-      -"rate_temp_per_time"
+      -"rate_temp_per_time", -"lag_id", -"lead_id"
     )
 
   questionable_rows <- which(data$status_id == 2)
@@ -239,7 +254,8 @@ classify_water_temp_data <- function(data,
       -"gap_above", -"gap_above_type",
       -"gap_below", -"gap_below_type",
       -"gap_diff"
-    )
+    ) |>
+    tibble::as_tibble()
 
   data
 }
