@@ -835,7 +835,7 @@ test_that("small rates of changes are classified as resonable", {
   )
 })
 
-test_that("erroneous rates are classifed, erroneous values start at end of series", {
+test_that("erroneous rates are classifed, bad values at end of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 07:30:00",  2.817,
@@ -877,7 +877,7 @@ test_that("erroneous rates are classifed, erroneous values start at end of serie
   )
 })
 
-test_that("erroneous values are classifed, erroneous values start at start of series", {
+test_that("erroneous rates are classifed, bad values at beginning", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 08:00:00",  4.789,
@@ -920,7 +920,7 @@ test_that("erroneous values are classifed, erroneous values start at start of se
   )
 })
 
-test_that("erroneous values are classifed and spread, erroneous values start at middle of series", {
+test_that("erroneous rates are classifed, bad values in middle of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 07:30:00",  3.589,
@@ -969,7 +969,7 @@ test_that("erroneous values are classifed and spread, erroneous values start at 
   )
 })
 
-test_that("questionable values are classifed and spread, questionable values start at end of series", {
+test_that("questionable rates classifed, bad values at end of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 07:30:00",  2.817,
@@ -1011,7 +1011,7 @@ test_that("questionable values are classifed and spread, questionable values sta
   )
 })
 
-test_that("questionable values are classifed and spread, questionable values start at start of series", {
+test_that("questionable rates are classifed, bad values at beginning", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 08:00:00",  4.189,
@@ -1055,7 +1055,7 @@ test_that("questionable values are classifed and spread, questionable values sta
   )
 })
 
-test_that("questionable values are classifed and spread, questionable values start at middle of series", {
+test_that("questionable rates are classifed, bad values in middle of series", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 07:30:00",  3.589,
@@ -1103,7 +1103,7 @@ test_that("questionable values are classifed and spread, questionable values sta
   )
 })
 
-test_that("questionable and erronous values classfied and spread", {
+test_that("questionable and erronous rates classfied", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
     "2021-05-07 06:45:00",  3.142,
