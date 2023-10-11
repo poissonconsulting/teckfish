@@ -64,16 +64,240 @@ test_that("additional columns are retained in the output", {
 })
 
 test_that("errors when reserved columns are already present in the data", {
-  ### TODO: update to all the internal/temp column names you use
-  data <- data.frame(
-    temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-    water_temperature = c(4.2),
-    status_id = c(1L)
-  )
-
   expect_error(
-    classify_water_temp_data(data)
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      status_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching 'status_id'."
   )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .lag_temp = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .diff_temp = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .lag_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .diff_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .rate_temp_per_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .lag_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .lead_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .id_row = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_higher_next_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_lower_next_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_higher_next_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_lower_next_id = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_higher_next_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_lower_next_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_higher_next_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_lower_next_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_higher_time_diff_h = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .quest_lower_time_diff_h = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_higher_time_diff_h = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .error_lower_time_diff_h = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .gap_fill_higher_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .gap_fill_higher_type = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .gap_fill_lower_time = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .gap_fill_lower_type = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
+  expect_error(
+    classify_water_temp_data(data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(4.2),
+      .gap_diff_time_h = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+  
 })
 
 test_that("dataset with no rows is returned with no rows", {

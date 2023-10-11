@@ -62,8 +62,24 @@ classify_water_temp_data <- function(data,
   )
   chk::chk_unique(data$temperature_date_time)
 
-  ### TODO Add all intermediate columns to chk_not_subset and the corresponding tests
   chk::chk_not_subset(colnames(data), c("status_id"))
+  chk::chk_not_subset(
+    colnames(data), 
+    c(
+      ".lag_temp", ".diff_temp", ".lag_time", ".diff_time", 
+      ".rate_temp_per_time", ".lag_id", ".lead_id", ".id_row",
+      ".quest_higher_next_id", ".quest_lower_next_id",
+      ".error_higher_next_id", ".error_lower_next_id",
+      ".quest_higher_next_time", ".quest_lower_next_time",
+      ".error_higher_next_time", ".error_lower_next_time",
+      ".quest_higher_time_diff_h", ".quest_lower_time_diff_h",
+      ".error_higher_time_diff_h", ".error_lower_time_diff_h",
+      ".gap_fill_higher_time", ".gap_fill_higher_type",
+      ".gap_fill_lower_time", ".gap_fill_lower_type",
+      ".gap_diff_time_h"
+    )
+  )
+  
   chk::chk_number(questionable_min)
   chk::chk_number(questionable_max)
   chk::chk_gt(questionable_max, questionable_min)
