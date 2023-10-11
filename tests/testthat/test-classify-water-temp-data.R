@@ -100,6 +100,60 @@ test_that("errors when no data is passed", {
   )
 })
 
+test_that("status_id column is output as an integer", {
+  output_1 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(0)
+    )
+  )
+  
+  expect_type(output_1$status_id, "integer")
+  expect_s3_class(output_1$status_id, c("ordered"))
+  expect_s3_class(output_1$status_id, c("factor"))
+})
+
+test_that("table output type is tibble", {
+  output_1 <- classify_water_temp_data(
+    data.frame(
+      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      water_temperature = c(0)
+    )
+  )
+  
+  expect_s3_class(output_1, c("tbl_df"))
+  expect_s3_class(output_1, c("tbl"))
+  expect_s3_class(output_1, c("data.frame"))
+})
+
+test_that("errors when date times are duplicated", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(
+          c("2021-05-07 08:00:00", "2021-05-07 08:00:00", "2021-05-07 08:30:00")
+        ),
+        water_temperature = c(0, 0.123, 0.345)
+      )
+    ),
+    regexp = "`data\\$temperature_date_time` must be unique."
+  )
+})
+
+test_that("errors when missing a date time", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(
+          c("2021-05-07 08:00:00", NA_character_, "2021-05-07 08:30:00")
+        ),
+        water_temperature = c(0, 0.123, 0.345)
+      )
+    ),
+    regexp = "`data\\$temperature_date_time` must not have any missing values."
+  )
+})
+
 ### TODO Add tests for each of the input parameters to the function to test the type is correct
 
 test_that("questionable temperatures are classified correctly with default values", {
@@ -600,6 +654,153 @@ test_that("erroneous and questionable temperatures are classified correctly not 
   )
 })
 
+test_that("questionable and erroneous ranges align with checks", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_min = -4,
+      erroneous_min = -2,
+    ),
+    regexp = "`erroneous_min` must be less than -4, not -2."
+  )
+
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_max = 20,
+      erroneous_max = 10,
+    ),
+    regexp = "`erroneous_max` must be greater than 20, not 10."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_min = 40,
+      questionable_max = 20
+    ),
+    regexp = "`questionable_max` must be greater than 40, not 20."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_min = -2,
+      questionable_max = -30
+    ),
+    regexp = "`questionable_max` must be greater than -2, not -30."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      erroneous_min = 40,
+      erroneous_max = 20
+    ),
+    regexp = "`erroneous_max` must be greater than 40, not 20."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      erroneous_min = -4,
+      erroneous_max = -10
+    ),
+    regexp = "`erroneous_max` must be greater than -4, not -10."
+  )
+})
+
+test_that("rates parameter checks", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_rate = -2
+    ),
+    regexp = "`questionable_rate` must be greater than or equal to 0, not -2."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      erroneous_rate = -2
+    ),
+    regexp = "`erroneous_rate` must be greater than or equal to 0, not -2."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_rate = 5,
+      erroneous_rate = 3
+    ),
+    regexp = "`erroneous_rate` must be greater than 5, not 3."
+  )
+})
+
+test_that("buffer parameter checks", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      questionable_buffer = -2
+    ),
+    regexp = "`questionable_buffer` must be greater than or equal to 0, not -2."
+  )
+  
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      erroneous_buffer = -2
+    ),
+    regexp = "`erroneous_buffer` must be greater than or equal to 0, not -2."
+  )
+})
+
+test_that("gap range parameter checks", {
+  expect_error(
+    classify_water_temp_data(
+      data.frame(
+        temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
+        water_temperature = c(45)
+      ),
+      gap_range = -2
+    ),
+    regexp = "`gap_range` must be greater than or equal to 0, not -2."
+  )
+})
+
 test_that("small rates of changes are classified as resonable", {
   data <-
     tibble::tribble(
@@ -859,7 +1060,7 @@ test_that("questionable values are classifed and spread, questionable values sta
       "2021-05-07 08:00:00",  3.589,              2L,
       "2021-05-07 08:15:00",  3.324,              2L,
       "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.724,              2L,
+      "2021-05-07 08:45:00",  NA,                 2L,
       "2021-05-07 09:00:00",  3.068,              2L,
       "2021-05-07 09:15:00",  2.877,              2L,
       "2021-05-07 09:30:00",  2.987,              2L,
@@ -872,11 +1073,15 @@ test_that("questionable values are classifed and spread, questionable values sta
   )
 })
 
-### HERE
-
-test_that("questionable and erronous rates of change with default values", {
+test_that("questionable and erronous values classfied and spread", {
   data <- tibble::tribble(
     ~temperature_date_time, ~water_temperature,
+    "2021-05-07 06:30:00",  3.042,
+    "2021-05-07 06:45:00",  3.142,
+    "2021-05-07 07:00:00",  3.042,
+    "2021-05-07 07:15:00",  3.142,
+    "2021-05-07 07:30:00",  3.345,
+    "2021-05-07 07:45:00",  3.478,
     "2021-05-07 08:00:00",  20.124,
     "2021-05-07 08:15:00",  18.782,
     "2021-05-07 08:30:00",  14.579,
@@ -885,7 +1090,9 @@ test_that("questionable and erronous rates of change with default values", {
     "2021-05-07 09:15:00",  2.877,
     "2021-05-07 09:30:00",  2.987,
     "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122
+    "2021-05-07 10:00:00",  3.122,
+    "2021-05-07 10:15:00",  3.022,
+    "2021-05-07 10:30:00",  3.122
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
 
@@ -895,6 +1102,12 @@ test_that("questionable and erronous rates of change with default values", {
     classified_data,
     tibble::tribble(
       ~temperature_date_time, ~water_temperature, ~status_id,
+      "2021-05-07 06:30:00",  3.042,              1L,
+      "2021-05-07 06:45:00",  3.142,              1L,
+      "2021-05-07 07:00:00",  3.042,              3L,
+      "2021-05-07 07:15:00",  3.142,              3L,
+      "2021-05-07 07:30:00",  3.345,              3L,
+      "2021-05-07 07:45:00",  3.478,              3L,
       "2021-05-07 08:00:00",  20.124,             3L,
       "2021-05-07 08:15:00",  18.782,             3L,
       "2021-05-07 08:30:00",  14.579,             3L,
@@ -903,7 +1116,9 @@ test_that("questionable and erronous rates of change with default values", {
       "2021-05-07 09:15:00",  2.877,              3L,
       "2021-05-07 09:30:00",  2.987,              3L,
       "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              2L
+      "2021-05-07 10:00:00",  3.122,              2L,
+      "2021-05-07 10:15:00",  3.022,              1L,
+      "2021-05-07 10:30:00",  3.122,              1L
     ) |>
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
