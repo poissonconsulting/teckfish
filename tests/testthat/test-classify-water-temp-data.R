@@ -72,7 +72,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching 'status_id'."
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -81,7 +81,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -90,7 +90,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -99,7 +99,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -108,7 +108,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -117,7 +117,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -126,7 +126,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -135,7 +135,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -144,7 +144,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -153,7 +153,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -162,7 +162,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -171,7 +171,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -180,7 +180,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -189,7 +189,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -198,7 +198,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -207,7 +207,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -216,7 +216,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -225,7 +225,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -234,7 +234,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -243,7 +243,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -252,7 +252,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -261,7 +261,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -270,7 +270,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -279,7 +279,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -288,7 +288,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -297,7 +297,6 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
 })
 
 test_that("dataset with no rows is returned with no rows", {
@@ -403,7 +402,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_2 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -420,7 +419,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -437,7 +436,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(1L)
     )
   )
-  
+
   output_4 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -454,7 +453,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_5 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -471,7 +470,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_6 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -594,7 +593,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_2 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -611,7 +610,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -628,7 +627,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_4 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -645,7 +644,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_5 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -662,7 +661,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_6 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -670,7 +669,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_6,
     tibble::tibble(
@@ -698,7 +697,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(1L)
     )
   )
-  
+
   output_2 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -715,7 +714,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -732,7 +731,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_4 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -749,7 +748,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_5 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -766,7 +765,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_6 <- classify_water_temp_data(
     data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -2241,14 +2240,14 @@ test_that("gaps fills with questionable values when erroneous and questionable n
     "2021-05-07 09:45:00",  4.957
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2297,14 +2296,14 @@ test_that("gaps fills with questionable values", {
     "2021-05-07 09:45:00",  4.957
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2354,14 +2353,14 @@ test_that("gaps fills only reasonable", {
     "2021-05-07 10:00:00",  7.957,
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2555,12 +2554,12 @@ test_that("check against hourly values", {
     "2021-05-07 18:00:00",  10.957,
   ) |>
     dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
-  
+
   classified_data <- classify_water_temp_data(
     data
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2587,6 +2586,3 @@ test_that("check against hourly values", {
       dplyr::mutate(temperature_date_time = as.POSIXct(temperature_date_time))
   )
 })
-
-
-

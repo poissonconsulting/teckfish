@@ -94,9 +94,9 @@ classify_water_temp_data <- function(data,
 
   chk::chk_not_subset(colnames(data), c("status_id"))
   chk::chk_not_subset(
-    colnames(data), 
+    colnames(data),
     c(
-      ".lag_temp", ".diff_temp", ".lag_time", ".diff_time", 
+      ".lag_temp", ".diff_temp", ".lag_time", ".diff_time",
       ".rate_temp_per_time", ".lag_id", ".lead_id", ".id_row",
       ".quest_higher_next_id", ".quest_lower_next_id",
       ".error_higher_next_id", ".error_lower_next_id",
@@ -109,7 +109,7 @@ classify_water_temp_data <- function(data,
       ".gap_diff_time_h"
     )
   )
-  
+
   chk::chk_number(questionable_min)
   chk::chk_number(questionable_max)
   chk::chk_gt(questionable_max, questionable_min)
