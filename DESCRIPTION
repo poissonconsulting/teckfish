@@ -9,7 +9,7 @@ Authors@R: c(
     person("Sebastian", "Dalgarno", role = "ctb",
            comment = c(ORCID = "0000-0000-0000-0000")),
     person("Teck Resources", role = c("fnd", "cph")),
-    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "ctb",
+    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
            comment = c(ORCID = "0000-0001-7388-1222"))
   )
 Description: Currently only includes function to calculate growing season

@@ -14,13 +14,13 @@ Currently only includes function to calculate growing season degree days from da
 Authors:
 \itemize{
   \item Sarah Lyons (\href{https://orcid.org/0000-0002-6745-6796}{ORCID})
+  \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item Sebastian Dalgarno (\href{https://orcid.org/0000-0000-0000-0000}{ORCID}) [contributor]
   \item Teck Resources [funder, copyright holder]
-  \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID}) [contributor]
 }
 
 }
