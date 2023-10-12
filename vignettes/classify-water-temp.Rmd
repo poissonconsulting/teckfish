@@ -1,8 +1,8 @@
 ---
-title: "Classify water temperature time series values into reasonable, questionable, or erroneous"
+title: "Classify water temperature values"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Classify water temperature time series values into reasonable, questionable, or erroneous}
+  %\VignetteIndexEntry{Classify water temperature values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
