@@ -1,7 +1,7 @@
 test_that("output is a numeric value", {
   x <- simulated_data$synthetic
   output <- gsdd_cf(x)
-  expect_equal(output, 3902.33018879598)
+  expect_equal(output, 3898.80557580767)
 })
 
 test_that("vector must be longer than window_width", {
@@ -44,7 +44,7 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE)
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x, end_temp = 4, quiet = TRUE, ignore_truncation = TRUE)
-  expect_equal(gsdd, 2687.98160174586)
+  expect_equal(gsdd, 2684.22654738723)
 })
 
 test_that("x must have a length between 28 and 366", {
@@ -76,4 +76,40 @@ test_that("Gets growth gives warnings with truncation.", {
   x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
   expect_warning(expect_identical(gsdd_cf(x), NA_real_), "Growing season truncated\\.")
   expect_warning(expect_identical(gsdd_cf(x, ignore_truncation = "left"), NA_real_), "Growing season truncated\\.")
+})
+
+test_that("Gets gsdd with single boiling day.", {
+  x <- c(rep(0, 100), rep(100, 1), rep(0, 100))
+  expect_identical(gsdd_cf(x), 100)
+})
+
+test_that("Gets gsdd with single hot day.", {
+  x <- c(rep(0, 100), rep(36, 1), rep(0, 100))
+  expect_identical(gsdd_cf(x), 36)
+})
+
+test_that("Gets 0 gsdd with single warm day.", {
+  x <- c(rep(0, 100), rep(35, 1), rep(0, 100))
+  expect_identical(gsdd_cf(x), 0)
+})
+
+test_that("gsdd with two weeks", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(3.8, 7), rep(0, 100))
+  expect_gte(mean(c(rep(5.1, 2), rep(3.8, 5))), 4)
+  expect_lt(mean(c(rep(5.1, 1), rep(3.8, 6))), 4)
+  expect_equal(gsdd_cf(x), 5.1 * 7 + 3.8 * 6)
+})
+
+test_that("Gets 0 gsdd with single warm day.", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(3.8, 7), rep(0, 100))
+  expect_gte(mean(c(rep(5.1, 2), rep(3.8, 1))), 4)
+  expect_lt(mean(c(rep(5.1, 0), rep(3.8, 3))), 4)
+  expect_equal(gsdd_cf(x, window_width = 3), 5.1 * 7 + 3.8 * 3)
+})
+
+test_that("Gets 0 gsdd with single warm day.", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(3, 7), rep(0, 100))
+  expect_gte(mean(c(rep(5.1, 2), rep(3, 1))), 4)
+  expect_lt(mean(c(rep(5.1, 1), rep(3, 2))), 4)
+  expect_equal(gsdd_cf(x, window_width = 3), 5.1 * 7 + 3 * 2)
 })

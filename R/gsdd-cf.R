@@ -120,7 +120,7 @@ gsdd_cf <- function(x,
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      index_end = .data$index_end + (window_width - 1),
+      index_end = .data$index_end + (window_width - 1) - 1,
       ndays = .data$index_end - .data$index_start + 1
     ) |>
     dplyr::mutate(gsdd = purrr::map2_dbl(
