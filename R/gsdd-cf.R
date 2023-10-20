@@ -23,8 +23,9 @@
 #' @param x A numeric vector of mean daily water temperature data from
 #' before to after the growing season in C. It must be at least 180
 #' and no more than 366 days in length.
-#' @param entire A flag specifying whether to only calculate GSDD
-#' for the entire season.
+#' @param ignore_truncation A flag specifying whether to ignore truncation
+#' when calculating the GSDD or a string of "left", "right", "none" or "both"
+#' specifying which type of truncation to ignore.
 #' @param start_temp A number of the average water temperature
 #' at the start of the growing season in C.
 #' @param end_temp A number of the average water temperature
@@ -44,7 +45,7 @@
 #' output <- gsdd_cf(x)
 #' print(output)
 gsdd_cf <- function(x,
-                    entire = TRUE,
+                    ignore_truncation = FALSE,
                     start_temp = 5,
                     end_temp = 4,
                     window_width = 7,
@@ -54,12 +55,16 @@ gsdd_cf <- function(x,
   chk_not_any_na(x)
   chk_length(x, 28, 366)
 
-  chk_flag(entire)
-
+  chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
+  if (isTRUE(ignore_truncation)) {
+    ignore_truncation <- "both"
+  } else if (isFALSE(ignore_truncation)) {
+    ignore_truncation <- "none"
+  }
+  chk_subset(ignore_truncation, c("none", "left", "right", "both"))
   chk_number(start_temp)
   chk_number(end_temp)
   chk_gte(start_temp, end_temp)
-
   chk_count(window_width)
   chk_range(window_width, c(3, 14))
   if (is_even(window_width)) {
@@ -76,24 +81,25 @@ gsdd_cf <- function(x,
   if (!length(index_start)) {
     return(0)
   }
-
+  truncated <- FALSE
+  # if season starts on first day, ignore_truncation left
   if (index_start[1] == 1L) {
+    truncated <- TRUE
     if (!quiet) {
-      warning("growing season left truncated")
+      warning("Growing season truncated.")
     }
-    if (entire) {
+    if (ignore_truncation %in% c("none", "right")) {
       return(NA_real_)
     }
   }
-
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
-
+  # if season doesnt end ignore_truncation right
   if (!length(index_end) || max(index_start) > max(index_end)) {
-    if (!quiet) {
-      warning("growing season right truncated")
+    if (!truncated && !quiet) {
+      warning("Growing season truncated.")
     }
-    if (entire) {
+    if (ignore_truncation %in% c("none", "left")) {
       return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
