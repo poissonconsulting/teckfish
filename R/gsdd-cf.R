@@ -112,7 +112,6 @@ gsdd_cf <- function(x,
     dplyr::filter(.data$index_start <= .data$index_end) |>
     dplyr::group_by(.data$index_start) |>
     dplyr::arrange(.data$index_end) |>
-    print() |>
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::group_by(.data$index_end) |>

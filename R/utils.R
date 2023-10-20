@@ -11,7 +11,6 @@ index_begin_run <- function(x) {
   if (length(index) <= 1) {
     return(index)
   }
-  print(index)
   index[c(TRUE, diff(index) > 1)]
 }
 

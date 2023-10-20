@@ -178,3 +178,48 @@ test_that("Gets triangle", {
   
   expect_equal(gsdd_cf(x), sum(x[9:26]))
 })
+
+test_that("Gets asymmetric triangle", {
+  x <- c(seq(-5,9),10,seq(9.5,-5.5))
+  ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
+  data <- tibble::tibble(index = 1:length(x), x = x, ma = ma)
+  expect_equal(data,
+               tibble::tribble(
+                 ~index,   ~x,              ~ma,
+                 1L,   -5,               NA,
+                 2L,   -4,               NA,
+                 3L,   -3,               NA,
+                 4L,   -2,               -2,
+                 5L,   -1,               -1,
+                 6L,    0,                0,
+                 7L,    1,                1,
+                 8L,    2,                2,
+                 9L,    3,                3,
+                 10L,    4,                4,
+                 11L,    5,                5,
+                 12L,    6,                6,
+                 13L,    7,                7,
+                 14L,    8, 7.78571428571429,
+                 15L,    9, 8.28571428571429,
+                 16L,   10,              8.5,
+                 17L,  9.5, 8.42857142857143,
+                 18L,  8.5, 8.07142857142857,
+                 19L,  7.5, 7.42857142857143,
+                 20L,  6.5,              6.5,
+                 21L,  5.5,              5.5,
+                 22L,  4.5,              4.5,
+                 23L,  3.5,              3.5,
+                 24L,  2.5,              2.5,
+                 25L,  1.5,              1.5,
+                 26L,  0.5,              0.5,
+                 27L, -0.5,             -0.5,
+                 28L, -1.5,             -1.5,
+                 29L, -2.5,             -2.5,
+                 30L, -3.5,               NA,
+                 31L, -4.5,               NA,
+                 32L, -5.5,               NA
+  ))
+  
+  expect_equal(gsdd_cf(x), sum(x[9:26]))
+})
+
