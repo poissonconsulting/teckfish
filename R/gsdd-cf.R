@@ -92,7 +92,6 @@ gsdd_cf <- function(x,
       return(NA_real_)
     }
   }
-
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
   # if season doesnt end ignore_truncation right
