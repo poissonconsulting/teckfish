@@ -100,16 +100,36 @@ test_that("gsdd with two weeks", {
   expect_equal(gsdd_cf(x), 5.1 * 7 + 3.8 * 6)
 })
 
-test_that("Gets 0 gsdd with single warm day.", {
+test_that("Gets with two weeks and 3 day window width", {
   x <- c(rep(0, 100), rep(5.1, 7), rep(3.8, 7), rep(0, 100))
   expect_gte(mean(c(rep(5.1, 2), rep(3.8, 1))), 4)
   expect_lt(mean(c(rep(5.1, 0), rep(3.8, 3))), 4)
   expect_equal(gsdd_cf(x, window_width = 3), 5.1 * 7 + 3.8 * 3)
 })
 
-test_that("Gets 0 gsdd with single warm day.", {
+test_that("Gets with two weeks and 3 day window and smaller", {
   x <- c(rep(0, 100), rep(5.1, 7), rep(3, 7), rep(0, 100))
   expect_gte(mean(c(rep(5.1, 2), rep(3, 1))), 4)
   expect_lt(mean(c(rep(5.1, 1), rep(3, 2))), 4)
   expect_equal(gsdd_cf(x, window_width = 3), 5.1 * 7 + 3 * 2)
+})
+
+test_that("Gets with two weeks and 3 day window and smaller", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(0, 100))
+  expect_equal(gsdd_cf(x), 5.1 * 7)
+})
+
+test_that("Gets one week with end day after of 0", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(1, 0))
+  expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7)
+})
+
+test_that("Gets one week with end day after of 1", {
+  x <- c(rep(0, 100), rep(5.1, 7), rep(1, 1))
+  expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7)
+})
+
+test_that("Gets with two weeks and 3 day window and smaller", {
+  x <- c(rep(0, 100), rep(5.1, 7))
+  expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7)
 })
