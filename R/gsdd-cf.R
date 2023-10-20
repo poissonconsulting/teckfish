@@ -92,7 +92,6 @@ gsdd_cf <- function(x,
       return(NA_real_)
     }
   }
-  print(rollmean)
   # pick which indices have values above and temp that begin runs
   index_end <- index_begin_run(rollmean < end_temp)
   # if season doesnt end ignore_truncation right
@@ -105,7 +104,6 @@ gsdd_cf <- function(x,
     }
     index_end <- c(index_end, length(rollmean))
   }
-  print(length(rollmean))
 
   data <- tidyr::expand_grid(
     index_start = index_start,
@@ -114,19 +112,17 @@ gsdd_cf <- function(x,
     dplyr::filter(.data$index_start <= .data$index_end) |>
     dplyr::group_by(.data$index_start) |>
     dplyr::arrange(.data$index_end) |>
+    print() |>
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::group_by(.data$index_end) |>
     dplyr::arrange(.data$index_start) |>
     dplyr::slice(1) |>
     dplyr::ungroup() |>
-    print() |>
     dplyr::mutate(
-      index_end = dplyr::if_else(index_end == index_start, index_end + 1, index_end),
-      index_end = .data$index_end + (window_width - 2),
+      index_end = .data$index_end + (window_width - 1),
       ndays = .data$index_end - .data$index_start + 1
     ) |>
-    print() |>
     dplyr::mutate(gsdd = purrr::map2_dbl(
       .x = .data$index_start,
       .y = .data$index_end,

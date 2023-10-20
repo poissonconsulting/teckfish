@@ -11,7 +11,8 @@ index_begin_run <- function(x) {
   if (length(index) <= 1) {
     return(index)
   }
-  index[c(TRUE, diff(index) == 1)]
+  print(index)
+  index[c(TRUE, diff(index) > 1)]
 }
 
 .data <- NULL
