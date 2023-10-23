@@ -15,10 +15,10 @@
 #' the last day of the first week that
 #' average stream temperature dropped below 4C.
 #'
-#' For the purposes of the calculation week is assumed to refer to a
-#' seven day rolling average as opposed to the calendar week and
-#' if there are multiple start and/or end dates the growing season is
-#' assumed to be the longest period of time between the start and end dates.
+#' For the purposes of the calculation week is assumed to refer to a seven day
+#' rolling average as opposed to the calendar week and if there are multiple
+#' start and/or end dates the growing season is assumed to be the period of time
+#' with the highest GSDD between the start and end dates.
 #'
 #' @param x A numeric vector of mean daily water temperature data from
 #' before to after the growing season in C. It must be at least 180

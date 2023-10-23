@@ -53,10 +53,10 @@ the end of the growing season was defined as
 the last day of the first week that
 average stream temperature dropped below 4C.
 
-For the purposes of the calculation week is assumed to refer to a
-seven day rolling average as opposed to the calendar week and
-if there are multiple start and/or end dates the growing season is
-assumed to be the longest period of time between the start and end dates.
+For the purposes of the calculation week is assumed to refer to a seven day
+rolling average as opposed to the calendar week and if there are multiple
+start and/or end dates the growing season is assumed to be the period of time
+with the highest GSDD between the start and end dates.
 }
 \examples{
 x <- c(rep(1, 10), rep(10, 20), rep(1, 200))
