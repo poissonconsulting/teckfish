@@ -15,11 +15,11 @@
 #' the last day of the first week that
 #' average stream temperature dropped below 4C.
 #'
-#' For the purposes of the calculation week is assumed to refer to a
-#' seven day rolling average as opposed to the calendar week and
-#' if there are multiple start and/or end dates the growing season is
-#' assumed to be the longest period of time between the start and end dates.
-#'
+#' For the purposes of the calculation week is assumed to refer to a seven day
+#' rolling average as opposed to the calendar week and if there are multiple
+#' start and/or end dates the growing season is assumed to be the period of time
+#' with the highest GSDD between the start and end dates.
+#' 
 #' @param x A numeric vector of mean daily water temperature data from
 #' before to after the growing season in C. It must be at least 180
 #' and no more than 366 days in length.
@@ -54,7 +54,7 @@ gsdd_cf <- function(x,
   chk_vector(x)
   chk_not_any_na(x)
   chk_length(x, 28, 366)
-
+  
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
     ignore_truncation <- "both"
@@ -70,13 +70,13 @@ gsdd_cf <- function(x,
   if (is_even(window_width)) {
     abort_chk("`window_width` must be odd.")
   }
-
+  
   # create rolling mean vector from x and window width
   rollmean <- zoo::rollmean(x = x, k = window_width)
-
+  
   # pick which indices have values above start temp that begin runs
   index_start <- index_begin_run(rollmean > start_temp)
-
+  
   # no GSDD if season never starts
   if (!length(index_start)) {
     return(0)
@@ -104,7 +104,7 @@ gsdd_cf <- function(x,
     }
     index_end <- c(index_end, length(rollmean))
   }
-
+  
   data <- tidyr::expand_grid(
     index_start = index_start,
     index_end = index_end
@@ -119,7 +119,7 @@ gsdd_cf <- function(x,
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      index_end = .data$index_end + ((window_width - 1) + 1),
+      index_end = .data$index_end + (window_width - 1),
       ndays = .data$index_end - .data$index_start + 1
     ) |>
     dplyr::mutate(gsdd = purrr::map2_dbl(
@@ -134,6 +134,6 @@ gsdd_cf <- function(x,
       dplyr::desc(.data$index_start)
     ) |>
     dplyr::slice(1)
-
+  
   data$gsdd
 }
