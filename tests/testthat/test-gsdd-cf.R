@@ -13,7 +13,7 @@ test_that("vector must not contain NA values", {
   x <- simulated_data$synthetic
   random_indices <- sample(seq_along(x), 40)
   x[random_indices] <- NA
-  expect_chk_error(gsdd_cf(x, end_temp = 4))
+  expect_identical(gsdd_cf(x), NA_real_)
 })
 
 test_that("start temp must be greater than or equal to end temp", {

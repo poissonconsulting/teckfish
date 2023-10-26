@@ -52,7 +52,6 @@ gsdd_cf <- function(x,
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
-  chk_not_any_na(x)
   chk_length(x, 28, 366)
 
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
