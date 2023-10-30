@@ -19,6 +19,9 @@ MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org
 It is intended to be used by Teck staff and contractors and anyone else
 who finds it useful.
 
+The intention is to eventually migrate it to the [Teck Resources RDS
+GitHub organization](https://github.com/TeckResourcesTDS).
+
 ## Installation
 
 ``` r
@@ -39,6 +42,14 @@ library(teckfish)
 gsdd_cf(teckfish::simulated_data$synthetic)
 #> [1] 3898.806
 ```
+
+## Contribution
+
+Please report any
+[issues](https://github.com/poissonconsulting/teckfish/issues).
+
+[Pull requests](https://github.com/poissonconsulting/teckfish/pulls) are
+always welcome.
 
 ## Code of Conduct
 
