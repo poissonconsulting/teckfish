@@ -2,8 +2,8 @@
 #'
 #' Growing Season Degree Days (GSDD) is a water temperature metric
 #' that is a useful predictor of Cutthroat trout size at the
-#' beginning of winter. It is the accumulated thermal units (in C)
-#' during the growing season.
+#' beginning of winter. It is the accumulated thermal units (in C) 
+#' during the growing season based on the mean daily water temperature values.
 #'
 #' By default the growing season is as defined by
 #' Coleman and Fausch (2007) who stated that
@@ -21,7 +21,7 @@
 #' with the highest GSDD between the start and end dates.
 #'
 #' @param x A numeric vector of mean daily water temperature data from
-#' before to after the growing season in C. It must be at least 180
+#' before to after the growing season in C. It must be at least 55
 #' and no more than 366 days in length.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
 #' when calculating the GSDD or a string of "left", "right", "none" or "both"
@@ -52,7 +52,7 @@ gsdd_cf <- function(x,
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
-  chk_length(x, 28, 366)
+  chk_length(x, 55, 366)
 
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {

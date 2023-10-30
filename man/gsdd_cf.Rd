@@ -15,7 +15,7 @@ gsdd_cf(
 }
 \arguments{
 \item{x}{A numeric vector of mean daily water temperature data from
-before to after the growing season in C. It must be at least 180
+before to after the growing season in C. It must be at least 55
 and no more than 366 days in length.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore truncation
@@ -40,7 +40,7 @@ A number of the GSDD.
 Growing Season Degree Days (GSDD) is a water temperature metric
 that is a useful predictor of Cutthroat trout size at the
 beginning of winter. It is the accumulated thermal units (in C)
-during the growing season.
+during the growing season based on the mean daily water temperature values.
 }
 \details{
 By default the growing season is as defined by
