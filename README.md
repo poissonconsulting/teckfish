@@ -1,37 +1,41 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# teckfish
-
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/poissonconsulting/teckfish/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/teckfish/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/poissonconsulting/teckfish/branch/main/graph/badge.svg)](https://app.codecov.io/gh/poissonconsulting/teckfish?branch=main)
+coverage](https://codecov.io/gh/poissonconsulting/teckfish/branch/main/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/teckfish?branch=main)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
+# teckfish
+
+## Introduction
+
 `teckfish` is an R package for Teck Fish and Aquatic Sciences Projects.
+It is intended to be used by Teck staff and contractors and anyone else
+who finds it useful.
 
 ## Installation
 
 ``` r
-# install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))
-pak::pak("poissonconsulting/teckfish")
+# install.packages("devtools")
+devtools::install_github("poissonconsulting/teckfish")
 ```
 
-## Example
+## Demonstration
 
-`gsdd_cf()` takes a numerical vector of daily temperature values and
-calculates the growing season degree days (GSDD).
+### Growing Season Degree Days
+
+`gsdd_cf()` takes a numerical vector of mean daily temperature values in
+centigrade and calculates the growing season degree days (GSDD) based on
+Coleman and Fausch’s (2007) definition.
 
 ``` r
 library(teckfish)
-x <- teckfish::simulated_data
-gsdd_cf(x$synthetic)
+gsdd_cf(teckfish::simulated_data$synthetic)
+#> [1] 3898.806
 ```
-
-    ## [1] 3902.33
