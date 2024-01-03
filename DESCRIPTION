@@ -22,7 +22,8 @@ Imports:
     purrr,
     rlang,
     tidyr,
-    zoo
+    zoo,
+    fishbc
 Suggests:
     ggplot2,
     knitr,
