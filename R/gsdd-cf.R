@@ -32,6 +32,10 @@
 #' at the end of the growing season in C.
 #' @param window_width A positive whole number of the
 #' width of the rolling mean window in days.
+#' @param pick A string specifying whether to pick the "biggest", "smallest", 
+#' "longest", "shortest", "first" or "last" 'season' or "all" 'seasons'.
+#' If one 'season' is selected and there is a tie then the remaining candidate with
+#' the largest GSDD is selected.
 #' @param quiet A flag specifying whether to suppress warnings.
 #'
 #' @return A number of the GSDD.
@@ -49,13 +53,12 @@ gsdd_cf <- function(x,
                     start_temp = 5,
                     end_temp = 4,
                     window_width = 7,
+                    pick = "biggest",
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
   chk_length(x, 180, 366)
   
-  if(anyNA(x)) return(NA_real_)
-
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
     ignore_truncation <- "both"
@@ -71,13 +74,20 @@ gsdd_cf <- function(x,
   if (is_even(window_width)) {
     abort_chk("`window_width` must be odd.")
   }
-
+  chk_string(pick)
+  chk_subset(
+    pick, 
+    c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
+  chk_flag(quiet)
+  
+  if(anyNA(x)) return(NA_real_)
+  
   # create rolling mean vector from x and window width
   rollmean <- zoo::rollmean(x = x, k = window_width)
-
+  
   # pick which indices have values above start temp that begin runs
   index_start <- index_begin_run(rollmean > start_temp)
-
+  
   # no GSDD if season never starts
   if (!length(index_start)) {
     return(0)
@@ -105,7 +115,7 @@ gsdd_cf <- function(x,
     }
     index_end <- c(index_end, length(rollmean))
   }
-
+  
   data <- tidyr::expand_grid(
     index_start = index_start,
     index_end = index_end
@@ -129,12 +139,7 @@ gsdd_cf <- function(x,
       .f = sum_vector,
       ..vector = x
     )) |>
-    dplyr::arrange(
-      dplyr::desc(.data$gsdd),
-      dplyr::desc(.data$ndays),
-      dplyr::desc(.data$index_start)
-    ) |>
-    dplyr::slice(1)
-
-  data$gsdd
+    pick_season(pick)
+  
+  sum(data$gsdd)
 }

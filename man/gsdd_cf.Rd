@@ -10,6 +10,7 @@ gsdd_cf(
   start_temp = 5,
   end_temp = 4,
   window_width = 7,
+  pick = "biggest",
   quiet = FALSE
 )
 }
@@ -30,6 +31,11 @@ at the end of the growing season in C.}
 
 \item{window_width}{A positive whole number of the
 width of the rolling mean window in days.}
+
+\item{pick}{A string specifying whether to pick the "biggest", "smallest",
+"longest", "shortest", "first" or "last" 'season' or "all" 'seasons'.
+If one 'season' is selected and there is a tie then the remaining candidate with
+the largest GSDD is selected.}
 
 \item{quiet}{A flag specifying whether to suppress warnings.}
 }
