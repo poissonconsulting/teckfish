@@ -53,6 +53,8 @@ gsdd_cf <- function(x,
   chk_numeric(x)
   chk_vector(x)
   chk_length(x, 55, 366)
+  
+  if(anyNA(x)) return(NA_real_)
 
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {

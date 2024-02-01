@@ -9,6 +9,12 @@ test_that("vector must be longer than window_width", {
   expect_chk_error(gsdd_cf(x, window_width = 369))
 })
 
+test_that("gsdd_cf returns NA when missing summer", {
+  x <- simulated_data$synthetic
+  x[85:320] <- NA_real_
+  expect_identical(gsdd_cf(x), NA_real_)
+})
+
 test_that("vector must not contain NA values", {
   x <- simulated_data$synthetic
   random_indices <- sample(seq_along(x), 40)
