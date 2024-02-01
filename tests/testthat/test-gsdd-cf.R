@@ -57,7 +57,7 @@ test_that("x must have a length between 55 and 366", {
   x <- c(rep(0, 1), rep(10, 20), rep(0, 1))
   expect_error(
     gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9),
-    "`x` must have a length between 55 and 366 not 22\\."
+    "`x` must have a length between 180 and 366 not 22\\."
   )
 })
 
@@ -127,22 +127,22 @@ test_that("Gets with two weeks and 3 day window and smaller", {
 })
 
 test_that("Gets one week with end day after of 0", {
-  x <- c(rep(0, 100), rep(5.1, 7), rep(1, 0))
+  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 0))
   expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7)
 })
 
 test_that("Gets one week with end day after of 1", {
-  x <- c(rep(0, 100), rep(5.1, 7), rep(1, 1))
+  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 1))
   expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7 + 1)
 })
 
 test_that("Gets with two weeks and 3 day window and smaller", {
-  x <- c(rep(0, 100), rep(5.1, 7))
+  x <- c(rep(0, 180), rep(5.1, 7))
   expect_equal(gsdd_cf(x, ignore_truncation = "right", quiet = TRUE), 5.1 * 7)
 })
 
 test_that("Gets triangle", {
-  x <- c(seq(-5, 9), 10, seq(9, -5), rep(-1, 24))
+  x <- c(seq(-5, 9), 10, seq(9, -5), rep(-1, 149))
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
   testthat::expect_snapshot({
@@ -153,7 +153,7 @@ test_that("Gets triangle", {
 })
 
 test_that("Gets asymmetric triangle", {
-  x <- c(seq(-5, 9), 10, seq(9.5, -5.5), rep(-6, 23))
+  x <- c(seq(-5, 9), 10, seq(9.5, -5.5), rep(-6, 148))
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
   testthat::expect_snapshot({
@@ -171,7 +171,7 @@ test_that("2 asymetric triangles, first one longer but lower, second should be c
     seq(10, 2, by = -0.5),
     seq(2, 25, by = 2),
     seq(21, 0, by = -5),
-    rep(0, 5)
+    rep(0, 122)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
 
@@ -189,7 +189,7 @@ test_that("2 asymetric triangles, second one longer but lower, first one should 
     seq(21, 0, by = -5),
     seq(0, 10, by = 0.5),
     seq(10, 0, by = -0.5),
-    rep(0, 5)
+    rep(0, 118)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   testthat::expect_snapshot({
@@ -201,7 +201,7 @@ test_that("2 asymetric triangles, second one longer but lower, first one should 
 
 test_that("Right truncated triangle", {
   x <- c(
-    rep(0, 34),
+    rep(0, 159),
     seq(2, 25, by = 2),
     seq(21, 5, by = -2)
   )
@@ -219,7 +219,7 @@ test_that("Left truncated triangle", {
   x <- c(
     seq(6, 25, by = 2),
     seq(25, 0, by = -2),
-    rep(0, 32)
+    rep(0,157)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   

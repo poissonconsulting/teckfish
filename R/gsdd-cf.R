@@ -52,7 +52,7 @@ gsdd_cf <- function(x,
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
-  chk_length(x, 55, 366)
+  chk_length(x, 180, 366)
   
   if(anyNA(x)) return(NA_real_)
 
