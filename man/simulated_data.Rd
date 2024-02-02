@@ -19,7 +19,4 @@ simulated_data
 The data is a synthetic time series of daily temperature data for the year
 2019.
 }
-\details{
-The data is released under the \href{https://open.alberta.ca/licence}{Open Government Licence - Alberta}
-}
 \keyword{datasets}

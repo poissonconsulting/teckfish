@@ -6,7 +6,7 @@
 \alias{teckfish-package}
 \title{teckfish: R Tools for Teck Fish and Aquatic Sciences Projects}
 \description{
-Currently only includes function to calculate growing season degree days from daily water temperature data.
+Provides functions to calculate growing season degree days from daily water temperature data and classify water temperature values as reasonable, questionable or erroneous. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
 }
 \seealso{
 Useful links:
@@ -26,6 +26,9 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Bronwen Lewis [contributor]
+  \item Jill Brooks [contributor]
+  \item Andrew Harwood [contributor]
   \item Sebastian Dalgarno (\href{https://orcid.org/0000-0000-0000-0000}{ORCID}) [contributor]
   \item Teck Resources [funder, copyright holder]
 }

@@ -6,14 +6,20 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-7683-4592")),
     person("Sarah", "Lyons", role = "aut",
            comment = c(ORCID = "0000-0002-6745-6796")),
+    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
+           comment = c(ORCID = "0000-0001-7388-1222")),
+    person("Bronwen", "Lewis", role = "ctb"),
+    person("Jill", "Brooks", role = "ctb"),
+    person("Andrew", "Harwood", role = "ctb"),
     person("Sebastian", "Dalgarno", role = "ctb",
            comment = c(ORCID = "0000-0000-0000-0000")),
-    person("Teck Resources", role = c("fnd", "cph")),
-    person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
-           comment = c(ORCID = "0000-0001-7388-1222"))
+    person("Teck Resources", role = c("fnd", "cph"))
   )
-Description: Currently only includes function to calculate growing season
-    degree days from daily water temperature data.
+Description: Provides functions to calculate growing season
+    degree days from daily water temperature data and classify water
+    temperature values as reasonable, questionable or erroneous.
+    It also exports fish codes for British Columbia
+    and Alberta from the `fishbc` package.
 License: MIT + file LICENSE
 Imports: 
     chk,
