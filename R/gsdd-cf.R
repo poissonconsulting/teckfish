@@ -2,10 +2,11 @@
 #'
 #' Growing Season Degree Days (GSDD) is a water temperature metric
 #' that is a useful predictor of Cutthroat trout size at the
-#' beginning of winter. It is the accumulated thermal units (in C) 
+#' beginning of winter. 
+#' It is the accumulated thermal units (in C) 
 #' during the growing season based on the mean daily water temperature values.
 #'
-#' By default the growing season is as defined by
+#' By default the growing season is based on interpretation of
 #' Coleman and Fausch (2007) who stated that
 #'
 #' We defined the start of the growing season as the
@@ -16,44 +17,53 @@
 #' average stream temperature dropped below 4C.
 #'
 #' For the purposes of the calculation week is assumed to refer to a seven day
-#' rolling average as opposed to the calendar week and if there are multiple
-#' start and/or end dates the growing season is assumed to be the period of time
-#' with the highest GSDD between the start and end dates.
+#' rolling average as opposed to the calendar week,
+#' 
+#' If there are multiple growing 'seasons' within the same year then 
+#' the user has the option to pick the `"first"`/`"last"` or
+#'  `"longest"`/`"shortest"` season or the season with 
+#'  the `"biggest"`/`"smallest"` GSDD.
+#' By default the returned value is the sum of the GSDD values for `"all"` seasons.
+#' 
+#' If the user picks the `"longest"` season but there are multiple seasons
+#' with the longest length then the candidate 
+#' season with the `"biggest"` GSDD is selected.
+#' Conversely in the case of multiple `"shortest"` seasons then the
+#' candidate with the `"smallest"` GSDD is selected.
 #'
-#' @param x A numeric vector of mean daily water temperature data from
-#' before to after the growing season in C. It must be at least 55
-#' and no more than 366 days in length.
+#' @param x A numeric vector of the complete 
+#' mean daily water temperature values for the period
+#' of interest in C. It must be consist of at least 180 and no more than 
+#' 366 values.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
-#' when calculating the GSDD or a string of "left", "right", "none" or "both"
+#' of the mean daily water temperature vector 
+#' or a string of "left", "right", "none" or "both"
 #' specifying which type of truncation to ignore.
-#' @param start_temp A number of the average water temperature
+#' @param start_temp A positive real number of the average water temperature
 #' at the start of the growing season in C.
-#' @param end_temp A number of the average water temperature
-#' at the end of the growing season in C.
+#' @param end_temp A positive real number of the average water temperature
+#' at the end of the growing season in C. It must be greater than or equal to
+#' the start temperature.
 #' @param window_width A positive whole number of the
-#' width of the rolling mean window in days.
-#' @param pick A string specifying whether to pick the "biggest", "smallest", 
-#' "longest", "shortest", "first" or "last" 'season' or "all" 'seasons'.
-#' If one 'season' is selected and there is a tie then the remaining candidate with
-#' the largest GSDD is selected.
+#' width of the rolling mean window in days. By default 7.
+#' @param pick A string specifying whether to pick the
+#' "longest", "shortest", "first" or "last" 'season' or the season with the
+#' "biggest" or "smallest" GSDD. By default the returned value is the
+#' sum of the GSDD values for "all" 'seasons'.
 #' @param quiet A flag specifying whether to suppress warnings.
 #'
-#' @return A number of the GSDD.
+#' @return A non-negative real number of the GSDD.
 #' @export
 #'
 #' @examples
-#' x <- c(rep(1, 10), rep(10, 20), rep(1, 200))
-#' gsdd_cf(x)
-#'
-#' x <- teckfish::simulated_data$synthetic
-#' output <- gsdd_cf(x)
-#' print(output)
+#' gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
+#' gsdd_cf(teckfish::simulated_data$synthetic)
 gsdd_cf <- function(x,
                     ignore_truncation = FALSE,
                     start_temp = 5,
                     end_temp = 4,
                     window_width = 7,
-                    pick = "biggest",
+                    pick = "all",
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
@@ -68,6 +78,7 @@ gsdd_cf <- function(x,
   chk_subset(ignore_truncation, c("none", "left", "right", "both"))
   chk_number(start_temp)
   chk_number(end_temp)
+  chk_gt(start_temp)
   chk_gte(start_temp, end_temp)
   chk_count(window_width)
   chk_range(window_width, c(3, 14))

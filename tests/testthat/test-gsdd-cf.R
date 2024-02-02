@@ -61,10 +61,22 @@ test_that("x must have a length between 55 and 366", {
   )
 })
 
-test_that("Gets growth period with higher GSDD even though shorter period.", {
+test_that("Gets growth period with biggest GSDD even though shorter period.", {
+  x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "biggest")
+  expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth period with smallest GSDD.", {
+  x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "smallest")
+  expect_equal(gsdd, 500)
+})
+
+test_that("Gets growth period with all GSDD.", {
   x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
   gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
-  expect_equal(gsdd, 800)
+  expect_equal(gsdd, 1300)
 })
 
 test_that("Gets growth period with higher GSDD even though shorter period.", {
@@ -73,9 +85,53 @@ test_that("Gets growth period with higher GSDD even though shorter period.", {
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x,
     window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
-    ignore_truncation = TRUE
+    ignore_truncation = TRUE, pick = "biggest"
   )
   expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth period longest period.", {
+  x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
+  expect_equal(gsdd, NA_real_)
+  gsdd <- gsdd_cf(x,
+                  window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
+                  ignore_truncation = TRUE, pick = "longest"
+  )
+  expect_equal(gsdd, 500)
+})
+
+test_that("Gets growth period all gsdd.", {
+  x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
+  expect_equal(gsdd, NA_real_)
+  gsdd <- gsdd_cf(x,
+                  window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
+                  ignore_truncation = TRUE, pick = "all"
+  )
+  expect_equal(gsdd, 1300)
+})
+
+test_that("Gets growth period shortest", {
+  x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
+  expect_equal(gsdd, NA_real_)
+  gsdd <- gsdd_cf(x,
+                  window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
+                  ignore_truncation = TRUE, pick = "shortest"
+  )
+  expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth period longest", {
+  x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE)
+  expect_equal(gsdd, NA_real_)
+  gsdd <- gsdd_cf(x,
+                  window_width = 3, start_temp = 9, end_temp = 9, quiet = TRUE,
+                  ignore_truncation = TRUE, pick = "longest"
+  )
+  expect_equal(gsdd, 500)
 })
 
 test_that("Gets growth gives warnings with truncation.", {
@@ -179,7 +235,25 @@ test_that("2 asymetric triangles, first one longer but lower, second should be c
     tibble::tibble(index = 1:length(x), x = x, ma = ma)
   })
   
-  expect_equal(gsdd_cf(x), sum(x[41:61]))
+  expect_equal(gsdd_cf(x, pick = "biggest"), sum(x[41:61]))
+})
+
+test_that("2 asymetric triangles, first one longer but lower, second should be chosen unless longest.", {
+  x <- c(
+    rep(0, 3),
+    seq(0, 10, by = 0.5),
+    seq(10, 2, by = -0.5),
+    seq(2, 25, by = 2),
+    seq(21, 0, by = -5),
+    rep(0, 122)
+  )
+  ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
+  
+  testthat::expect_snapshot({
+    tibble::tibble(index = 1:length(x), x = x, ma = ma)
+  })
+  
+  expect_equal(gsdd_cf(x, pick = "longest"), 193)
 })
 
 test_that("2 asymetric triangles, second one longer but lower, first one should be chosen.", {
@@ -196,7 +270,7 @@ test_that("2 asymetric triangles, second one longer but lower, first one should 
     tibble::tibble(index = 1:length(x), x = x, ma = ma)
   })
   
-  expect_equal(gsdd_cf(x), sum(x[3:24]))
+  expect_equal(gsdd_cf(x, pick = "biggest"), sum(x[3:24]))
 })
 
 test_that("Right truncated triangle", {

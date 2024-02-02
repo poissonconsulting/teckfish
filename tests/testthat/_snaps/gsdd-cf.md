@@ -58,6 +58,26 @@
       10    10   3    3    
       # i 170 more rows
 
+# 2 asymetric triangles, first one longer but lower, second should be chosen unless longest.
+
+    Code
+      tibble::tibble(index = 1:length(x), x = x, ma = ma)
+    Output
+      # A tibble: 180 x 3
+         index     x     ma
+         <int> <dbl>  <dbl>
+       1     1   0   NA    
+       2     2   0   NA    
+       3     3   0   NA    
+       4     4   0    0.429
+       5     5   0.5  0.714
+       6     6   1    1.07 
+       7     7   1.5  1.5  
+       8     8   2    2    
+       9     9   2.5  2.5  
+      10    10   3    3    
+      # i 170 more rows
+
 # 2 asymetric triangles, second one longer but lower, first one should be chosen.
 
     Code
