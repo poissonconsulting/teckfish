@@ -5,8 +5,13 @@ test_that("output is a numeric value", {
 })
 
 test_that("vector must be longer than window_width", {
+  x <- simulated_data$synthetic[180]
+  expect_chk_error(gsdd_cf(x, window_width = 181))
+})
+
+test_that("window_width must be odd", {
   x <- simulated_data$synthetic
-  expect_chk_error(gsdd_cf(x, window_width = 369))
+  expect_chk_error(gsdd_cf(x, window_width = 6), "`window_width` must be odd.")
 })
 
 test_that("gsdd_cf returns NA when missing summer", {
@@ -65,6 +70,18 @@ test_that("Gets growth period with biggest GSDD even though shorter period.", {
   x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
   gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "biggest")
   expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth period with biggest GSDD even though shorter period.", {
+  x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "last")
+  expect_equal(gsdd, 800)
+})
+
+test_that("Gets growth period with biggest GSDD even though shorter period.", {
+  x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "first")
+  expect_equal(gsdd, 500)
 })
 
 test_that("Gets growth period with smallest GSDD.", {
