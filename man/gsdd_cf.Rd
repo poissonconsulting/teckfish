@@ -27,7 +27,7 @@ series must consist of at least 180 values.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore truncation
 of the mean daily water temperature vector
-or a string of "left", "right", "none" or "both"
+or a string of "start", "end", "none" or "both"
 specifying which type of truncation to ignore.}
 
 \item{start_temp}{A positive real number of the average water temperature

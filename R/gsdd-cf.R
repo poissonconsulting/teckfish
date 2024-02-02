@@ -51,7 +51,7 @@
 #' series must consist of at least 180 values.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
 #' of the mean daily water temperature vector 
-#' or a string of "left", "right", "none" or "both"
+#' or a string of "start", "end", "none" or "both"
 #' specifying which type of truncation to ignore.
 #' @param start_temp A positive real number of the average water temperature
 #' at the start of the growing season in C.
@@ -91,7 +91,7 @@ gsdd_cf <- function(x,
   } else if (isFALSE(ignore_truncation)) {
     ignore_truncation <- "none"
   }
-  chk_subset(ignore_truncation, c("none", "left", "right", "both"))
+  chk_subset(ignore_truncation, c("none", "start", "end", "both"))
   chk_number(start_temp)
   chk_number(end_temp)
   chk_gt(start_temp)
@@ -130,7 +130,7 @@ gsdd_cf <- function(x,
     if (!quiet) {
       warning("Growing season truncated.")
     }
-    if (ignore_truncation %in% c("none", "right")) {
+    if (ignore_truncation %in% c("none", "end")) {
       return(NA_real_)
     }
   }
@@ -141,7 +141,7 @@ gsdd_cf <- function(x,
     if (!truncated && !quiet) {
       warning("Growing season truncated.")
     }
-    if (ignore_truncation %in% c("none", "left")) {
+    if (ignore_truncation %in% c("none", "start")) {
       return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
