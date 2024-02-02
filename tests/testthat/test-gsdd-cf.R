@@ -71,7 +71,7 @@ test_that("x must have a length between 55 and 366", {
   x <- c(rep(0, 1), rep(10, 20), rep(0, 1))
   expect_error(
     gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9),
-    "`x` must have a length between 180 and 366 not 22\\."
+    "`x` must have a length between 90 and 366 not 22\\."
   )
 })
 
@@ -209,17 +209,17 @@ test_that("Gets with two weeks and 3 day window and smaller", {
 })
 
 test_that("Gets one week with end day after of 0", {
-  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 0))
+  x <- c(rep(0, 90), rep(5.1, 7), rep(1, 0))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7)
 })
 
 test_that("Gets one week with end day after of 1", {
-  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 1))
+  x <- c(rep(0, 90), rep(5.1, 7), rep(1, 1))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7 + 1)
 })
 
 test_that("Gets with two weeks and 3 day window and smaller", {
-  x <- c(rep(0, 180), rep(5.1, 7))
+  x <- c(rep(0, 90), rep(5.1, 7))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7)
 })
 
