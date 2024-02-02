@@ -65,6 +65,7 @@ during the growing season based on the mean daily water temperature values.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gsdd_cf</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
+<span>  na_trim <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ignore_truncation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  start_temp <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  end_temp <span class="op">=</span> <span class="fl">4</span>,</span>
@@ -77,10 +78,16 @@ during the growing season based on the mean daily water temperature values.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A numeric vector of the complete
+<dd><p>A numeric vector of the
 mean daily water temperature values for the period
 of interest in C. It must be consist of at least 180 and no more than
 366 values.</p></dd>
+
+
+<dt>na_trim</dt>
+<dd><p>A flag specifying whether to trim missing values
+from the start and end of the time series. After trimming the time
+series must consist of at least 180 values.</p></dd>
 
 
 <dt>ignore_truncation</dt>
@@ -145,6 +152,15 @@ with the longest length then the candidate
 season with the <code>"biggest"</code> GSDD is selected.
 Conversely in the case of multiple <code>"shortest"</code> seasons then the
 candidate with the <code>"smallest"</code> GSDD is selected.</p>
+<p>If the user sets <code>na_trim = TRUE</code> then missing values (<code>NA</code>s) at the start and
+end of the time series are trimmed prior to calculating GSDD.
+If the time series still contains one or missing values then a missing value
+is returned.
+In this situation it is recommended that the user replace
+the missing value(s) by interpolation or other methods rather than filtering
+out the <code>NA</code>s.</p>
+<p>Truncation occurs when the start and/or end
+of the time series is part way through a growing season.</p>
     </div>
 
     <div class="section level2">
