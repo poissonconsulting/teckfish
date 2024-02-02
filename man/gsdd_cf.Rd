@@ -6,6 +6,7 @@
 \usage{
 gsdd_cf(
   x,
+  na_trim = TRUE,
   ignore_truncation = FALSE,
   start_temp = 5,
   end_temp = 4,
@@ -15,10 +16,14 @@ gsdd_cf(
 )
 }
 \arguments{
-\item{x}{A numeric vector of the complete
+\item{x}{A numeric vector of the
 mean daily water temperature values for the period
 of interest in C. It must be consist of at least 180 and no more than
 366 values.}
+
+\item{na_trim}{A flag specifying whether to trim missing values
+from the start and end of the time series. After trimming the time
+series must consist of at least 180 values.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore truncation
 of the mean daily water temperature vector
@@ -77,6 +82,17 @@ with the longest length then the candidate
 season with the \code{"biggest"} GSDD is selected.
 Conversely in the case of multiple \code{"shortest"} seasons then the
 candidate with the \code{"smallest"} GSDD is selected.
+
+If the user sets \code{na_trim = TRUE} then missing values (\code{NA}s) at the start and
+end of the time series are trimmed prior to calculating GSDD.
+If the time series still contains one or missing values then a missing value
+is returned.
+In this situation it is recommended that the user replace
+the missing value(s) by interpolation or other methods rather than filtering
+out the \code{NA}s.
+
+Truncation occurs when the start and/or end
+of the time series is part way through a growing season.
 }
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))

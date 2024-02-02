@@ -27,6 +27,15 @@ test_that("vector must not contain NA values", {
   expect_identical(gsdd_cf(x), NA_real_)
 })
 
+test_that("gsdd_cf can trims missing values", {
+  x <- simulated_data$synthetic
+  x[c(1,length(x))] <- NA_real_
+  expect_identical(gsdd_cf(x, na_trim = FALSE), NA_real_)
+  x <- simulated_data$synthetic
+  x[c(1,length(x))] <- NA_real_
+  expect_equal(gsdd_cf(x, na_trim = TRUE), 3898.80557580767)
+})
+
 test_that("start temp must be greater than or equal to end temp", {
   x <- simulated_data$synthetic
   expect_chk_error(gsdd_cf(x, end_temp = 40, start_temp = 30))

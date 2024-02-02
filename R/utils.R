@@ -1,3 +1,13 @@
+trim_na <- function(x) {
+  indices <- which(!is.na(x))
+  if(!length(indices)) {
+    return(x[0])
+  }
+  first <- indices[1]
+  last <- indices[length(indices)]
+  x[first:last]
+}
+
 sum_vector <- function(from, to, ..vector) {
   sum(..vector[from:to])
 }

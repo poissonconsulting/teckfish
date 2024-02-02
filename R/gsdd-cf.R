@@ -30,11 +30,25 @@
 #' season with the `"biggest"` GSDD is selected.
 #' Conversely in the case of multiple `"shortest"` seasons then the
 #' candidate with the `"smallest"` GSDD is selected.
+#' 
+#' If the user sets `na_trim = TRUE` then missing values (`NA`s) at the start and
+#' end of the time series are trimmed prior to calculating GSDD.
+#' If the time series still contains one or missing values then a missing value
+#' is returned. 
+#' In this situation it is recommended that the user replace 
+#' the missing value(s) by interpolation or other methods rather than filtering
+#' out the `NA`s. 
+#' 
+#' Truncation occurs when the start and/or end
+#' of the time series is part way through a growing season.
 #'
-#' @param x A numeric vector of the complete 
+#' @param x A numeric vector of the
 #' mean daily water temperature values for the period
 #' of interest in C. It must be consist of at least 180 and no more than 
 #' 366 values.
+#' @param na_trim A flag specifying whether to trim missing values 
+#' from the start and end of the time series. After trimming the time
+#' series must consist of at least 180 values.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
 #' of the mean daily water temperature vector 
 #' or a string of "left", "right", "none" or "both"
@@ -59,6 +73,7 @@
 #' gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
 #' gsdd_cf(teckfish::simulated_data$synthetic)
 gsdd_cf <- function(x,
+                    na_trim = TRUE,
                     ignore_truncation = FALSE,
                     start_temp = 5,
                     end_temp = 4,
@@ -68,6 +83,7 @@ gsdd_cf <- function(x,
   chk_numeric(x)
   chk_vector(x)
   chk_length(x, 180, 366)
+  chk_flag(na_trim)
   
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
@@ -90,6 +106,10 @@ gsdd_cf <- function(x,
     pick, 
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
   chk_flag(quiet)
+  
+  if(na_trim) {
+    x <- trim_na(x)
+  }
   
   if(anyNA(x)) return(NA_real_)
   
