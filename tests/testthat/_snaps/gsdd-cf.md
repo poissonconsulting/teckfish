@@ -3,7 +3,7 @@
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x    ma
          <int> <dbl> <dbl>
        1     1    -5    NA
@@ -16,14 +16,14 @@
        8     8     2     2
        9     9     3     3
       10    10     4     4
-      # i 170 more rows
+      # i 174 more rows
 
 # Gets asymmetric triangle
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x    ma
          <int> <dbl> <dbl>
        1     1    -5    NA
@@ -36,14 +36,14 @@
        8     8     2     2
        9     9     3     3
       10    10     4     4
-      # i 170 more rows
+      # i 174 more rows
 
 # 2 asymetric triangles, first one longer but lower, second should be chosen.
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x     ma
          <int> <dbl>  <dbl>
        1     1   0   NA    
@@ -56,14 +56,14 @@
        8     8   2    2    
        9     9   2.5  2.5  
       10    10   3    3    
-      # i 170 more rows
+      # i 174 more rows
 
 # 2 asymetric triangles, first one longer but lower, second should be chosen unless longest.
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x     ma
          <int> <dbl>  <dbl>
        1     1   0   NA    
@@ -76,14 +76,14 @@
        8     8   2    2    
        9     9   2.5  2.5  
       10    10   3    3    
-      # i 170 more rows
+      # i 174 more rows
 
 # 2 asymetric triangles, second one longer but lower, first one should be chosen.
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x    ma
          <int> <dbl> <dbl>
        1     1     0 NA   
@@ -96,14 +96,14 @@
        8     8    10 10   
        9     9    12 12   
       10    10    14 14   
-      # i 170 more rows
+      # i 174 more rows
 
 # Right truncated triangle
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x    ma
          <int> <dbl> <dbl>
        1     1     0    NA
@@ -116,14 +116,14 @@
        8     8     0     0
        9     9     0     0
       10    10     0     0
-      # i 170 more rows
+      # i 174 more rows
 
 # Left truncated triangle
 
     Code
       tibble::tibble(index = 1:length(x), x = x, ma = ma)
     Output
-      # A tibble: 180 x 3
+      # A tibble: 184 x 3
          index     x    ma
          <int> <dbl> <dbl>
        1     1     6  NA  
@@ -136,5 +136,5 @@
        8     8    20  19.9
        9     9    22  21.1
       10    10    24  21.9
-      # i 170 more rows
+      # i 174 more rows
 

@@ -7,7 +7,7 @@
 #' during the growing season based on the mean daily water temperature values.
 #' 
 #' The GSDD is calculated across the longest consecutive sequence of non-missing
-#' values which must be at least 180 elements in length otherwise a 
+#' values which must be at least 184 elements in length otherwise a 
 #' missing value is returned.
 #' If the time series includes missing values it is recommended that they are
 #' replaced by estimates of the actual values using linear
@@ -105,13 +105,13 @@ gsdd_cf <- function(x,
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
   chk_flag(quiet)
 
-  if(length(x) < 180) {
+  if(length(x) < 184) {
     return(NA_real_)
   }
   if(anyNA(x)) {
     x <- trim_na(x)
   }
-  if(length(x) < 180 || anyNA(x)) {
+  if(length(x) < 184 || anyNA(x)) {
     return(NA_real_)
   }
   # create rolling mean vector from x and window width

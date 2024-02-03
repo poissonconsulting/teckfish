@@ -54,7 +54,7 @@ during the growing season based on the mean daily water temperature values.
 }
 \details{
 The GSDD is calculated across the longest consecutive sequence of non-missing
-values which must be at least 180 elements in length otherwise a
+values which must be at least 184 elements in length otherwise a
 missing value is returned.
 If the time series includes missing values it is recommended that they are
 replaced by estimates of the actual values using linear

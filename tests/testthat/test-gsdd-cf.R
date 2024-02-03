@@ -217,7 +217,7 @@ test_that("Gets with two weeks and 3 day window and smaller", {
 })
 
 test_that("Gets triangle", {
-  x <- c(seq(-5, 9), 10, seq(9, -5), rep(-1, 149))
+  x <- c(seq(-5, 9), 10, seq(9, -5), rep(-1, 153))
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
   testthat::expect_snapshot({
@@ -228,7 +228,7 @@ test_that("Gets triangle", {
 })
 
 test_that("Gets asymmetric triangle", {
-  x <- c(seq(-5, 9), 10, seq(9.5, -5.5), rep(-6, 148))
+  x <- c(seq(-5, 9), 10, seq(9.5, -5.5), rep(-6, 152))
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
   testthat::expect_snapshot({
@@ -246,7 +246,7 @@ test_that("2 asymetric triangles, first one longer but lower, second should be c
     seq(10, 2, by = -0.5),
     seq(2, 25, by = 2),
     seq(21, 0, by = -5),
-    rep(0, 122)
+    rep(0, 126)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
 
@@ -264,7 +264,7 @@ test_that("2 asymetric triangles, first one longer but lower, second should be c
     seq(10, 2, by = -0.5),
     seq(2, 25, by = 2),
     seq(21, 0, by = -5),
-    rep(0, 122)
+    rep(0, 126)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
@@ -282,7 +282,7 @@ test_that("2 asymetric triangles, second one longer but lower, first one should 
     seq(21, 0, by = -5),
     seq(0, 10, by = 0.5),
     seq(10, 0, by = -0.5),
-    rep(0, 118)
+    rep(0, 122)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   testthat::expect_snapshot({
@@ -294,7 +294,7 @@ test_that("2 asymetric triangles, second one longer but lower, first one should 
 
 test_that("Right truncated triangle", {
   x <- c(
-    rep(0, 159),
+    rep(0, 163),
     seq(2, 25, by = 2),
     seq(21, 5, by = -2)
   )
@@ -312,7 +312,7 @@ test_that("Left truncated triangle", {
   x <- c(
     seq(6, 25, by = 2),
     seq(25, 0, by = -2),
-    rep(0,157)
+    rep(0,161)
   )
   ma <- zoo::rollmean(x, k = 7, align = "center", na.pad = TRUE)
   
@@ -324,9 +324,14 @@ test_that("Left truncated triangle", {
   expect_equal(gsdd_cf(x, ignore_truncation = "start", quiet = TRUE), sum(x[0:25]))
 })
 
-test_that("NA if less than 180 values after trimming trailing NAs", {
-  x <- c(rep(1,179), rep(NA,100))
+test_that("NA if less than 184 values after trimming trailing NAs", {
+  x <- c(rep(1,183), rep(NA,100))
   expect_identical(gsdd_cf(x),NA_real_)
-  x <- c(rep(1,180), rep(NA,100))
+  x <- c(rep(1,184), rep(NA,100))
   expect_identical(gsdd_cf(x),0)
+})
+
+test_that("extracts longest non-missing sequence (not just trim tails)", {
+  x <- c(NA,1,NA,rep(1,184),NA)
+  expect_identical(gsdd_cf(x),NA_real_) # should be 0
 })
