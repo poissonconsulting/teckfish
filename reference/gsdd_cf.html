@@ -125,7 +125,19 @@ sum of the GSDD values for "all" 'seasons'.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>By default the growing season is based on interpretation of
+    <p>The GSDD is calculated across the longest consecutive sequence of non-missing
+values which must be at least 180 elements in length otherwise a
+missing value is returned.
+If the time series includes missing values it is recommended that they are
+replaced by estimates of the actual values using linear
+interpolation (<code>[interpolate_numeric_vector()]</code>) or other predictive methods.
+If the user removes the missing values then the returned GSDD value
+will be less than the actual GSDD.</p>
+<p>Truncation occurs when the start and/or end
+of the time series is part way through a growing season.
+If the user chooses to ignore truncation then the returned value
+will be less than the actual GSDD.</p>
+<p>By default the growing season is based on the interpretation of
 Coleman and Fausch (2007) who stated that</p>
 <p>We defined the start of the growing season as the
 beginning of the first week that average stream temperatures exceeded and
@@ -135,25 +147,16 @@ the last day of the first week that
 average stream temperature dropped below 4C.</p>
 <p>For the purposes of the calculation week is assumed to refer to a seven day
 rolling average as opposed to the calendar week.</p>
-<p>If there are multiple growing 'seasons' within the same year then
-the user has the option to pick the <code>"first"</code>/<code>"last"</code> or
+<p>If there are multiple growing 'seasons' within the same year then by
+default the returned value is the sum of the GSDD values for <code>"all"</code> seasons.</p>
+<p>The user also has the option to pick the <code>"first"</code>/<code>"last"</code> or
 <code>"longest"</code>/<code>"shortest"</code> season or the season with
 the <code>"biggest"</code>/<code>"smallest"</code> GSDD.
-By default the returned value is the sum of the GSDD values for <code>"all"</code> seasons.</p>
-<p>If the user picks the <code>"longest"</code> season but there are multiple seasons
+If the user picks the <code>"longest"</code> season but there are multiple seasons
 with the longest length then the candidate
 season with the <code>"biggest"</code> GSDD is selected.
 Conversely in the case of multiple <code>"shortest"</code> seasons then the
 candidate with the <code>"smallest"</code> GSDD is selected.</p>
-<p>Missing values (<code>NA</code>s) at the start and
-end of the time series are trimmed prior to calculating GSDD.
-If the time series still contains one or missing values then a missing value
-is returned.
-In this situation it is recommended that the user replace
-the missing value(s) by interpolation or other methods rather than filtering
-out the <code>NA</code>s.</p>
-<p>Truncation occurs when the start and/or end
-of the time series is part way through a growing season.</p>
     </div>
 
     <div class="section level2">
