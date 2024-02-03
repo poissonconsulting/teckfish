@@ -64,11 +64,8 @@ test_that("if start_temp is reached at start of vector x, indicies do not fall o
   expect_equal(gsdd, 2687.98160174586)
 })
 
-test_that("x must have a length between 55 and 366 - NOT CURRENTLY", {
-  x <- c(rep(0, 1), rep(10, 20), rep(0, 1))
-  expect_identical(gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9),200)
-#    "`x` must have a length between 90 and 366 not 22\\."
-#  )
+test_that("x must have a length less than 366", {
+  expect_error(gsdd_cf(rep(5,367)))
 })
 
 test_that("Gets growth period with biggest GSDD even though shorter period.", {
@@ -327,7 +324,9 @@ test_that("Left truncated triangle", {
   expect_equal(gsdd_cf(x, ignore_truncation = "start", quiet = TRUE), sum(x[0:25]))
 })
 
-test_that("cold short early season data", {
-  x <- c(rep(1,74), rep(NA,291))
+test_that("NA if less than 90 values after trimming trailing NAs", {
+  x <- c(rep(1,74), rep(NA,100))
+  expect_identical(gsdd_cf(x),NA_real_)
+  x <- c(rep(1,90), rep(NA,100))
   expect_identical(gsdd_cf(x),0)
 })

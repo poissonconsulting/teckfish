@@ -5,8 +5,17 @@
 #' beginning of winter. 
 #' It is the accumulated thermal units (in C) 
 #' during the growing season based on the mean daily water temperature values.
+#' Truncation occurs when the start and/or end
+#' of the time series is part way through a growing season.
+#' 
+#' Missing values (`NA`s) at the start and
+#' end of the time series are trimmed prior to calculating GSDD.
+#' If the time series still contains one or missing values or 
+#' is less than 90 values in length then a missing value is returned. 
+#' In this situation it is recommended that the user replace 
+#' the missing value(s) by interpolation or other methods.
 #'
-#' By default the growing season is based on interpretation of
+#' By default the growing season is based on the interpretation of
 #' Coleman and Fausch (2007) who stated that
 #'
 #' We defined the start of the growing season as the
@@ -19,28 +28,17 @@
 #' For the purposes of the calculation week is assumed to refer to a seven day
 #' rolling average as opposed to the calendar week.
 #' 
-#' If there are multiple growing 'seasons' within the same year then 
-#' the user has the option to pick the `"first"`/`"last"` or
+#' If there are multiple growing 'seasons' within the same year then by
+#' default the returned value is the sum of the GSDD values for `"all"` seasons.
+#' 
+#' The user also has the option to pick the `"first"`/`"last"` or
 #'  `"longest"`/`"shortest"` season or the season with 
 #'  the `"biggest"`/`"smallest"` GSDD.
-#' By default the returned value is the sum of the GSDD values for `"all"` seasons.
-#' 
-#' If the user picks the `"longest"` season but there are multiple seasons
+#'  If the user picks the `"longest"` season but there are multiple seasons
 #' with the longest length then the candidate 
 #' season with the `"biggest"` GSDD is selected.
 #' Conversely in the case of multiple `"shortest"` seasons then the
 #' candidate with the `"smallest"` GSDD is selected.
-#' 
-#' Missing values (`NA`s) at the start and
-#' end of the time series are trimmed prior to calculating GSDD.
-#' If the time series still contains one or missing values then a missing value
-#' is returned. 
-#' In this situation it is recommended that the user replace 
-#' the missing value(s) by interpolation or other methods rather than filtering
-#' out the `NA`s. 
-#' 
-#' Truncation occurs when the start and/or end
-#' of the time series is part way through a growing season.
 #'
 #' @param x A numeric vector of the
 #' mean daily water temperature values for the period
@@ -104,8 +102,9 @@ gsdd_cf <- function(x,
   
   x <- trim_na(x)
   
-  if(anyNA(x)) return(NA_real_)
-  
+  if(length(x) < 90 || anyNA(x)) {
+    return(NA_real_)
+  }
   # create rolling mean vector from x and window width
   rollmean <- zoo::rollmean(x = x, k = window_width)
   
