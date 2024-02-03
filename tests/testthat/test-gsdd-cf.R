@@ -332,6 +332,8 @@ test_that("NA if less than 184 values after trimming trailing NAs", {
 })
 
 test_that("extracts longest non-missing sequence (not just trim tails)", {
-  x <- c(NA,1,NA,rep(1,184),NA)
-  expect_identical(gsdd_cf(x),NA_real_) # should be 0
+  x <- c(NA,1,NA,rep(1,183),NA,1,NA)
+  expect_identical(gsdd_cf(x),NA_real_) 
+  x <- c(NA,1,NA,rep(1,184),NA,1,NA)
+  expect_identical(gsdd_cf(x),0) 
 })

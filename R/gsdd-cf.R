@@ -108,9 +108,7 @@ gsdd_cf <- function(x,
   if(length(x) < 184) {
     return(NA_real_)
   }
-  if(anyNA(x)) {
-    x <- trim_na(x)
-  }
+  x <- longest_run(x)
   if(length(x) < 184 || anyNA(x)) {
     return(NA_real_)
   }

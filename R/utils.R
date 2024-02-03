@@ -1,11 +1,13 @@
-trim_na <- function(x) {
-  indices <- which(!is.na(x))
-  if(!length(indices)) {
-    return(x[0])
+longest_run <- function(x) {
+  rle <- rle(is.na(x))
+  wch <- which.max(rle$length)
+  if(rle$length[wch] < 184 | rle$values[wch]) {
+    return(NA_real_)
   }
-  first <- indices[1]
-  last <- indices[length(indices)]
-  x[first:last]
+  cumsum <- cumsum(rle$lengths)
+  to <- cumsum[wch]
+  from <- if(wch == 1) 1L else cumsum[wch-1] + 1L
+  x[from:to]
 }
 
 sum_vector <- function(from, to, ..vector) {
