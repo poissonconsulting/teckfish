@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">teckfish</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,33 +45,28 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1.9003" id="teckfish-0019003">teckfish 0.0.1.9003<a class="anchor" aria-label="anchor" href="#teckfish-0019003"></a></h2>
-<ul><li><p>Return <code>NA</code> if less than 90 values after trimming trailing <code>NA</code>s.</p></li>
-<li><p>Always trim missing values in tails.</p></li>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="teckfish-010">teckfish 0.1.0<a class="anchor" aria-label="anchor" href="#teckfish-010"></a></h2>
+<div class="section level3">
+<h3 id="additions-0-1-0">Additions<a class="anchor" aria-label="anchor" href="#additions-0-1-0"></a></h3>
+<ul><li>Added <code><a href="../reference/interpolate_numeric_vector.html">interpolate_numeric_vector()</a></code> function to fill in missing values using linear interpolation.</li>
+<li>Added <code>freshwaterfish</code> data from <code>fishbc</code> package to provide British Columbian and Alberta fish codes as well as taxonomy and conservation status.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1.9002" id="teckfish-0019002">teckfish 0.0.1.9002<a class="anchor" aria-label="anchor" href="#teckfish-0019002"></a></h2>
-<ul><li>Added <code><a href="../reference/interpolate_numeric_vector.html">interpolate_numeric_vector()</a></code> to fill in missing values using linear interpolation.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1.9001" id="teckfish-0019001">teckfish 0.0.1.9001<a class="anchor" aria-label="anchor" href="#teckfish-0019001"></a></h2>
-<ul><li>
-<code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> now requires at least 90 values.</li>
-<li>Renamed “left” and “right” truncation to “start” and “end” truncation.</li>
-<li>Added <code>na_trim = TRUE</code> argument to <code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> to trim leading or trailing missing values.</li>
+<div class="section level3">
+<h3 id="modifications-0-1-0">Modifications<a class="anchor" aria-label="anchor" href="#modifications-0-1-0"></a></h3>
+<div class="section level4">
+<h4 id="gsdd_cf-function-0-1-0">
+<code>gsdd_cf()</code> Function<a class="anchor" aria-label="anchor" href="#gsdd_cf-function-0-1-0"></a></h4>
+<ul><li>Uses the longest sequence on non-missing values, which must be at least 184 elements (otherwise returns <code>NA</code>), to calculate the Growing Season Degree Days.</li>
+<li>Returns the sum of the Growing Season Degree Days for all the growing ‘seasons’ although the user can use the <code>pick</code> argument to specify whether to instead return the GSDD value for the <code>"biggest"</code>, <code>"smallest"</code>, <code>"longest"</code>, <code>"shortest"</code>, <code>"first"</code> or <code>"last"</code> ‘season’ within the sequence.</li>
 <li>
-<code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> by default now returns the sum of all the growing seasons within the period of interest as this is expected to be the most reliable predictor of growth.</li>
-<li>Added <code>pick</code> argument to specify whether to pick the “biggest”, “smallest”, “longest”, “shortest”, “first” or “last” ‘season’ or “all” ‘seasons’.</li>
+<code>ignore_truncation</code> argument of <code>gssd_cf()</code> now accepts <code>"start"</code> and <code>"end"</code> instead of <code>"left"</code> and <code>"right"</code>.</li>
+<li>Replaced <code>quiet = FALSE</code> argument with <code>messages = TRUE</code>.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1.9000" id="teckfish-0019000">teckfish 0.0.1.9000<a class="anchor" aria-label="anchor" href="#teckfish-0019000"></a></h2>
-<ul><li>
-<code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> now requires at least 180 values and returns <code>NA_real</code> if any values are <code>NA_real</code>.</li>
-<li>Added <code><a href="https://rdrr.io/pkg/fishbc/man/freshwaterfish.html" class="external-link">fishbc::freshwaterfish</a></code> and <code><a href="https://rdrr.io/pkg/fishbc/man/fbc_common_name.html" class="external-link">fishbc::fbc_common_name</a></code> data.</li>
-</ul></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="teckfish-001">teckfish 0.0.1<a class="anchor" aria-label="anchor" href="#teckfish-001"></a></h2>
-<ul><li>Added <code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> function. (#5) which implements Growing Season Degree Days algorithm as described by Coleman and Fausch (2007)</li>
+<ul><li>Added <code><a href="../reference/gsdd_cf.html">gsdd_cf()</a></code> function which implements Growing Season Degree Days algorithm as described by Coleman and Fausch (2007)</li>
 <li>Added <code><a href="../reference/classify_water_temp_data.html">classify_water_temp_data()</a></code> function to classify raw water temperature data as <code>reasonable</code>, <code>questionable</code>, or <code>unreasonable</code> based on simple criteria</li>
 <li>Added <code>simulated_data</code> data set.</li>
 </ul></div>
