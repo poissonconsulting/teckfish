@@ -53,7 +53,21 @@ It is the accumulated thermal units (in C)
 during the growing season based on the mean daily water temperature values.
 }
 \details{
-By default the growing season is based on interpretation of
+The GSDD is calculated across the longest consecutive sequence of non-missing
+values which must be at least 180 elements in length otherwise a
+missing value is returned.
+If the time series includes missing values it is recommended that they are
+replaced by estimates of the actual values using linear
+interpolation (\verb{[interpolate_numeric_vector()]}) or other predictive methods.
+If the user removes the missing values then the returned GSDD value
+will be less than the actual GSDD.
+
+Truncation occurs when the start and/or end
+of the time series is part way through a growing season.
+If the user chooses to ignore truncation then the returned value
+will be less than the actual GSDD.
+
+By default the growing season is based on the interpretation of
 Coleman and Fausch (2007) who stated that
 
 We defined the start of the growing season as the
@@ -66,28 +80,17 @@ average stream temperature dropped below 4C.
 For the purposes of the calculation week is assumed to refer to a seven day
 rolling average as opposed to the calendar week.
 
-If there are multiple growing 'seasons' within the same year then
-the user has the option to pick the \code{"first"}/\code{"last"} or
+If there are multiple growing 'seasons' within the same year then by
+default the returned value is the sum of the GSDD values for \code{"all"} seasons.
+
+The user also has the option to pick the \code{"first"}/\code{"last"} or
 \code{"longest"}/\code{"shortest"} season or the season with
 the \code{"biggest"}/\code{"smallest"} GSDD.
-By default the returned value is the sum of the GSDD values for \code{"all"} seasons.
-
 If the user picks the \code{"longest"} season but there are multiple seasons
 with the longest length then the candidate
 season with the \code{"biggest"} GSDD is selected.
 Conversely in the case of multiple \code{"shortest"} seasons then the
 candidate with the \code{"smallest"} GSDD is selected.
-
-Missing values (\code{NA}s) at the start and
-end of the time series are trimmed prior to calculating GSDD.
-If the time series still contains one or missing values then a missing value
-is returned.
-In this situation it is recommended that the user replace
-the missing value(s) by interpolation or other methods rather than filtering
-out the \code{NA}s.
-
-Truncation occurs when the start and/or end
-of the time series is part way through a growing season.
 }
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))

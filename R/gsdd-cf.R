@@ -5,15 +5,20 @@
 #' beginning of winter. 
 #' It is the accumulated thermal units (in C) 
 #' during the growing season based on the mean daily water temperature values.
+#' 
+#' The GSDD is calculated across the longest consecutive sequence of non-missing
+#' values which must be at least 180 elements in length otherwise a 
+#' missing value is returned.
+#' If the time series includes missing values it is recommended that they are
+#' replaced by estimates of the actual values using linear
+#' interpolation (`[interpolate_numeric_vector()]`) or other predictive methods. 
+#' If the user removes the missing values then the returned GSDD value 
+#' will be less than the actual GSDD.
+#' 
 #' Truncation occurs when the start and/or end
 #' of the time series is part way through a growing season.
-#' 
-#' Missing values (`NA`s) at the start and
-#' end of the time series are trimmed prior to calculating GSDD.
-#' If the time series still contains one or missing values or 
-#' is less than 90 values in length then a missing value is returned. 
-#' In this situation it is recommended that the user replace 
-#' the missing value(s) by interpolation or other methods.
+#' If the user chooses to ignore truncation then the returned value
+#' will be less than the actual GSDD.
 #'
 #' By default the growing season is based on the interpretation of
 #' Coleman and Fausch (2007) who stated that
@@ -99,10 +104,14 @@ gsdd_cf <- function(x,
     pick, 
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
   chk_flag(quiet)
-  
-  x <- trim_na(x)
-  
-  if(length(x) < 90 || anyNA(x)) {
+
+  if(length(x) < 180) {
+    return(NA_real_)
+  }
+  if(anyNA(x)) {
+    x <- trim_na(x)
+  }
+  if(length(x) < 180 || anyNA(x)) {
     return(NA_real_)
   }
   # create rolling mean vector from x and window width

@@ -202,17 +202,17 @@ test_that("Gets with two weeks and 3 day window and smaller", {
 })
 
 test_that("Gets one week with end day after of 0", {
-  x <- c(rep(0, 90), rep(5.1, 7), rep(1, 0))
+  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 0))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7)
 })
 
 test_that("Gets one week with end day after of 1", {
-  x <- c(rep(0, 90), rep(5.1, 7), rep(1, 1))
+  x <- c(rep(0, 180), rep(5.1, 7), rep(1, 1))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7 + 1)
 })
 
 test_that("Gets with two weeks and 3 day window and smaller", {
-  x <- c(rep(0, 90), rep(5.1, 7))
+  x <- c(rep(0, 180), rep(5.1, 7))
   expect_equal(gsdd_cf(x, ignore_truncation = "end", quiet = TRUE), 5.1 * 7)
 })
 
@@ -324,9 +324,9 @@ test_that("Left truncated triangle", {
   expect_equal(gsdd_cf(x, ignore_truncation = "start", quiet = TRUE), sum(x[0:25]))
 })
 
-test_that("NA if less than 90 values after trimming trailing NAs", {
-  x <- c(rep(1,74), rep(NA,100))
+test_that("NA if less than 180 values after trimming trailing NAs", {
+  x <- c(rep(1,179), rep(NA,100))
   expect_identical(gsdd_cf(x),NA_real_)
-  x <- c(rep(1,90), rep(NA,100))
+  x <- c(rep(1,180), rep(NA,100))
   expect_identical(gsdd_cf(x),0)
 })
