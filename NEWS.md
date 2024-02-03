@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.0.1.9003
+
+- Return `NA` if less than 90 values after trimming trailing `NA`s.
+
+- Always trim missing values in tails.
+
+
 # teckfish 0.0.1.9002
 
 - Added `interpolate_numeric_vector()` to fill in missing values using linear interpolation.
