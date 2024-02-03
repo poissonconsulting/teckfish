@@ -6,7 +6,6 @@
 \usage{
 gsdd_cf(
   x,
-  na_trim = TRUE,
   ignore_truncation = FALSE,
   start_temp = 5,
   end_temp = 4,
@@ -18,12 +17,8 @@ gsdd_cf(
 \arguments{
 \item{x}{A numeric vector of the
 mean daily water temperature values for the period
-of interest in C. It must be consist of at least 90 and no more than
+of interest in C. It must be consist of no more than
 366 values.}
-
-\item{na_trim}{A flag specifying whether to trim missing values
-from the start and end of the time series. After trimming the time
-series must consist of at least 90 values.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore truncation
 of the mean daily water temperature vector
@@ -69,7 +64,7 @@ the last day of the first week that
 average stream temperature dropped below 4C.
 
 For the purposes of the calculation week is assumed to refer to a seven day
-rolling average as opposed to the calendar week,
+rolling average as opposed to the calendar week.
 
 If there are multiple growing 'seasons' within the same year then
 the user has the option to pick the \code{"first"}/\code{"last"} or
@@ -83,7 +78,7 @@ season with the \code{"biggest"} GSDD is selected.
 Conversely in the case of multiple \code{"shortest"} seasons then the
 candidate with the \code{"smallest"} GSDD is selected.
 
-If the user sets \code{na_trim = TRUE} then missing values (\code{NA}s) at the start and
+Missing values (\code{NA}s) at the start and
 end of the time series are trimmed prior to calculating GSDD.
 If the time series still contains one or missing values then a missing value
 is returned.

@@ -17,7 +17,7 @@
 #' average stream temperature dropped below 4C.
 #'
 #' For the purposes of the calculation week is assumed to refer to a seven day
-#' rolling average as opposed to the calendar week,
+#' rolling average as opposed to the calendar week.
 #' 
 #' If there are multiple growing 'seasons' within the same year then 
 #' the user has the option to pick the `"first"`/`"last"` or
@@ -31,7 +31,7 @@
 #' Conversely in the case of multiple `"shortest"` seasons then the
 #' candidate with the `"smallest"` GSDD is selected.
 #' 
-#' If the user sets `na_trim = TRUE` then missing values (`NA`s) at the start and
+#' Missing values (`NA`s) at the start and
 #' end of the time series are trimmed prior to calculating GSDD.
 #' If the time series still contains one or missing values then a missing value
 #' is returned. 
@@ -44,11 +44,8 @@
 #'
 #' @param x A numeric vector of the
 #' mean daily water temperature values for the period
-#' of interest in C. It must be consist of at least 90 and no more than 
+#' of interest in C. It must be consist of no more than 
 #' 366 values.
-#' @param na_trim A flag specifying whether to trim missing values 
-#' from the start and end of the time series. After trimming the time
-#' series must consist of at least 90 values.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
 #' of the mean daily water temperature vector 
 #' or a string of "start", "end", "none" or "both"
@@ -73,7 +70,6 @@
 #' gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
 #' gsdd_cf(teckfish::simulated_data$synthetic)
 gsdd_cf <- function(x,
-                    na_trim = TRUE,
                     ignore_truncation = FALSE,
                     start_temp = 5,
                     end_temp = 4,
@@ -82,9 +78,8 @@ gsdd_cf <- function(x,
                     quiet = FALSE) {
   chk_numeric(x)
   chk_vector(x)
-  chk_length(x, 90, 366)
-  chk_flag(na_trim)
-  
+  chk_length(x, 0, 366)
+
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
     ignore_truncation <- "both"
@@ -107,9 +102,7 @@ gsdd_cf <- function(x,
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
   chk_flag(quiet)
   
-  if(na_trim) {
-    x <- trim_na(x)
-  }
+  x <- trim_na(x)
   
   if(anyNA(x)) return(NA_real_)
   
