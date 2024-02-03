@@ -6,7 +6,7 @@
 \alias{teckfish-package}
 \title{teckfish: R Tools for Teck Fish and Aquatic Sciences Projects}
 \description{
-Provides functions to calculate growing season degree days from daily water temperature data and classify water temperature values as reasonable, questionable or erroneous. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
+Provides functionsclassify water temperature values as reasonable, questionable or erroneous, linearly interpolate missing values and calculate growing season degree days from daily water temperature data. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
 }
 \seealso{
 Useful links:
