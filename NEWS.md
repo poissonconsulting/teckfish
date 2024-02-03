@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.0.1.9002
+
+- Added `interpolate_numeric_vector()` to fill in missing values using linear interpolation.
+
+
 # teckfish 0.0.1.9001
 
 - `gsdd_cf()` now requires at least 90 values.
