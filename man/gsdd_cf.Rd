@@ -59,8 +59,8 @@ The GSDD is calculated across the longest consecutive sequence of non-missing
 values which must be at least 184 elements in length otherwise a
 missing value is returned.
 If the vector includes missing values it is recommended that they are
-replaced by estimates of the actual values using linear
-interpolation (\verb{[interpolate_numeric_vector()]}) or other predictive methods.
+replaced by estimates of the actual values using
+\code{\link[=interpolate_numeric_vector]{interpolate_numeric_vector()}} or other predictive methods.
 
 By default the default values and implementation of the
 growing season are based on the interpretation of
