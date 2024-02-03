@@ -11,7 +11,7 @@ gsdd_cf(
   end_temp = 4,
   window_width = 7,
   pick = "all",
-  quiet = FALSE
+  msgs = TRUE
 )
 }
 \arguments{
@@ -22,8 +22,8 @@ of interest in C. It must be consist of no more than
 
 \item{ignore_truncation}{A flag specifying whether to ignore truncation
 of the mean daily water temperature vector
-or a string of "start", "end", "none" or "both"
-specifying which type of truncation to ignore.}
+or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+(equivalent to TRUE) specifying which type of truncation to ignore.}
 
 \item{start_temp}{A positive real number of the average water temperature
 at the start of the growing season in C.}
@@ -40,7 +40,7 @@ width of the rolling mean window in days. By default 7.}
 "biggest" or "smallest" GSDD. By default the returned value is the
 sum of the GSDD values for "all" 'seasons'.}
 
-\item{quiet}{A flag specifying whether to suppress warnings.}
+\item{msgs}{A flag specifying whether to provide messages.}
 }
 \value{
 A non-negative real number of the GSDD.
@@ -51,23 +51,19 @@ that is a useful predictor of Cutthroat trout size at the
 beginning of winter.
 It is the accumulated thermal units (in C)
 during the growing season based on the mean daily water temperature values.
+Only GSDD values calculated using the default values should be considered
+equivalent to those of Coleman and Fausch (2007).
 }
 \details{
 The GSDD is calculated across the longest consecutive sequence of non-missing
 values which must be at least 184 elements in length otherwise a
 missing value is returned.
-If the time series includes missing values it is recommended that they are
+If the vector includes missing values it is recommended that they are
 replaced by estimates of the actual values using linear
 interpolation (\verb{[interpolate_numeric_vector()]}) or other predictive methods.
-If the user removes the missing values then the returned GSDD value
-will be less than the actual GSDD.
 
-Truncation occurs when the start and/or end
-of the time series is part way through a growing season.
-If the user chooses to ignore truncation then the returned value
-will be less than the actual GSDD.
-
-By default the growing season is based on the interpretation of
+By default the default values and implementation of the
+growing season are based on the interpretation of
 Coleman and Fausch (2007) who stated that
 
 We defined the start of the growing season as the
@@ -91,6 +87,11 @@ with the longest length then the candidate
 season with the \code{"biggest"} GSDD is selected.
 Conversely in the case of multiple \code{"shortest"} seasons then the
 candidate with the \code{"smallest"} GSDD is selected.
+
+Truncation occurs when the start and/or end
+of the time series is part way through a growing season.
+If the user chooses to ignore truncation then the returned value
+will be less than the actual GSDD.
 }
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))

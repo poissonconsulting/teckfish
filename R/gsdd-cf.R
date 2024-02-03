@@ -5,22 +5,18 @@
 #' beginning of winter. 
 #' It is the accumulated thermal units (in C) 
 #' during the growing season based on the mean daily water temperature values.
+#' Only GSDD values calculated using the default values should be considered
+#' equivalent to those of Coleman and Fausch (2007).
 #' 
 #' The GSDD is calculated across the longest consecutive sequence of non-missing
 #' values which must be at least 184 elements in length otherwise a 
 #' missing value is returned.
-#' If the time series includes missing values it is recommended that they are
+#' If the vector includes missing values it is recommended that they are
 #' replaced by estimates of the actual values using linear
 #' interpolation (`[interpolate_numeric_vector()]`) or other predictive methods. 
-#' If the user removes the missing values then the returned GSDD value 
-#' will be less than the actual GSDD.
-#' 
-#' Truncation occurs when the start and/or end
-#' of the time series is part way through a growing season.
-#' If the user chooses to ignore truncation then the returned value
-#' will be less than the actual GSDD.
 #'
-#' By default the growing season is based on the interpretation of
+#' By default the default values and implementation of the 
+#' growing season are based on the interpretation of
 #' Coleman and Fausch (2007) who stated that
 #'
 #' We defined the start of the growing season as the
@@ -44,6 +40,11 @@
 #' season with the `"biggest"` GSDD is selected.
 #' Conversely in the case of multiple `"shortest"` seasons then the
 #' candidate with the `"smallest"` GSDD is selected.
+#' 
+#' Truncation occurs when the start and/or end
+#' of the time series is part way through a growing season.
+#' If the user chooses to ignore truncation then the returned value
+#' will be less than the actual GSDD.
 #'
 #' @param x A numeric vector of the
 #' mean daily water temperature values for the period
@@ -51,8 +52,8 @@
 #' 366 values.
 #' @param ignore_truncation A flag specifying whether to ignore truncation
 #' of the mean daily water temperature vector 
-#' or a string of "start", "end", "none" or "both"
-#' specifying which type of truncation to ignore.
+#' or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+#' (equivalent to TRUE) specifying which type of truncation to ignore.
 #' @param start_temp A positive real number of the average water temperature
 #' at the start of the growing season in C.
 #' @param end_temp A positive real number of the average water temperature
@@ -64,8 +65,7 @@
 #' "longest", "shortest", "first" or "last" 'season' or the season with the
 #' "biggest" or "smallest" GSDD. By default the returned value is the
 #' sum of the GSDD values for "all" 'seasons'.
-#' @param quiet A flag specifying whether to suppress warnings.
-#'
+#' @param msgs A flag specifying whether to provide messages.
 #' @return A non-negative real number of the GSDD.
 #' @export
 #'
@@ -78,10 +78,10 @@ gsdd_cf <- function(x,
                     end_temp = 4,
                     window_width = 7,
                     pick = "all",
-                    quiet = FALSE) {
+                    msgs = TRUE) {
   chk_numeric(x)
   chk_vector(x)
-  chk_length(x, 0, 366)
+  chk_lte(length(x), 366)
 
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
@@ -103,13 +103,19 @@ gsdd_cf <- function(x,
   chk_subset(
     pick, 
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
-  chk_flag(quiet)
+  chk_flag(msgs)
 
   if(length(x) < 184) {
+    if (msgs) {
+      msg("`The length of `x` must be at least 184. Returning `NA`.")
+    }
     return(NA_real_)
   }
   x <- longest_run(x)
   if(length(x) < 184 || anyNA(x)) {
+    if(msgs) {
+      msg("The length of the longest non-missing sequence in `x` must be at least 184. Returning `NA`.")
+    }
     return(NA_real_)
   }
   # create rolling mean vector from x and window width
@@ -126,10 +132,10 @@ gsdd_cf <- function(x,
   # if season starts on first day, ignore_truncation left
   if (index_start[1] == 1L) {
     truncated <- TRUE
-    if (!quiet) {
-      warning("Growing season truncated.")
-    }
     if (ignore_truncation %in% c("none", "end")) {
+      if (msgs) {
+        msg("The growing season is truncated at the end of the sequence. Returning `NA`.")
+      }
       return(NA_real_)
     }
   }
@@ -137,10 +143,10 @@ gsdd_cf <- function(x,
   index_end <- index_begin_run(rollmean < end_temp)
   # if season doesnt end ignore_truncation right
   if (!length(index_end) || max(index_start) > max(index_end)) {
-    if (!truncated && !quiet) {
-      warning("Growing season truncated.")
-    }
     if (ignore_truncation %in% c("none", "start")) {
+      if (msgs) {
+        msg("The growing season is truncated at the start of the sequence. Returning `NA`.")
+      }
       return(NA_real_)
     }
     index_end <- c(index_end, length(rollmean))
