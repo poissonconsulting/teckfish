@@ -94,7 +94,7 @@ test_that("Gets growth period with smallest GSDD.", {
 
 test_that("Gets growth period with all GSDD.", {
   x <- c(rep(0, 100), rep(10, 50), rep(0, 50), rep(20, 40), rep(0, 115))
-  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9)
+  gsdd <- gsdd_cf(x, window_width = 3, start_temp = 9, end_temp = 9, pick = "all")
   expect_equal(gsdd, 1300)
 })
 
@@ -148,7 +148,7 @@ test_that("Gets growth period longest", {
   expect_equal(gsdd, NA_real_)
   gsdd <- gsdd_cf(x,
                   window_width = 3, start_temp = 9, end_temp = 9, msgs = FALSE,
-                  ignore_truncation = TRUE, pick = "longest"
+                  ignore_truncation = TRUE
   )
   expect_equal(gsdd, 500)
 })

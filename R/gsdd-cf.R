@@ -64,7 +64,7 @@
 #' @param pick A string specifying whether to pick the
 #' "longest", "shortest", "first" or "last" 'season' or the season with the
 #' "biggest" or "smallest" GSDD. By default the returned value is the
-#' sum of the GSDD values for "all" 'seasons'.
+#' the GSDD value for the "longest" 'season'.
 #' @param msgs A flag specifying whether to provide messages.
 #' @return A non-negative real number of the GSDD.
 #' @export
@@ -77,7 +77,7 @@ gsdd_cf <- function(x,
                     start_temp = 5,
                     end_temp = 4,
                     window_width = 7,
-                    pick = "all",
+                    pick = "longest",
                     msgs = TRUE) {
   chk_numeric(x)
   chk_vector(x)
