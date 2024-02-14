@@ -15,7 +15,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0000-0000-0000")),
     person("Teck Resources", role = c("fnd", "cph"))
   )
-Description: Provides functionsclassify water
+Description: Provides functions to classify water
     temperature values as reasonable, questionable or erroneous,
     linearly interpolate missing values
     and calculate growing season
