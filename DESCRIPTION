@@ -26,6 +26,7 @@ License: MIT + file LICENSE
 Imports: 
     chk,
     dplyr,
+    dttr2,
     tibble,
     purrr,
     rlang,

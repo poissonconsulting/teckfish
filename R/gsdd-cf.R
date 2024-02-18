@@ -1,4 +1,4 @@
-#' Calculate Growing Season Degree Days (GSDD)
+#' Calculate Growing Season Degree Days (GSDD) from a vector
 #'
 #' Growing Season Degree Days (GSDD) is a water temperature metric
 #' that is a useful predictor of Cutthroat trout size at the
@@ -66,6 +66,7 @@
 #' "biggest" or "smallest" GSDD. By default the returned value is the
 #' the GSDD value for the "longest" 'season'.
 #' @param msgs A flag specifying whether to provide messages.
+#' @seealso [`gsdd_cf_data()`]
 #' @return A non-negative real number of the GSDD.
 #' @export
 #'

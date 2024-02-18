@@ -2,7 +2,7 @@
 % Please edit documentation in R/gsdd-cf.R
 \name{gsdd_cf}
 \alias{gsdd_cf}
-\title{Calculate Growing Season Degree Days (GSDD)}
+\title{Calculate Growing Season Degree Days (GSDD) from a vector}
 \usage{
 gsdd_cf(
   x,
@@ -96,4 +96,7 @@ will be less than the actual GSDD.
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
 gsdd_cf(teckfish::simulated_data$synthetic)
+}
+\seealso{
+\code{\link[=gsdd_cf_data]{gsdd_cf_data()}}
 }
