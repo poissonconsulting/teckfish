@@ -19,25 +19,26 @@
 #' `year`, which is an integer vector, indicates the year in which the window
 #' began and `gsdd` which is a non-negative real number provides the GSDD
 #' or a missing value if it cannot be calculated.
+#' @seealso [gsdd_cf()]
 #' @export
 #'
 #' @examples
-#' x <- data.frame(temperature = teckfish::simulated_data$synthetic)
-#' x$date <- dttr2::dtt_seq(as.Date("1970-01-01"), as.Date("1970-12-31"))
-#' gsdd_cf_data(x)
+#' data <- teckfish::simulated_data
+#' data$temperature <- data$synthetic
+#' gsdd_cf_data(data)
 gsdd_cf_data <- function(
     x, 
-    start_date = as.Date("1972-03-01"), 
-    end_date = as.Date("1972-03-01"), 
+    start_date = as.Date("1972-01-01"), 
+    end_date = as.Date("1972-12-31"), 
     ...,
-    span = 3, 
+    span = 0, 
     tails = FALSE) {
   
   check_data(x, list(date = dttr2::dtt_date("1970-01-01"), temperature = c(1, NA)))
   chk_date(start_date)
   chk_date(end_date)
   chk_whole_number(span)
-  chk_gt(span)
+  chk_gte(span)
   
   end_dayte <- dttr2::dtt_dayte(end_date, start = start_date)
   start_dayte <- dttr2::dtt_dayte(start_date, start = start_date)
@@ -55,7 +56,7 @@ gsdd_cf_data <- function(
   
   x |>
     dplyr::mutate(
-      year = dttr2::dtt_dayte(.data$date, start = start_date),
+      year = dttr2::dtt_study_year(.data$date, start = start_date),
       year = stringr::str_extract(.data$year, "^\\d{4,4}"),
       year = as.integer(.data$year),
       dayte = dttr2::dtt_dayte(.data$date, start = start_date)) |>

@@ -6,10 +6,10 @@
 \usage{
 gsdd_cf_data(
   x,
-  start_date = as.Date("1972-03-01"),
-  end_date = as.Date("1972-03-01"),
+  start_date = as.Date("1972-01-01"),
+  end_date = as.Date("1972-12-31"),
   ...,
-  span = 3,
+  span = 0,
   tails = FALSE
 )
 }
@@ -26,7 +26,7 @@ to span two calendar years.}
 \item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
 
 \item{span}{A whole number of the maximum span of missing values to interpolate.
-If a gap exceeds the span none of the values are interpolate.}
+If a gap exceeds the span none of the values in the gap are interpolated.}
 
 \item{tails}{A flag specifying whether to fill in missing values at the
 start and end by setting them to be the same value as the closest
@@ -47,7 +47,10 @@ mean daily water temperature in degrees centigrade. For additional information o
 GSDD and the various arguments that can be passed via \code{...} see \code{\link[=gsdd_cf]{gsdd_cf()}}.
 }
 \examples{
-x <- data.frame(temperature = teckfish::simulated_data$synthetic)
-x$date <- dttr2::dtt_seq(as.Date("1970-01-01"), as.Date("1970-12-31"))
-gsdd_cf_data(x)
+data <- teckfish::simulated_data
+data$temperature <- data$synthetic
+gsdd_cf_data(data)
+}
+\seealso{
+\code{\link[=gsdd_cf]{gsdd_cf()}}
 }

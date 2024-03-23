@@ -11,7 +11,7 @@ interpolate_numeric_vector(x, span = 3, tails = FALSE)
 in using linear interpolation.}
 
 \item{span}{A whole number of the maximum span of missing values to interpolate.
-If a gap exceeds the span none of the values are interpolate.}
+If a gap exceeds the span none of the values in the gap are interpolated.}
 
 \item{tails}{A flag specifying whether to fill in missing values at the
 start and end by setting them to be the same value as the closest

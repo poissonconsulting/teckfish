@@ -42,7 +42,7 @@ which_replace <- function (x, max_span, min_gap = 0L, ends = TRUE)
 #' @param x A double or integer vector of with missing values to fill 
 #' in using linear interpolation.
 #' @param span A whole number of the maximum span of missing values to interpolate.
-#' If a gap exceeds the span none of the values are interpolate.
+#' If a gap exceeds the span none of the values in the gap are interpolated.
 #' @param tails A flag specifying whether to fill in missing values at the 
 #' start and end by setting them to be the same value as the closest
 #' adjacent non-missing value.
