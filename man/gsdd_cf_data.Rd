@@ -4,14 +4,24 @@
 \alias{gsdd_cf_data}
 \title{Calculate Growing Season Degree Days (GSDD) from a Data Frame}
 \usage{
-gsdd_cf_data(x, start_month = 3, end_month = 10, ..., span = 3, tails = FALSE)
+gsdd_cf_data(
+  x,
+  start_date = as.Date("1972-03-01"),
+  end_date = as.Date("1972-03-01"),
+  ...,
+  span = 3,
+  tails = FALSE
+)
 }
 \arguments{
-\item{x}{A data frame with two columns \code{date} and \code{water_temperature}.}
+\item{x}{A data frame with two columns \code{date} and \code{temperature}.}
 
-\item{start_month}{A whole number of the first month to include.}
+\item{start_date}{A Date scalar of the first date within each year to consider (the year
+is ignored).}
 
-\item{end_month}{A whole number of the last month to include.}
+\item{end_date}{A Date scalar of the last date within each year to consider (the date is ignored).
+If \code{end_date} is less than \code{start_date} (ignoring the year) then the window is considered
+to span two calendar years.}
 
 \item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
 
@@ -24,22 +34,20 @@ adjacent non-missing value.}
 }
 \value{
 A tibble with two columns \code{year} and \code{gsdd}.
-\code{year}, which is an integer, indicates the year in which the window
+\code{year}, which is an integer vector, indicates the year in which the window
 began and \code{gsdd} which is a non-negative real number provides the GSDD
 or a missing value if it cannot be calculated.
 }
 \description{
-The GSDD is calculated for each study year from a data frame of
-with a \code{date} and \code{water_temperature} values.
-\code{date}, which must be of class \code{Date} provides the date and
-\code{water_temperature} which must be a numeric vector provides the water temperature
-in degrees centigrade. For additional information on
+The GSDD is calculated for each study year from a data frame
+with \code{date} and \code{temperature} columns.
+\code{date}, which must be of class Date provides the dates and
+\code{temperature} which must be a numeric vector provides the
+mean daily water temperature in degrees centigrade. For additional information on
 GSDD and the various arguments that can be passed via \code{...} see \code{\link[=gsdd_cf]{gsdd_cf()}}.
 }
 \examples{
-x <- data.frame(water_temperature = teckfish::simulated_data$synthetic)
+x <- data.frame(temperature = teckfish::simulated_data$synthetic)
 x$date <- dttr2::dtt_seq(as.Date("1970-01-01"), as.Date("1970-12-31"))
 gsdd_cf_data(x)
-gsdd_cf_data(x, ignore_truncation = TRUE)
-gsdd_cf_data(x, end_month = 11)
 }

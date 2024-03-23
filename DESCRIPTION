@@ -31,6 +31,7 @@ Imports:
     purrr,
     rlang,
     tidyr,
+    stringr,
     zoo,
     fishbc
 Suggests:
