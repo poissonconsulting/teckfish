@@ -2,6 +2,7 @@
 
 export(classify_water_temp_data)
 export(freshwaterfish)
+export(gdd_cf_data)
 export(gsdd_cf)
 export(gsdd_cf_data)
 export(interpolate_numeric_vector)

@@ -22,6 +22,7 @@ test_that("gsdd_cf returns NA when missing summer", {
 
 test_that("vector must not contain NA values", {
   x <- simulated_data$synthetic
+  set.seed(100)
   random_indices <- sample(seq_along(x), 40)
   x[random_indices] <- NA
   expect_identical(gsdd_cf(x, msgs = FALSE), NA_real_)

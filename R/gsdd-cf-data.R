@@ -10,7 +10,7 @@
 #' @param x A data frame with two columns `date` and `temperature`. 
 #' @param start_date A Date scalar of the first date within each year to consider (the year
 #' is ignored).
-#' @param end_date A Date scalar of the last date within each year to consider (the date is ignored).
+#' @param end_date A Date scalar of the last date within each year to consider (the year is ignored).
 #' If `end_date` is less than `start_date` (ignoring the year) then the window is considered 
 #' to span two calendar years.
 #' @param ... Additional arguments passed to [`gsdd_cf()`].
@@ -19,7 +19,7 @@
 #' `year`, which is an integer vector, indicates the year in which the window
 #' began and `gsdd` which is a non-negative real number provides the GSDD
 #' or a missing value if it cannot be calculated.
-#' @seealso [gsdd_cf()]
+#' @seealso [gsdd_cf()] and [gdd_cf_data()]
 #' @export
 #'
 #' @examples
