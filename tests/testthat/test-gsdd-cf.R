@@ -46,7 +46,19 @@ test_that("if max temp in vector is lower than start_temp the function return 0"
 
 test_that("if end_temp is not reached, gsdd calculated to end of vector and message is provided.", {
   x <- simulated_data$synthetic
-  expect_message(gsdd_cf(x, end_temp = -40), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x, end_temp = -40), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
+})
+
+test_that("truncated at 100.", {
+  x <- simulated_data$synthetic
+  x[100] <- NA_real_
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+})
+
+test_that("truncated at 200.", {
+  x <- simulated_data$synthetic
+  x[200] <- NA_real_
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
 })
 
 test_that("if end_temp is reached at end of vector x, indicies do not fall off the edge", {
@@ -155,8 +167,8 @@ test_that("Gets growth period longest", {
 
 test_that("Gets growth gives messages with truncation.", {
   x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
-  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
-  expect_message(expect_identical(gsdd_cf(x, ignore_truncation = "start"), NA_real_), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x, ignore_truncation = "start"), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
 })
 
 test_that("Gets gsdd with single boiling day.", {

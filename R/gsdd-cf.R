@@ -135,7 +135,7 @@ gsdd_cf <- function(x,
     truncated <- TRUE
     if (ignore_truncation %in% c("none", "end")) {
       if (msgs) {
-        msg("The growing season is truncated at the end of the sequence. Returning `NA`.")
+        msg("The growing season is truncated at the start of the sequence. Returning `NA`.")
       }
       return(NA_real_)
     }
@@ -146,7 +146,7 @@ gsdd_cf <- function(x,
   if (!length(index_end) || max(index_start) > max(index_end)) {
     if (ignore_truncation %in% c("none", "start")) {
       if (msgs) {
-        msg("The growing season is truncated at the start of the sequence. Returning `NA`.")
+        msg("The growing season is truncated at the end of the sequence. Returning `NA`.")
       }
       return(NA_real_)
     }
