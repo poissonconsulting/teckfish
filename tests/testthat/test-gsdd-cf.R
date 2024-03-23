@@ -16,7 +16,7 @@ test_that("window_width must be odd", {
 
 test_that("gsdd_cf returns NA when missing summer", {
   x <- simulated_data$synthetic
-  x[85:320] <- NA_real_
+  x[11:360] <- NA_real_
   expect_identical(gsdd_cf(x, msgs = FALSE), NA_real_)
 })
 
@@ -324,16 +324,23 @@ test_that("Left truncated triangle", {
   expect_equal(gsdd_cf(x, ignore_truncation = "start", msgs = FALSE), sum(x[0:25]))
 })
 
-test_that("NA if less than 184 values after trimming trailing NAs", {
-  x <- c(rep(1,183), rep(NA,100))
-  expect_message(expect_identical(gsdd_cf(x),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 184. Returning `NA`.")
-  x <- c(rep(1,184), rep(NA,100))
+test_that("NA if less than 14 values after trimming trailing NAs", {
+  x <- c(rep(1,13), rep(NA,100))
+  expect_message(expect_identical(gsdd_cf(x),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 14. Returning `NA`.")
+  x <- c(rep(1,15), rep(NA,100))
   expect_identical(gsdd_cf(x),0)
 })
 
+test_that("NA if less than 20 values after trimming trailing NAs", {
+  x <- c(rep(1,21), rep(NA,100))
+  expect_message(expect_identical(gsdd_cf(x, window_width = 11),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 22. Returning `NA`.")
+  x <- c(rep(1,22), rep(NA,100))
+  expect_identical(gsdd_cf(x, window_width = 11),0)
+})
+
 test_that("extracts longest non-missing sequence (not just trim tails)", {
-  x <- c(NA,1,NA,rep(1,183),NA,1,NA)
+  x <- c(NA,1,NA,rep(1,13),NA,1,NA)
   expect_identical(gsdd_cf(x, msgs = FALSE),NA_real_) 
-  x <- c(NA,1,NA,rep(1,184),NA,1,NA)
+  x <- c(NA,1,NA,rep(1,14),NA,1,NA)
   expect_identical(gsdd_cf(x),0) 
 })

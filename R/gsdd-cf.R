@@ -9,7 +9,7 @@
 #' equivalent to those of Coleman and Fausch (2007).
 #' 
 #' The GSDD is calculated across the longest consecutive sequence of non-missing
-#' values which must be at least 184 elements in length otherwise a 
+#' values which must be at least twice the window width in length otherwise a 
 #' missing value is returned.
 #' If the vector includes missing values it is recommended that they are
 #' replaced by estimates of the actual values using 
@@ -83,7 +83,6 @@ gsdd_cf <- function(x,
   chk_numeric(x)
   chk_vector(x)
   chk_lte(length(x), 366)
-
   chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
   if (isTRUE(ignore_truncation)) {
     ignore_truncation <- "both"
@@ -105,17 +104,18 @@ gsdd_cf <- function(x,
     pick, 
     c("biggest", "smallest", "longest", "shortest", "first", "last", "all"))
   chk_flag(msgs)
-
-  if(length(x) < 184) {
+  
+  min_length <-  window_width * 2
+  if(length(x) < min_length) {
     if (msgs) {
-      msg("`The length of `x` must be at least 184. Returning `NA`.")
+      msg(paste0("`The length of `x` must be at least ", min_length, ". Returning `NA`."))
     }
     return(NA_real_)
   }
   x <- longest_run(x)
-  if(length(x) < 184 || anyNA(x)) {
+  if(length(x) < min_length || anyNA(x)) {
     if(msgs) {
-      msg("The length of the longest non-missing sequence in `x` must be at least 184. Returning `NA`.")
+      msg(paste0("The length of the longest non-missing sequence in `x` must be at least ", min_length, ". Returning `NA`."))
     }
     return(NA_real_)
   }

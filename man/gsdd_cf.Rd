@@ -56,7 +56,7 @@ equivalent to those of Coleman and Fausch (2007).
 }
 \details{
 The GSDD is calculated across the longest consecutive sequence of non-missing
-values which must be at least 184 elements in length otherwise a
+values which must be at least twice the window width in length otherwise a
 missing value is returned.
 If the vector includes missing values it is recommended that they are
 replaced by estimates of the actual values using
