@@ -33,8 +33,10 @@ gdd_cf_data <- function(
     start_date = as.Date("1972-01-01"), 
     end_date = as.Date("1972-09-30"),
     ignore_truncation = FALSE,
-    msgs = TRUE,
-    ...) {
+    start_temp = 5,
+    end_temp = 4,
+    window_width = 7,
+    msgs = TRUE) {
   
   chk_flag(ignore_truncation)
   
@@ -48,6 +50,8 @@ gdd_cf_data <- function(
     end_date, 
     ignore_truncation = ignore_truncation, 
     msgs = msgs,
-    ...,
-    gdd = TRUE)
+    start_temp = start_temp,
+    end_temp = end_temp,
+    window_width = window_width,
+    gss = TRUE)
 }

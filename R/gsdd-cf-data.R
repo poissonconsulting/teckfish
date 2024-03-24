@@ -15,7 +15,6 @@
 #' to span two calendar years.
 #' @inheritParams gsdd_cf
 #' @param ... Additional arguments passed to [`gsdd_cf()`].
-#' @inheritParams interpolate_numeric_vector
 #' @return A tibble with two columns `year` and `gsdd`.
 #' `year`, which is an integer vector, indicates the year in which the window
 #' began and `gsdd` which is a non-negative real number provides the GSDD

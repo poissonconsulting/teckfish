@@ -104,8 +104,10 @@
     end_date, 
     ignore_truncation,
     msgs,
-    ...,
-    gdd = FALSE) {
+    start_temp = 5,
+    end_temp = 4,
+    window_width = 7,
+    gss = FALSE) {
   check_data(x, list(date = dttr2::dtt_date("1970-01-01"), temperature = c(1, NA)))
   chk_date(start_date)
   chk_date(end_date)
@@ -118,7 +120,7 @@
       date = dttr2::dtt_date(.data$date)) |>
     check_key("date", x_name = "x") |>
     dplyr::arrange(.data$date)
-
+  
   x <- x |>
     dplyr::mutate(
       year = dttr2::dtt_study_year(.data$date, start = start_date),
@@ -132,25 +134,30 @@
   gsdd <- x |>
     dplyr::summarise(gsdd = gsdd_cf(
       .data$temperature,     
-      ignore_truncation = ignore_truncation, msgs = msgs, ...), .groups = "keep") |>
+      ignore_truncation = ignore_truncation, msgs = msgs, start_temp, end_temp = end_temp, window_width = window_width), .groups = "keep") |>
     dplyr::ungroup()
   
-  if(!gdd) {
+  if(!gss) {
     return(gsdd)
   }
-  complete <- x |>
-    dplyr::slice_tail() |>
-    dplyr::mutate(complete = .data$dayte == end_dayte)
   
-  if(msgs) {
-    n <- sum(!complete$complete)
-    if(n > 0) {
-      msg(message_chk("there %r %n year%s with insufficient enough degree days", n = n))
-    }
-  }
+  x |>
+    dplyr::group_modify(~gss_cf(.x$temperature, ignore_truncation = ignore_truncation, start_temp, end_temp = end_temp, window_width = window_width, msgs = msgs), .keep = TRUE)
   
-  gsdd |>
-    dplyr::inner_join(complete, by = "year") |>
-    dplyr::mutate(gdd = dplyr::if_else(!complete, NA_real_, .data$gsdd)) |>
-    dplyr::select("year", "gdd")
+  # 
+  # complete <- x |>
+  #   dplyr::slice_tail() |>
+  #   dplyr::mutate(complete = .data$dayte == end_dayte)
+  # 
+  # if(msgs) {
+  #   n <- sum(!complete$complete)
+  #   if(n > 0) {
+  #     msg(message_chk("there %r %n year%s with insufficient enough degree days", n = n))
+  #   }
+  # }
+  # 
+  # gsdd |>
+  #   dplyr::inner_join(complete, by = "year") |>
+  #   dplyr::mutate(gdd = dplyr::if_else(!complete, NA_real_, .data$gsdd)) |>
+  #   dplyr::select("year", "gdd")
 }
