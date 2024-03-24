@@ -28,8 +28,8 @@ gss_cf <- function(x,
     return(tibble::tibble(start_index = integer(0), end_index = integer(0), gsdd = numeric(0)))
   }
   data |>
-    dplyr::select(start_index = .data$index_start,
-                  end_index = .data$index_end,
+    dplyr::select(start_index = "index_start",
+                  end_index = "index_end",
                   "gsdd") |>
     dplyr::arrange(.data$start_index)
 }
