@@ -14,6 +14,7 @@
 #'  (the year is ignored).
 #' If `end_date` is less than `start_date` (ignoring the year) then the window is considered 
 #' to span two calendar years.
+#' @inheritParams gsdd_cf
 #' @param ignore_truncation A flag specifying whether to ignore start truncation (end truncation is always ignored).
 #' @param ... Additional arguments passed to [`gsdd_cf()`].
 #' @inheritParams interpolate_numeric_vector
@@ -33,6 +34,7 @@ gdd_cf_data <- function(
     start_date = as.Date("1972-01-01"), 
     end_date = as.Date("1972-09-30"),
     ignore_truncation = FALSE,
+    msgs = TRUE,
     ...,
     span = 0, 
     tails = FALSE) {
@@ -48,6 +50,7 @@ gdd_cf_data <- function(
     start_date, 
     end_date, 
     ignore_truncation = ignore_truncation, 
+    msgs = msgs,
     ..., 
     span = span, 
     tails = tails,

@@ -8,6 +8,8 @@ gsdd_cf_data(
   x,
   start_date = as.Date("1972-01-01"),
   end_date = as.Date("1972-12-31"),
+  ignore_truncation = FALSE,
+  msgs = TRUE,
   ...,
   span = 0,
   tails = FALSE
@@ -22,6 +24,13 @@ is ignored).}
 \item{end_date}{A Date scalar of the last date within each year to consider (the year is ignored).
 If \code{end_date} is less than \code{start_date} (ignoring the year) then the window is considered
 to span two calendar years.}
+
+\item{ignore_truncation}{A flag specifying whether to ignore truncation
+of the mean daily water temperature vector
+or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+(equivalent to TRUE) specifying which type of truncation to ignore.}
+
+\item{msgs}{A flag specifying whether to provide messages.}
 
 \item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
 

@@ -3,6 +3,7 @@
     start_date, 
     end_date, 
     ignore_truncation,
+    msgs,
     ...,
     span, 
     tails,
@@ -37,13 +38,28 @@
     dplyr::group_by(.data$year) |>
     dplyr::arrange(.data$dayte)
   
+  gsdd <- x |>
+    dplyr::summarise(gsdd = gsdd_cf(
+      .data$temperature,     
+      ignore_truncation = ignore_truncation, msgs = msgs, ...), .groups = "keep") |>
+    dplyr::ungroup()
+  
   if(!gdd) {
-    x <- x |>
-      dplyr::summarise(gsdd = gsdd_cf(
-        .data$temperature,     
-        ignore_truncation = ignore_truncation, ...), .groups = "keep") |>
-      dplyr::ungroup()
-    return(x)
+    return(gsdd)
   }
-  .NotYetImplemented()
+  complete <- x |>
+    dplyr::slice_tail() |>
+    dplyr::mutate(complete = .data$dayte == end_dayte)
+  
+  if(msgs) {
+    n <- sum(!complete$complete)
+    if(n > 0) {
+      msg(message_chk("there %r %n year%s with insufficient enough degree days", n = n))
+    }
+  }
+  
+  gsdd |>
+    dplyr::inner_join(complete, by = "year") |>
+    dplyr::mutate(gdd = dplyr::if_else(!complete, NA_real_, .data$gsdd)) |>
+    dplyr::select("year", "gdd")
 }

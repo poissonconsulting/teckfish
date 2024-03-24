@@ -9,6 +9,7 @@ gdd_cf_data(
   start_date = as.Date("1972-01-01"),
   end_date = as.Date("1972-09-30"),
   ignore_truncation = FALSE,
+  msgs = TRUE,
   ...,
   span = 0,
   tails = FALSE
@@ -26,6 +27,8 @@ If \code{end_date} is less than \code{start_date} (ignoring the year) then the w
 to span two calendar years.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore start truncation (end truncation is always ignored).}
+
+\item{msgs}{A flag specifying whether to provide messages.}
 
 \item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
 
