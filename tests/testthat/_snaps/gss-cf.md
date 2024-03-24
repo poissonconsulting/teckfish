@@ -5,7 +5,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1          79       311 3899.
 
 # gss_cf returns no rows when missing summer
@@ -23,7 +23,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1          78       310 3899.
 
 # if max temp in vector is lower than start_temp the function return no row
@@ -41,7 +41,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1          79       365 3922.
 
 # if start_temp is reached at start of vector x, indicies do not fall off the edge
@@ -56,7 +56,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1           1       149 2688.
 
 # growth period with biggest GSDD even though shorter period.
@@ -66,7 +66,7 @@
     Output
       # A tibble: 2 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1         101       151   500
       2         200       242   800
 
@@ -82,7 +82,7 @@
     Output
       # A tibble: 2 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1           1        51   500
       2         305       345   800
 
@@ -93,7 +93,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1          95       108   100
 
 # Gets gsdd with single hot day.
@@ -103,7 +103,7 @@
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
-              <int>     <dbl> <dbl>
+              <int>     <int> <dbl>
       1          95       108    36
 
 # Gets 0 gsdd with single warm day.

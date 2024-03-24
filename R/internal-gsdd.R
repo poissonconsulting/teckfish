@@ -70,7 +70,7 @@
       }
       return(NA_real_)
     }
-    index_end <- c(index_end, length(rollmean))
+    index_end <- as.integer(c(index_end, length(rollmean)))
   }
   
   tidyr::expand_grid(
@@ -87,8 +87,8 @@
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      index_end = .data$index_end + (window_width - 1),
-      ndays = .data$index_end - .data$index_start + 1
+      index_end = .data$index_end + (as.integer(window_width) - 1L),
+      ndays = .data$index_end - .data$index_start + 1L
     ) |>
     dplyr::mutate(gsdd = purrr::map2_dbl(
       .x = .data$index_start,
@@ -141,10 +141,18 @@
     return(gsdd)
   }
   
-  x |>
+  x <- x |>
     dplyr::group_modify(~gss_cf(.x$temperature, ignore_truncation = ignore_truncation, start_temp, end_temp = end_temp, window_width = window_width, msgs = msgs), .keep = TRUE)
   
-  # 
+  if(!nrow(x)) {
+    return(tibble::tibble(year = integer(), start_dayte = as.Date(integer()),
+                          end_dayte = as.Date(integer()), gsdd = numeric()))
+  }
+  x |>
+    dplyr::mutate(start_dayte = dttr::dtt_add_days(start_dayte, .data$start_index - 1L),
+                  end_dayte = dttr::dtt_add_days(start_dayte, .data$end_index - 1L)) |>
+    dplyr::select("year", "start_dayte", "end_dayte", "gsdd")
+  
   # complete <- x |>
   #   dplyr::slice_tail() |>
   #   dplyr::mutate(complete = .data$dayte == end_dayte)

@@ -7,6 +7,15 @@ test_that("gdd_cf_data works", {
   })
 })
 
+test_that("gdd_cf_data works", {
+  data <- simulated_data
+  data$temperature <- data$synthetic
+  gdd <- gdd_cf_data(data, window_width = 13)
+  expect_snapshot({
+    gdd
+  })
+})
+
 test_that("gdd_cf_data works shortened", {
   data <- simulated_data
   data$temperature <- data$synthetic
