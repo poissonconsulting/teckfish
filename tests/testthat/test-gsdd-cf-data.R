@@ -11,7 +11,7 @@ test_that("gsdd_cf_data NA if middle truncation", {
   data <- simulated_data
   data$temperature <- data$synthetic
   data$temperature[200] <- NA_real_
-  expect_message(gsdd <- gsdd_cf_data(data), "The growing season is truncated at the end of the sequence. Returning `NA`.")
+  expect_message(gsdd <- gsdd_cf_data(data), "The growing season is truncated at the end of the sequence.")
   expect_snapshot({
     gsdd
   })
@@ -21,7 +21,7 @@ test_that("gsdd_cf_data NA if earlier truncation", {
   data <- simulated_data
   data$temperature <- data$synthetic
   data$temperature[100] <- NA_real_
-  expect_message(gsdd <- gsdd_cf_data(data), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+  expect_message(gsdd <- gsdd_cf_data(data), "The growing season is truncated at the start of the sequence.")
   expect_snapshot({
     gsdd
   })

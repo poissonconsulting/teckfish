@@ -47,19 +47,19 @@ test_that("if max temp in vector is lower than start_temp the function return 0"
 
 test_that("if end_temp is not reached, gsdd calculated to end of vector and message is provided.", {
   x <- simulated_data$synthetic
-  expect_message(expect_identical(gsdd_cf(x, end_temp = -40), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x, end_temp = -40), NA_real_), "The growing season is truncated at the end of the sequence.")
 })
 
 test_that("truncated at 100.", {
   x <- simulated_data$synthetic
   x[100] <- NA_real_
-  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence.")
 })
 
 test_that("truncated at 200.", {
   x <- simulated_data$synthetic
   x[200] <- NA_real_
-  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the end of the sequence.")
 })
 
 test_that("if end_temp is reached at end of vector x, indicies do not fall off the edge", {
@@ -168,8 +168,8 @@ test_that("Gets growth period longest", {
 
 test_that("Gets growth gives messages with truncation.", {
   x <- c(rep(10, 50), rep(0, 255), rep(20, 40))
-  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence. Returning `NA`.")
-  expect_message(expect_identical(gsdd_cf(x, ignore_truncation = "start"), NA_real_), "The growing season is truncated at the end of the sequence. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x), NA_real_), "The growing season is truncated at the start of the sequence.")
+  expect_message(expect_identical(gsdd_cf(x, ignore_truncation = "start"), NA_real_), "The growing season is truncated at the end of the sequence.")
 })
 
 test_that("Gets gsdd with single boiling day.", {
@@ -339,14 +339,14 @@ test_that("Left truncated triangle", {
 
 test_that("NA if less than 14 values after trimming trailing NAs", {
   x <- c(rep(1,13), rep(NA,100))
-  expect_message(expect_identical(gsdd_cf(x),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 14. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 14.")
   x <- c(rep(1,15), rep(NA,100))
   expect_identical(gsdd_cf(x),0)
 })
 
 test_that("NA if less than 20 values after trimming trailing NAs", {
   x <- c(rep(1,21), rep(NA,100))
-  expect_message(expect_identical(gsdd_cf(x, window_width = 11),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 22. Returning `NA`.")
+  expect_message(expect_identical(gsdd_cf(x, window_width = 11),NA_real_), "The length of the longest non-missing sequence in `x` must be at least 22.")
   x <- c(rep(1,22), rep(NA,100))
   expect_identical(gsdd_cf(x, window_width = 11),0)
 })

@@ -9,8 +9,11 @@ gdd_cf_data(
   start_date = as.Date("1972-01-01"),
   end_date = as.Date("1972-09-30"),
   ignore_truncation = FALSE,
-  msgs = TRUE,
-  ...
+  start_temp = 5,
+  end_temp = 4,
+  window_width = 7,
+  pick = "longest",
+  msgs = TRUE
 )
 }
 \arguments{
@@ -26,9 +29,22 @@ to span two calendar years.}
 
 \item{ignore_truncation}{A flag specifying whether to ignore start truncation (end truncation is always ignored).}
 
-\item{msgs}{A flag specifying whether to provide messages.}
+\item{start_temp}{A positive real number of the average water temperature
+at the start of the growing season in C.}
 
-\item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
+\item{end_temp}{A positive real number of the average water temperature
+at the end of the growing season in C. It must be greater than or equal to
+the start temperature.}
+
+\item{window_width}{A positive whole number of the
+width of the rolling mean window in days. By default 7.}
+
+\item{pick}{A string specifying whether to pick the
+"longest", "shortest", "first" or "last" 'season' or the season with the
+"biggest" or "smallest" GSDD. By default the returned value is the
+the GSDD value for the "longest" 'season'.}
+
+\item{msgs}{A flag specifying whether to provide messages.}
 }
 \value{
 A tibble with two columns \code{year} and \code{gdd}.

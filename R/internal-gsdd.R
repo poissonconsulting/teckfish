@@ -28,14 +28,14 @@
   min_length <-  window_width * 2
   if(length(x) < min_length) {
     if (msgs) {
-      msg(paste0("`The length of `x` must be at least ", min_length, ". Returning `NA`."))
+      msg(paste0("`The length of `x` must be at least ", min_length, "."))
     }
     return(NA_real_)
   }
   x <- longest_run(x)
   if(length(x) < min_length || anyNA(x)) {
     if(msgs) {
-      msg(paste0("The length of the longest non-missing sequence in `x` must be at least ", min_length, ". Returning `NA`."))
+      msg(paste0("The length of the longest non-missing sequence in `x` must be at least ", min_length, "."))
     }
     return(NA_real_)
   }
@@ -55,7 +55,7 @@
     truncated <- TRUE
     if (ignore_truncation %in% c("none", "end")) {
       if (msgs) {
-        msg("The growing season is truncated at the start of the sequence. Returning `NA`.")
+        msg("The growing season is truncated at the start of the sequence.")
       }
       return(NA_real_)
     }
@@ -66,7 +66,7 @@
   if (!length(index_end) || max(index_start) > max(index_end)) {
     if (ignore_truncation %in% c("none", "start")) {
       if (msgs) {
-        msg("The growing season is truncated at the end of the sequence. Returning `NA`.")
+        msg("The growing season is truncated at the end of the sequence.")
       }
       return(NA_real_)
     }
@@ -149,8 +149,8 @@
                           end_dayte = as.Date(integer()), gsdd = numeric()))
   }
   x |>
-    dplyr::mutate(start_dayte = dttr::dtt_add_days(start_dayte, .data$start_index - 1L),
-                  end_dayte = dttr::dtt_add_days(start_dayte, .data$end_index - 1L)) |>
+    dplyr::mutate(start_dayte = dttr2::dtt_add_days(start_dayte, .data$start_index - 1L),
+                  end_dayte = dttr2::dtt_add_days(start_dayte, .data$end_index - 1L)) |>
     dplyr::select("year", "start_dayte", "end_dayte", "gsdd")
   
   # complete <- x |>

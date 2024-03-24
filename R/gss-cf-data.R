@@ -4,7 +4,7 @@
 #' @inheritParams gsdd_cf
 #' @inheritParams gsdd_cf_data
 #' @return A tibble with four columns `year`, `start_dayte`, `end_dayte` and `gsdd`.
-#' @seealso [gss_cf()] and [gssd_cf_data()]
+#' @seealso [gsdd_cf_data()]
 #' @export
 #'
 #' @examples
@@ -18,8 +18,6 @@ gss_cf_data <- function(
     ignore_truncation = FALSE,
     msgs = TRUE, 
     ...) {
-  
-  
   
   .gsdd_data(x, start_date = start_date, end_date = end_date, 
              ignore_truncation = ignore_truncation,

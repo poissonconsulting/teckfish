@@ -16,7 +16,6 @@
 #' to span two calendar years.
 #' @inheritParams gsdd_cf
 #' @param ignore_truncation A flag specifying whether to ignore start truncation (end truncation is always ignored).
-#' @param ... Additional arguments passed to [`gsdd_cf()`].
 #' @return A tibble with two columns `year` and `gdd`.
 #' `year`, which is an integer vector, indicates the year in which the window
 #' began and `gdd` which is a non-negative real number provides the GSDD
@@ -36,6 +35,7 @@ gdd_cf_data <- function(
     start_temp = 5,
     end_temp = 4,
     window_width = 7,
+    pick = "longest",
     msgs = TRUE) {
   
   chk_flag(ignore_truncation)

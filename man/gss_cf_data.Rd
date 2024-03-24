@@ -47,5 +47,5 @@ data$temperature <- data$synthetic
 gss_cf_data(data)
 }
 \seealso{
-\code{\link[=gss_cf]{gss_cf()}} and \code{\link[=gssd_cf_data]{gssd_cf_data()}}
+\code{\link[=gsdd_cf_data]{gsdd_cf_data()}}
 }
