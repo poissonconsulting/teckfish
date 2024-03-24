@@ -149,8 +149,10 @@
                           end_dayte = as.Date(integer()), gsdd = numeric()))
   }
   x |>
-    dplyr::mutate(start_dayte = dttr2::dtt_add_days(start_dayte, .data$start_index - 1L),
-                  end_dayte = dttr2::dtt_add_days(start_dayte, .data$end_index - 1L)) |>
+    dplyr::mutate(.start_dayte = start_dayte,
+                  start_dayte = dttr2::dtt_add_days(.data$.start_dayte, .data$start_index - 1L),
+                  end_dayte = dttr2::dtt_add_days(.data$.start_dayte, .data$end_index - 1L),
+    ) |>
     dplyr::select("year", "start_dayte", "end_dayte", "gsdd")
   
   # complete <- x |>

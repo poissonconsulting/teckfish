@@ -7,7 +7,7 @@
       # Groups:   year [1]
          year start_dayte end_dayte   gsdd
         <int> <date>      <date>     <dbl>
-      1  2019 1972-03-19  1973-01-23 3899.
+      1  2019 1972-03-19  1972-11-06 3899.
 
 ---
 
@@ -18,7 +18,7 @@
       # Groups:   year [1]
          year start_dayte end_dayte   gsdd
         <int> <date>      <date>     <dbl>
-      1  2019 1972-03-16  1973-01-23 3920.
+      1  2019 1972-03-16  1972-11-09 3920.
 
 # gss_cf_data shifts by 10
 
@@ -29,7 +29,7 @@
       # Groups:   year [1]
          year start_dayte end_dayte   gsdd
         <int> <date>      <date>     <dbl>
-      1  2019 1972-03-09  1973-01-03 3899.
+      1  2019 1972-03-09  1972-10-27 3899.
 
 # gss_cf_data preserves if shift start date
 
@@ -40,7 +40,7 @@
       # Groups:   year [1]
          year start_dayte end_dayte   gsdd
         <int> <date>      <date>     <dbl>
-      1  2019 1972-03-19  1972-12-23 3899.
+      1  2019 1972-03-19  1972-11-06 3899.
 
 ---
 
@@ -84,4 +84,16 @@
     Output
       # A tibble: 0 x 4
       # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
+
+# growth period with biggest GSDD even though shorter period.
+
+    Code
+      gss
+    Output
+      # A tibble: 2 x 4
+      # Groups:   year [1]
+         year start_dayte end_dayte   gsdd
+        <int> <date>      <date>     <dbl>
+      1  2022 1972-04-10  1972-05-30   500
+      2  2022 1972-07-18  1972-08-29   800
 
