@@ -10,9 +10,7 @@ gsdd_cf_data(
   end_date = as.Date("1972-12-31"),
   ignore_truncation = FALSE,
   msgs = TRUE,
-  ...,
-  span = 0,
-  tails = FALSE
+  ...
 )
 }
 \arguments{
@@ -33,13 +31,6 @@ or a string of "start", "end", "none" (equivalent to FALSE) or "both"
 \item{msgs}{A flag specifying whether to provide messages.}
 
 \item{...}{Additional arguments passed to \code{\link[=gsdd_cf]{gsdd_cf()}}.}
-
-\item{span}{A whole number of the maximum span of missing values to interpolate.
-If a gap exceeds the span none of the values in the gap are interpolated.}
-
-\item{tails}{A flag specifying whether to fill in missing values at the
-start and end by setting them to be the same value as the closest
-adjacent non-missing value.}
 }
 \value{
 A tibble with two columns \code{year} and \code{gsdd}.

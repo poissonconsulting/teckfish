@@ -27,16 +27,6 @@ test_that("gsdd_cf_data NA if earlier truncation", {
   })
 })
 
-test_that("gsdd_cf_data span works", {
-  data <- simulated_data
-  data$temperature <- data$synthetic
-  data$temperature[100] <- NA_real_
-  gsdd <- gsdd_cf_data(data, span = 1)
-  expect_snapshot({
-    gsdd
-  })
-})
-
 test_that("gsdd_cf_data NA if truncated", {
   data <- simulated_data
   data$temperature <- data$synthetic

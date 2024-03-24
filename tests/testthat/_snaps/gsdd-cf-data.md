@@ -28,16 +28,6 @@
         <int> <dbl>
       1  2019    NA
 
-# gsdd_cf_data span works
-
-    Code
-      gsdd
-    Output
-      # A tibble: 1 x 2
-         year  gsdd
-        <int> <dbl>
-      1  2019 3898.
-
 # gsdd_cf_data NA if truncated
 
     Code

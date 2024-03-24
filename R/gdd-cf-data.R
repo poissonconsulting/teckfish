@@ -17,7 +17,6 @@
 #' @inheritParams gsdd_cf
 #' @param ignore_truncation A flag specifying whether to ignore start truncation (end truncation is always ignored).
 #' @param ... Additional arguments passed to [`gsdd_cf()`].
-#' @inheritParams interpolate_numeric_vector
 #' @return A tibble with two columns `year` and `gdd`.
 #' `year`, which is an integer vector, indicates the year in which the window
 #' began and `gdd` which is a non-negative real number provides the GSDD
@@ -35,9 +34,7 @@ gdd_cf_data <- function(
     end_date = as.Date("1972-09-30"),
     ignore_truncation = FALSE,
     msgs = TRUE,
-    ...,
-    span = 0, 
-    tails = FALSE) {
+    ...) {
   
   chk_flag(ignore_truncation)
   
@@ -51,8 +48,6 @@ gdd_cf_data <- function(
     end_date, 
     ignore_truncation = ignore_truncation, 
     msgs = msgs,
-    ..., 
-    span = span, 
-    tails = tails,
+    ...,
     gdd = TRUE)
 }

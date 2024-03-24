@@ -33,12 +33,10 @@ gsdd_cf_data <- function(
     end_date = as.Date("1972-12-31"), 
     ignore_truncation = FALSE,
     msgs = TRUE, 
-    ...,
-    span = 0, 
-    tails = FALSE) {
+    ...) {
   
   .gsdd_data(x, start_date = start_date, end_date = end_date, 
              ignore_truncation = ignore_truncation,
              msgs = msgs,
-             ..., span = span, tails = tails)
+             ...)
 }
