@@ -1,7 +1,7 @@
 # output is a numeric value
 
     Code
-      output
+      gss
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
@@ -11,7 +11,7 @@
 # gss_cf returns no rows when missing summer
 
     Code
-      output
+      gss
     Output
       # A tibble: 0 x 3
       # i 3 variables: start_index <int>, end_index <int>, gsdd <dbl>
@@ -19,7 +19,7 @@
 # gss_cf trims missing values
 
     Code
-      output
+      gss
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
@@ -29,7 +29,7 @@
 # if max temp in vector is lower than start_temp the function return no row
 
     Code
-      output
+      gss
     Output
       # A tibble: 0 x 3
       # i 3 variables: start_index <int>, end_index <int>, gsdd <dbl>
@@ -37,7 +37,7 @@
 # if end_temp is reached at end of vector x, indicies do not fall off the edge
 
     Code
-      gsdd
+      gss
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
@@ -47,12 +47,12 @@
 # if start_temp is reached at start of vector x, indicies do not fall off the edge
 
     Code
-      gsdd1
+      gss1
     Output
       # A tibble: 0 x 3
       # i 3 variables: start_index <int>, end_index <int>, gsdd <dbl>
     Code
-      gsdd2
+      gss2
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
@@ -62,7 +62,7 @@
 # growth period with biggest GSDD even though shorter period.
 
     Code
-      gsdd
+      gss
     Output
       # A tibble: 2 x 3
         start_index end_index  gsdd
@@ -73,12 +73,12 @@
 # growth period with higher GSDD even though shorter period.
 
     Code
-      gsdd1
+      gss1
     Output
       # A tibble: 0 x 3
       # i 3 variables: start_index <int>, end_index <int>, gsdd <dbl>
     Code
-      gsdd2
+      gss2
     Output
       # A tibble: 2 x 3
         start_index end_index  gsdd
@@ -86,30 +86,30 @@
       1           1        51   500
       2         305       345   800
 
-# Gets gsdd with single boiling day.
+# Gets gss with single boiling day.
 
     Code
-      gsdd
+      gss
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
               <int>     <int> <dbl>
       1          95       108   100
 
-# Gets gsdd with single hot day.
+# Gets gss with single hot day.
 
     Code
-      gsdd
+      gss
     Output
       # A tibble: 1 x 3
         start_index end_index  gsdd
               <int>     <int> <dbl>
       1          95       108    36
 
-# Gets 0 gsdd with single warm day.
+# Gets 0 gss with single warm day.
 
     Code
-      gsdd
+      gss
     Output
       # A tibble: 0 x 3
       # i 3 variables: start_index <int>, end_index <int>, gsdd <dbl>
