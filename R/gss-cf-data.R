@@ -22,5 +22,5 @@ gss_cf_data <- function(
   .gsdd_data(x, start_date = start_date, end_date = end_date, 
              ignore_truncation = ignore_truncation,
              msgs = msgs,
-             ...)
+             ..., gss = TRUE)
 }
