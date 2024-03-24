@@ -52,6 +52,6 @@ gdd_cf_data <- function(
     msgs = msgs,
     start_temp = start_temp,
     end_temp = end_temp,
-    window_width = window_width,
-    gss = TRUE)
+    window_width = window_width) |>
+    dplyr::rename(gdd = "gsdd")
 }

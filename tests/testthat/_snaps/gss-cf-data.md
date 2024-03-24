@@ -1,7 +1,7 @@
 # gss_cf_data works
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 1 x 4
       # Groups:   year [1]
@@ -12,7 +12,7 @@
 ---
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 1 x 4
       # Groups:   year [1]
@@ -23,7 +23,7 @@
 # gss_cf_data shifts by 10
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 1 x 4
       # Groups:   year [1]
@@ -34,7 +34,7 @@
 # gss_cf_data preserves if shift start date
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 1 x 4
       # Groups:   year [1]
@@ -45,7 +45,7 @@
 ---
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 1 x 4
       # Groups:   year [1]
@@ -56,7 +56,7 @@
 # gss_cf_data one message
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 0 x 4
       # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
@@ -64,15 +64,7 @@
 # gss_cf_data works shortened
 
     Code
-      gdd
-    Output
-      # A tibble: 0 x 4
-      # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
-
-# gss_cf_data works very shortened
-
-    Code
-      gdd
+      gss
     Output
       # A tibble: 0 x 4
       # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
@@ -80,7 +72,7 @@
 # gss_cf_data NA if stops before
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 0 x 4
       # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
@@ -88,7 +80,7 @@
 # gss_cf_data NA if missing
 
     Code
-      gdd
+      gss
     Output
       # A tibble: 0 x 4
       # i 4 variables: year <int>, start_dayte <date>, end_dayte <date>, gsdd <dbl>
