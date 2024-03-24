@@ -1,3 +1,103 @@
+.gss <- function(x,
+                 ignore_truncation,
+                 start_temp,
+                 end_temp,
+                 window_width,
+                 msgs) {
+  chk_numeric(x)
+  chk_vector(x)
+  chk_lte(length(x), 366)
+  chkor_vld(vld_flag(ignore_truncation), vld_string(ignore_truncation))
+  if (isTRUE(ignore_truncation)) {
+    ignore_truncation <- "both"
+  } else if (isFALSE(ignore_truncation)) {
+    ignore_truncation <- "none"
+  }
+  chk_subset(ignore_truncation, c("none", "start", "end", "both"))
+  chk_number(start_temp)
+  chk_number(end_temp)
+  chk_gt(start_temp)
+  chk_gte(start_temp, end_temp)
+  chk_count(window_width)
+  chk_range(window_width, c(3, 14))
+  if (is_even(window_width)) {
+    abort_chk("`window_width` must be odd.")
+  }
+  chk_flag(msgs)
+  
+  min_length <-  window_width * 2
+  if(length(x) < min_length) {
+    if (msgs) {
+      msg(paste0("`The length of `x` must be at least ", min_length, ". Returning `NA`."))
+    }
+    return(NA_real_)
+  }
+  x <- longest_run(x)
+  if(length(x) < min_length || anyNA(x)) {
+    if(msgs) {
+      msg(paste0("The length of the longest non-missing sequence in `x` must be at least ", min_length, ". Returning `NA`."))
+    }
+    return(NA_real_)
+  }
+  # create rolling mean vector from x and window width
+  rollmean <- zoo::rollmean(x = x, k = window_width)
+  
+  # pick which indices have values above start temp that begin runs
+  index_start <- index_begin_run(rollmean > start_temp)
+  
+  # no GSDD if season never starts
+  if (!length(index_start)) {
+    return(0)
+  }
+  truncated <- FALSE
+  # if season starts on first day, ignore_truncation left
+  if (index_start[1] == 1L) {
+    truncated <- TRUE
+    if (ignore_truncation %in% c("none", "end")) {
+      if (msgs) {
+        msg("The growing season is truncated at the start of the sequence. Returning `NA`.")
+      }
+      return(NA_real_)
+    }
+  }
+  # pick which indices have values above and temp that begin runs
+  index_end <- index_begin_run(rollmean < end_temp)
+  # if season doesnt end ignore_truncation right
+  if (!length(index_end) || max(index_start) > max(index_end)) {
+    if (ignore_truncation %in% c("none", "start")) {
+      if (msgs) {
+        msg("The growing season is truncated at the end of the sequence. Returning `NA`.")
+      }
+      return(NA_real_)
+    }
+    index_end <- c(index_end, length(rollmean))
+  }
+  
+  tidyr::expand_grid(
+    index_start = index_start,
+    index_end = index_end
+  ) |>
+    dplyr::filter(.data$index_start <= .data$index_end) |>
+    dplyr::group_by(.data$index_start) |>
+    dplyr::arrange(.data$index_end) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::group_by(.data$index_end) |>
+    dplyr::arrange(.data$index_start) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      index_end = .data$index_end + (window_width - 1),
+      ndays = .data$index_end - .data$index_start + 1
+    ) |>
+    dplyr::mutate(gsdd = purrr::map2_dbl(
+      .x = .data$index_start,
+      .y = .data$index_end,
+      .f = sum_vector,
+      ..vector = x
+    ))
+}
+
 .gsdd_data <- function(
     x, 
     start_date, 
