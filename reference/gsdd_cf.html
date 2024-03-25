@@ -57,7 +57,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gsdd_cf</span><span class="op">(</span><span class="va">x</span>, min_length <span class="op">=</span> <span class="fl">122</span>, msgs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gsdd_cf</span><span class="op">(</span><span class="va">x</span>, ignore_truncation <span class="op">=</span> <span class="cn">FALSE</span>, min_length <span class="op">=</span> <span class="fl">122</span>, msgs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +66,13 @@
 <dd><p>A numeric vector of the
 mean daily water temperature values for the period
 of interest in C.</p></dd>
+
+
+<dt>ignore_truncation</dt>
+<dd><p>A flag specifying whether to ignore truncation
+of the mean daily water temperature vector
+or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+(equivalent to TRUE) specifying which type of truncation to ignore.</p></dd>
 
 
 <dt>min_length</dt>
