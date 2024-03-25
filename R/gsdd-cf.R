@@ -13,7 +13,7 @@
 gsdd_cf <- function(
     x,
     ignore_truncation = FALSE,
-    min_length = 122,
+    min_length = 120,
     msgs = TRUE
 ) {
   lifecycle::deprecate_soft("0.1.2", "gsdd_cf()", with = "gsdd::gsdd_vctr()")

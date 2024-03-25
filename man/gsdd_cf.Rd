@@ -4,7 +4,7 @@
 \alias{gsdd_cf}
 \title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
-gsdd_cf(x, ignore_truncation = FALSE, min_length = 122, msgs = TRUE)
+gsdd_cf(x, ignore_truncation = FALSE, min_length = 120, msgs = TRUE)
 }
 \arguments{
 \item{x}{A numeric vector of the

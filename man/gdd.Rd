@@ -4,7 +4,7 @@
 \alias{gdd}
 \title{Calculate Growing Degree Days (GDD)}
 \usage{
-gdd(x, end_date = as.Date("1972-09-30"), min_length = 61, msgs = TRUE)
+gdd(x, end_date = as.Date("1972-09-30"), min_length = 60, msgs = TRUE)
 }
 \arguments{
 \item{x}{A data frame with two columns \code{date} and \code{temperature}.

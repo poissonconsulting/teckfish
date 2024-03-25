@@ -2,7 +2,7 @@
 
 # teckfish 0.2.1
 
-- Set lower default `min_length = 122` for `gsdd_cf()`.
+- Set lower default `min_length = 120` for `gsdd_cf()`.
 
 # teckfish 0.2.0
 

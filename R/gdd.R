@@ -12,7 +12,7 @@
 gdd <- function(
     x,
     end_date = as.Date("1972-09-30"),
-    min_length = 61,
+    min_length = 60,
     msgs = TRUE
 ) {
   chk_whole_number(min_length)

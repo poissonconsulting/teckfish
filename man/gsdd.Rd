@@ -4,7 +4,7 @@
 \alias{gsdd}
 \title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
-gsdd(x, min_length = 122, msgs = TRUE)
+gsdd(x, min_length = 120, msgs = TRUE)
 }
 \arguments{
 \item{x}{A data frame with two columns \code{date} and \code{temperature}.
