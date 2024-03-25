@@ -21,7 +21,7 @@
 - Returns the sum of the Growing Season Degree Days for all the growing 'seasons' although the user can use the `pick` argument to specify whether to instead return the GSDD value for the `"biggest"`, `"smallest"`, `"longest"`, `"shortest"`, `"first"` or `"last"` 'season' within the sequence.
 - `ignore_truncation` argument of `gssd_cf()` now accepts `"start"` and `"end"` instead of
 `"left"` and `"right"`.
-- Replaced `quiet = FALSE` argument with `messages = TRUE`.
+- Replaced `quiet = FALSE` argument with `msgs = TRUE`.
 
 # teckfish 0.0.1
 
