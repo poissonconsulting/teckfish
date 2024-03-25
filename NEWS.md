@@ -1,5 +1,18 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.1.1.9000
+
+- Added `gsdd()` and `gdd()`.
+
+- Removed `simulated_data`.
+
+- Soft-deprecated `gsdd_cf()` for `gsdd_vctr()`.
+
+- Switch to gsdd package to calculate gsdd.
+
+- Switched default `pick` argument to `longest` following recommendations from Ecofish and Lotic.
+
+
 # teckfish 0.1.1
 
 - Switched default `pick` argument to `longest` following recommendations from Ecofish and Lotic.
