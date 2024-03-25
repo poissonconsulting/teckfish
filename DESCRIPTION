@@ -30,7 +30,7 @@ Imports:
     chk,
     dplyr,
     fishbc,
-    gsdd,
+    gsdd (>= 0.0.0.9001),
     lifecycle,
     purrr,
     rlang,
