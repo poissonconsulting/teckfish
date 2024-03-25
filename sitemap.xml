@@ -46,7 +46,16 @@
     <loc>https://poissonconsulting.github.io/teckfish/reference/freshwaterfish.html</loc>
   </url>
   <url>
+    <loc>https://poissonconsulting.github.io/teckfish/reference/gdd.html</loc>
+  </url>
+  <url>
+    <loc>https://poissonconsulting.github.io/teckfish/reference/gsdd.html</loc>
+  </url>
+  <url>
     <loc>https://poissonconsulting.github.io/teckfish/reference/gsdd_cf.html</loc>
+  </url>
+  <url>
+    <loc>https://poissonconsulting.github.io/teckfish/reference/gsdd_vctr.html</loc>
   </url>
   <url>
     <loc>https://poissonconsulting.github.io/teckfish/reference/index.html</loc>
@@ -56,9 +65,6 @@
   </url>
   <url>
     <loc>https://poissonconsulting.github.io/teckfish/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/simulated_data.html</loc>
   </url>
   <url>
     <loc>https://poissonconsulting.github.io/teckfish/reference/teckfish-package.html</loc>
