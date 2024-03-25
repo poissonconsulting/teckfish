@@ -26,18 +26,19 @@ License: MIT + file LICENSE
 Imports: 
     chk,
     dplyr,
+    fishbc,
+    gsdd,
     tibble,
     purrr,
-    rlang,
-    tidyr,
-    zoo,
-    fishbc
+    rlang
 Suggests:
     ggplot2,
     knitr,
     rmarkdown,
     scales,
     testthat (>= 3.0.0)
+Remotes:
+    poissonconsulting/gsdd
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
