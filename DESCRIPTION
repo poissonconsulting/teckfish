@@ -30,7 +30,8 @@ Imports:
     gsdd,
     tibble,
     purrr,
-    rlang
+    rlang,
+    lifecycle
 Suggests:
     ggplot2,
     knitr,

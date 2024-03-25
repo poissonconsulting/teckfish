@@ -3,7 +3,8 @@
 
 ## usethis namespace: start
 #' @import chk
-#' @importFrom tibble tibble
+#' @importFrom lifecycle deprecated
 #' @importFrom rlang .data
+#' @importFrom tibble tibble
 ## usethis namespace: end
 NULL
