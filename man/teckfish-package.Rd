@@ -6,12 +6,14 @@
 \alias{teckfish-package}
 \title{teckfish: R Tools for Teck Fish and Aquatic Sciences Projects}
 \description{
-Provides functions to classify water temperature values as reasonable, questionable or erroneous, linearly interpolate missing values and calculate growing season degree days from daily water temperature data. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
+Provides functions linearly interpolate missing values and calculate growing season degree days and growing degree days from daily water temperature data. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://poissonconsulting.github.io/teckfish/}
+  \item \url{https://github.com/poissonconsulting/teckfish}
+  \item Report bugs at \url{https://github.com/poissonconsulting/teckfish/issues/}
 }
 
 }
@@ -20,12 +22,12 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Sarah Lyons (\href{https://orcid.org/0000-0002-6745-6796}{ORCID})
   \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
 }
 
 Other contributors:
 \itemize{
+  \item Sarah Lyons (\href{https://orcid.org/0000-0002-6745-6796}{ORCID}) [contributor]
   \item Bronwen Lewis [contributor]
   \item Jill Brooks [contributor]
   \item Andrew Harwood [contributor]

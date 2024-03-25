@@ -4,10 +4,10 @@ Version: 0.1.1
 Authors@R: c(
     person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7683-4592")),
-    person("Sarah", "Lyons", role = "aut",
-           comment = c(ORCID = "0000-0002-6745-6796")),
     person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
            comment = c(ORCID = "0000-0001-7388-1222")),
+    person("Sarah", "Lyons", role = "ctb",
+           comment = c(ORCID = "0000-0002-6745-6796")),
     person("Bronwen", "Lewis", role = "ctb"),
     person("Jill", "Brooks", role = "ctb"),
     person("Andrew", "Harwood", role = "ctb"),
@@ -15,38 +15,38 @@ Authors@R: c(
            comment = c(ORCID = "0000-0000-0000-0000")),
     person("Teck Resources", role = c("fnd", "cph"))
   )
-Description: Provides functions to classify water
-    temperature values as reasonable, questionable or erroneous,
-    linearly interpolate missing values
-    and calculate growing season
-    degree days from daily water temperature data.
-    It also exports fish codes for British Columbia
-    and Alberta from the `fishbc` package.
+Description: Provides functions linearly interpolate missing
+    values and calculate growing season degree days and growing degree days 
+    from daily water temperature data.  
+    It also exports fish codes for British Columbia and
+    Alberta from the `fishbc` package.
 License: MIT + file LICENSE
+URL: https://poissonconsulting.github.io/teckfish/,
+    https://github.com/poissonconsulting/teckfish
+BugReports: https://github.com/poissonconsulting/teckfish/issues/
+Depends: 
+    R (>= 4.1)
 Imports: 
     chk,
     dplyr,
     fishbc,
     gsdd,
-    tibble,
+    lifecycle,
     purrr,
     rlang,
-    lifecycle
+    tibble
 Suggests:
     ggplot2,
     knitr,
     rmarkdown,
     scales,
     testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Remotes:
     poissonconsulting/gsdd
 Config/testthat/edition: 3
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Depends: 
-    R (>= 4.1)
-LazyData: true
-VignetteBuilder: knitr
-URL: https://poissonconsulting.github.io/teckfish/, https://github.com/poissonconsulting/teckfish
-BugReports: https://github.com/poissonconsulting/teckfish/issues/
