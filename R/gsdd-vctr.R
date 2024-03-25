@@ -1,4 +1,4 @@
-#' Calculate Growing Season Degree Days (GSDD)
+#' Calculate Growing Season Degree Days (GSDD) from a vector
 #'
 #' @inheritParams gsdd::gsdd_vctr
 #' @return A non-negative real number of the GSDD.
@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' gsdd_vctr(c(rep(1, 10), rep(10, 20), rep(1, 200)))
-#' gsdd_vctr(teckfish::simulated_data$synthetic)
+#' gsdd_vctr(gsdd::temperature_data$temperature)
 gsdd_vctr <- function(
     x,
     ignore_truncation = FALSE,

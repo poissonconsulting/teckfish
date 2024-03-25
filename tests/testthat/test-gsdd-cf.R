@@ -1,5 +1,4 @@
 test_that("output is a numeric value", {
-  x <- simulated_data$synthetic
-  lifecycle::expect_deprecated(output <- gsdd_cf(x))
+  lifecycle::expect_deprecated(output <- gsdd_cf(gsdd::temperature_data$temperature))
   expect_equal(output, 3898.80557580767)
 })

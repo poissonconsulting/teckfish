@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
-#' gsdd_cf(teckfish::simulated_data$synthetic)
+#' gsdd_cf(gsdd::temperature_data$temperature)
 gsdd_cf <- function(
     x,
     ignore_truncation = FALSE,

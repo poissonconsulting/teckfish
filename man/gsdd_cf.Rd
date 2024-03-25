@@ -31,7 +31,7 @@ Calculate Growing Season Degree Days (GSDD)
 }
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))
-gsdd_cf(teckfish::simulated_data$synthetic)
+gsdd_cf(gsdd::temperature_data$temperature)
 }
 \seealso{
 \code{\link[gsdd:gsdd_vctr]{gsdd::gsdd_vctr()}}
