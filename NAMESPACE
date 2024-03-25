@@ -3,6 +3,7 @@
 export(classify_water_temp_data)
 export(freshwaterfish)
 export(gsdd_cf)
+export(gsdd_vctr)
 export(interpolate_numeric_vector)
 import(chk)
 importFrom(fishbc,fbc_common_name)
