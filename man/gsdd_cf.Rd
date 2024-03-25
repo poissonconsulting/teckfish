@@ -4,12 +4,17 @@
 \alias{gsdd_cf}
 \title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
-gsdd_cf(x, min_length = 122, msgs = TRUE)
+gsdd_cf(x, ignore_truncation = FALSE, min_length = 122, msgs = TRUE)
 }
 \arguments{
 \item{x}{A numeric vector of the
 mean daily water temperature values for the period
 of interest in C.}
+
+\item{ignore_truncation}{A flag specifying whether to ignore truncation
+of the mean daily water temperature vector
+or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+(equivalent to TRUE) specifying which type of truncation to ignore.}
 
 \item{min_length}{A whole number of the minimum length to consider.
 Must be at least twice the window width but no more than 365.

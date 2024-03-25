@@ -12,6 +12,7 @@
 #' gsdd_cf(gsdd::temperature_data$temperature)
 gsdd_cf <- function(
     x,
+    ignore_truncation = FALSE,
     min_length = 122,
     msgs = TRUE
 ) {
@@ -21,6 +22,7 @@ gsdd_cf <- function(
   
   gsdd::gsdd_vctr(
     x, 
+    ignore_truncation = ignore_truncation,
     min_length = min_length, 
     msgs = msgs)
 }
