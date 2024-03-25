@@ -31,11 +31,12 @@ If NULL then set to be the difference between \code{start_date} and \code{end_da
 \item{msgs}{A flag specifying whether to provide messages.}
 }
 \description{
-Calculate Growing Degree Days (GDD)
+A wrapper on \code{\link[gsdd:gdd]{gsdd::gdd()}} to get the Growing Degree Days up to a date for
+the longest growing season.
 }
 \examples{
 gdd(gsdd::temperature_data)
 }
 \seealso{
-\code{\link[gsdd:gdd]{gsdd::gdd()}}
+\code{\link[gsdd:gdd]{gsdd::gdd()}} and \code{\link[=gsdd]{gsdd()}}.
 }

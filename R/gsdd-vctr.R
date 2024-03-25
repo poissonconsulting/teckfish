@@ -1,8 +1,11 @@
 #' Calculate Growing Season Degree Days (GSDD) from a vector
+#' 
+#' A wrapper on [gsdd::gsdd_vctr()] to get the Growing Season Degree Days 
+#' for a vector for the longest growing season.
 #'
 #' @inheritParams gsdd::gsdd_vctr
 #' @return A non-negative real number of the GSDD.
-#' @seealso [gsdd::gsdd_vctr()]
+#' @seealso [gsdd::gsdd_vctr()] and [gsdd()].
 #' @export
 #'
 #' @examples

@@ -25,22 +25,35 @@ GitHub organization](https://github.com/TeckResourcesTDS).
 ## Installation
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("poissonconsulting/teckfish")
+# install.packages("remotes")
+remotes::install_github("poissonconsulting/teckfish")
 ```
 
 ## Demonstration
 
 ### Growing Season Degree Days
 
-`gsdd_cf()` takes a numerical vector of mean daily temperature values in
-centigrade and calculates the growing season degree days (GSDD) based on
-Coleman and Fausch’s (2007) definition.
+`gsdd()` takes data frame with a `date` and `temperature` column with
+the mean daily water temperature in centigrade and calculates the
+growing season degree days (GSDD).
 
 ``` r
 library(teckfish)
-gsdd_cf(teckfish::simulated_data$synthetic)
-#> [1] 3898.806
+gsdd(gsdd::temperature_data)
+#> # A tibble: 1 × 2
+#>    year  gsdd
+#>   <int> <dbl>
+#> 1  2019 3899.
+```
+
+`gdd` calculate the growing degree days (GDD) to a date.
+
+``` r
+gdd(gsdd::temperature_data, end_date = as.Date("1972-08-30"))
+#> # A tibble: 1 × 2
+#>    year   gdd
+#>   <int> <dbl>
+#> 1  2019 3102.
 ```
 
 ## Contribution

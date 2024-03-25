@@ -1,8 +1,10 @@
 #' Calculate Growing Season Degree Days (GSDD)
+#' 
+#' Soft-deprecated for [gsdd_vctr()].
 #'
 #' @inheritParams gsdd::gsdd_vctr
 #' @return A non-negative real number of the GSDD.
-#' @seealso [gsdd::gsdd_vctr()]
+#' @seealso [gsdd_vctr()]
 #' @export
 #'
 #' @examples

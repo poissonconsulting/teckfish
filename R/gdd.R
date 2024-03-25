@@ -1,7 +1,10 @@
 #' Calculate Growing Degree Days (GDD)
+#' 
+#' A wrapper on [gsdd::gdd()] to get the Growing Degree Days up to a date for
+#' the longest growing season.
 #'
 #' @inheritParams gsdd::gdd
-#' @seealso [gsdd::gdd()]
+#' @seealso [gsdd::gdd()] and [gsdd()].
 #' @export
 #'
 #' @examples

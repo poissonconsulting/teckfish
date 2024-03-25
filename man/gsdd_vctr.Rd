@@ -27,12 +27,13 @@ If NULL then set to be the difference between \code{start_date} and \code{end_da
 A non-negative real number of the GSDD.
 }
 \description{
-Calculate Growing Season Degree Days (GSDD) from a vector
+A wrapper on \code{\link[gsdd:gsdd_vctr]{gsdd::gsdd_vctr()}} to get the Growing Season Degree Days
+for a vector for the longest growing season.
 }
 \examples{
 gsdd_vctr(c(rep(1, 10), rep(10, 20), rep(1, 200)))
 gsdd_vctr(gsdd::temperature_data$temperature)
 }
 \seealso{
-\code{\link[gsdd:gsdd_vctr]{gsdd::gsdd_vctr()}}
+\code{\link[gsdd:gsdd_vctr]{gsdd::gsdd_vctr()}} and \code{\link[=gsdd]{gsdd()}}.
 }

@@ -48,4 +48,5 @@ Depends:
     R (>= 4.1)
 LazyData: true
 VignetteBuilder: knitr
-URL: https://poissonconsulting.github.io/teckfish/
+URL: https://poissonconsulting.github.io/teckfish/, https://github.com/poissonconsulting/teckfish
+BugReports: https://github.com/poissonconsulting/teckfish/issues/
