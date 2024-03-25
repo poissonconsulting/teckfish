@@ -12,14 +12,15 @@
 gdd <- function(
     x,
     end_date = as.Date("1972-09-30"),
-    ignore_truncation = FALSE,
-    min_length = NULL,
+    min_length = 61,
     msgs = TRUE
 ) {
+  chk_whole_number(min_length)
+  chk_range(min_length, c(14, 213))
+  
   gsdd::gdd(
     x, 
     end_date = end_date,
-    ignore_truncation = ignore_truncation, 
     min_length = min_length, 
     pick = "longest",
     msgs = msgs)

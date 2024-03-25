@@ -4,13 +4,7 @@
 \alias{gdd}
 \title{Calculate Growing Degree Days (GDD)}
 \usage{
-gdd(
-  x,
-  end_date = as.Date("1972-09-30"),
-  ignore_truncation = FALSE,
-  min_length = NULL,
-  msgs = TRUE
-)
+gdd(x, end_date = as.Date("1972-09-30"), min_length = 61, msgs = TRUE)
 }
 \arguments{
 \item{x}{A data frame with two columns \code{date} and \code{temperature}.
@@ -20,8 +14,6 @@ mean daily water temperature in degrees centigrade.}
 
 \item{end_date}{A Date scalar of the last date
 within each year to consider (the year is ignored).}
-
-\item{ignore_truncation}{A flag specifying whether to ignore start truncation (end truncation is always ignored).}
 
 \item{min_length}{A whole number of the minimum length to consider.
 Must be at least twice the window width but no more than 365.

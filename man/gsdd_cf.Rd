@@ -4,17 +4,12 @@
 \alias{gsdd_cf}
 \title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
-gsdd_cf(x, ignore_truncation = FALSE, min_length = 184, msgs = TRUE)
+gsdd_cf(x, min_length = 122, msgs = TRUE)
 }
 \arguments{
 \item{x}{A numeric vector of the
 mean daily water temperature values for the period
 of interest in C.}
-
-\item{ignore_truncation}{A flag specifying whether to ignore truncation
-of the mean daily water temperature vector
-or a string of "start", "end", "none" (equivalent to FALSE) or "both"
-(equivalent to TRUE) specifying which type of truncation to ignore.}
 
 \item{min_length}{A whole number of the minimum length to consider.
 Must be at least twice the window width but no more than 365.
@@ -27,7 +22,7 @@ If NULL then set to be the difference between \code{start_date} and \code{end_da
 A non-negative real number of the GSDD.
 }
 \description{
-Soft-deprecated for \code{\link[=gsdd_vctr]{gsdd_vctr()}}.
+Soft-deprecated for \code{\link[gsdd:gsdd_vctr]{gsdd::gsdd_vctr()}}.
 }
 \examples{
 gsdd_cf(c(rep(1, 10), rep(10, 20), rep(1, 200)))

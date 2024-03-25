@@ -4,18 +4,13 @@
 \alias{gsdd}
 \title{Calculate Growing Season Degree Days (GSDD)}
 \usage{
-gsdd(x, ignore_truncation = FALSE, min_length = 274, msgs = TRUE)
+gsdd(x, min_length = 122, msgs = TRUE)
 }
 \arguments{
 \item{x}{A data frame with two columns \code{date} and \code{temperature}.
 \code{date}, which must be of class Date provides the dates and
 \code{temperature} which must be a numeric vector provides the
 mean daily water temperature in degrees centigrade.}
-
-\item{ignore_truncation}{A flag specifying whether to ignore truncation
-of the mean daily water temperature vector
-or a string of "start", "end", "none" (equivalent to FALSE) or "both"
-(equivalent to TRUE) specifying which type of truncation to ignore.}
 
 \item{min_length}{A whole number of the minimum length to consider.
 Must be at least twice the window width but no more than 365.

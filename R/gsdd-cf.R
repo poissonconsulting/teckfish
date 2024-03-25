@@ -1,6 +1,6 @@
 #' Calculate Growing Season Degree Days (GSDD)
 #' 
-#' Soft-deprecated for [gsdd_vctr()].
+#' Soft-deprecated for [gsdd::gsdd_vctr()].
 #'
 #' @inheritParams gsdd::gsdd_vctr
 #' @return A non-negative real number of the GSDD.
@@ -12,14 +12,15 @@
 #' gsdd_cf(gsdd::temperature_data$temperature)
 gsdd_cf <- function(
     x,
-    ignore_truncation = FALSE,
-    min_length = 184,
+    min_length = 122,
     msgs = TRUE
 ) {
-  lifecycle::deprecate_soft("0.1.2", "gsdd_cf()", with = "gsdd_vctr()")
-  gsdd_vctr(
+  lifecycle::deprecate_soft("0.1.2", "gsdd_cf()", with = "gsdd::gsdd_vctr()")
+  chk_whole_number(min_length)
+  chk_range(min_length, c(14, 274))
+  
+  gsdd::gsdd_vctr(
     x, 
-    ignore_truncation = ignore_truncation, 
     min_length = min_length, 
     msgs = msgs)
 }
