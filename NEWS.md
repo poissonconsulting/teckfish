@@ -1,9 +1,13 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.2.1
+
+- Set lower default `min_length = 122` for `gsdd_cf()`.
+
 # teckfish 0.2.0
 
 - Added `gsdd()` and `gdd()` to calculate Growing Season Degree Days and Growing Degree Days for a data frame for longest season (following decision by Ecofish and Lotic).
-- Soft-deprecated `gsdd_cf()` for `gsdd_vctr()` which both calculate Growing Season Degree Days for a vector for longest season (following decision by Ecofish and Lotic).
+- Soft-deprecated `gsdd_cf()` for `gsdd::gsdd_vctr()` which both calculate Growing Season Degree Days for a vector.
 - Removed `simulated_data`.
 
 # teckfish 0.1.0
