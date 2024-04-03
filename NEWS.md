@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.3.0
+
+- Added `gss()` function from `gsdd` package to calculate growing seasons.
+
+
 # teckfish 0.2.1
 
 - Set lower default `min_length = 120` for `gsdd_cf()`.
