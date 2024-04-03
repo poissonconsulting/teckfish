@@ -4,7 +4,7 @@
 #' the longest growing season.
 #'
 #' @inheritParams gsdd::gdd
-#' @seealso [gsdd::gdd()] and [gsdd()].
+#' @seealso [gsdd::gdd()], [gsdd()] and [gss()].
 #' @export
 #'
 #' @examples

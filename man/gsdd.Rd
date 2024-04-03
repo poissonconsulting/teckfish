@@ -27,5 +27,5 @@ the longest growing season.
 gsdd(gsdd::temperature_data)
 }
 \seealso{
-\code{\link[gsdd:gsdd]{gsdd::gsdd()}}, \code{\link[=gdd]{gdd()}} and \code{\link[=gsdd_vctr]{gsdd_vctr()}}.
+\code{\link[gsdd:gsdd]{gsdd::gsdd()}}, \code{\link[=gsdd]{gsdd()}} and \code{\link[=gss]{gss()}}.
 }
