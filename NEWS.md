@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.4.0
+
+- Added `gss_plot()` to plot temperature time series and season(s).
+
+
 # teckfish 0.3.0
 
 - Added `gss()` function from `gsdd` package to calculate growing seasons.
