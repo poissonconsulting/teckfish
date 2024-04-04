@@ -56,6 +56,26 @@ gdd(gsdd::temperature_data, end_date = as.Date("1972-08-30"))
 #> 1  2019 3102.
 ```
 
+`gss` calculates the growing season(s) (GSS).
+
+``` r
+gss(gsdd::temperature_data)
+#> # A tibble: 1 × 5
+#> # Groups:   year [1]
+#>    year start_dayte end_dayte   gsdd truncation
+#>   <int> <date>      <date>     <dbl> <chr>     
+#> 1  2019 1971-03-20  1971-11-07 3899. none
+```
+
+`gss_plots` plots the temperature time series including growing
+season(s), moving average and thresholds.
+
+``` r
+gss_plot(gsdd::temperature_data)
+```
+
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+
 ## Contribution
 
 Please report any
