@@ -112,6 +112,18 @@
 <span><span class="co">#&gt;    year   gdd</span></span>
 <span><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1  2019 3102.</span></span></code></pre></div>
+<p><code>gss</code> calculates the growing season(s) (GSS).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/gss.html">gss</a></span><span class="op">(</span><span class="fu">gsdd</span><span class="fu">::</span><span class="va"><a href="https://poissonconsulting.github.io/gsdd/reference/temperature_data.html" class="external-link">temperature_data</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span><span class="co">#&gt; # Groups:   year [1]</span></span>
+<span><span class="co">#&gt;    year start_dayte end_dayte   gsdd truncation</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;date&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1  2019 1971-03-20  1971-11-07 3899. none</span></span></code></pre></div>
+<p><code>gss_plots</code> plots the temperature time series including growing season(s), moving average and thresholds.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/gss_plot.html">gss_plot</a></span><span class="op">(</span><span class="fu">gsdd</span><span class="fu">::</span><span class="va"><a href="https://poissonconsulting.github.io/gsdd/reference/temperature_data.html" class="external-link">temperature_data</a></span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png"><!-- --></p>
 </div>
 </div>
 <div class="section level2">
