@@ -12,7 +12,7 @@
 #' gss_plot(gsdd::temperature_data)
 gss_plot <- function(
     x,
-    min_length = 120,
+    min_length = 60,
     ignore_truncation = TRUE,
     pick = "all",
     nrow = NULL,
