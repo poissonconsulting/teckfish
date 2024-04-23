@@ -9,6 +9,7 @@ gss_plot(
   min_length = 60,
   ignore_truncation = TRUE,
   pick = "all",
+  latex = FALSE,
   nrow = NULL,
   ncol = NULL,
   msgs = TRUE
@@ -34,6 +35,9 @@ or a string of "start", "end", "none" (equivalent to FALSE) or "both"
 "longest", "shortest", "first" or "last" 'season' or the season with the
 "biggest" or "smallest" GSDD. By default the returned value is the
 the GSDD value for the "longest" 'season'.}
+
+\item{latex}{A flag specifying whether to use LaTeX to include degree
+symbol in y-axis label.}
 
 \item{nrow}{A count of the number of rows to facet by.}
 

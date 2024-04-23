@@ -15,6 +15,7 @@ gss_plot <- function(
     min_length = 60,
     ignore_truncation = TRUE,
     pick = "all",
+    latex = FALSE,
     nrow = NULL,
     ncol = NULL,
     msgs = TRUE
@@ -27,6 +28,7 @@ gss_plot <- function(
     min_length = min_length, 
     ignore_truncation = ignore_truncation,
     pick = pick,
+    latex = latex,
     nrow = nrow,
     ncol = ncol,
     msgs = msgs)

@@ -40,5 +40,5 @@
          year start_dayte end_dayte   gsdd truncation
         <int> <date>      <date>     <dbl> <chr>     
       1  2019 1971-04-08  1971-06-04   500 none      
-      2  2019 1971-07-15  1971-11-30  1255 end       
+      2  2019 1971-07-15  1971-08-27   780 end       
 
