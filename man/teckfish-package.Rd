@@ -4,7 +4,7 @@
 \name{teckfish-package}
 \alias{teckfish}
 \alias{teckfish-package}
-\title{teckfish: R Tools for Teck Fish and Aquatic Sciences Projects}
+\title{teckfish: R Tools for Teck Fish Projects}
 \description{
 Provides functions linearly interpolate missing values and calculate growing season degree days and growing degree days from daily water temperature data. It also exports fish codes for British Columbia and Alberta from the `fishbc` package.
 }
@@ -23,11 +23,11 @@ Useful links:
 Authors:
 \itemize{
   \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID})
+  \item Sarah Lyons (\href{https://orcid.org/0000-0002-6745-6796}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Sarah Lyons (\href{https://orcid.org/0000-0002-6745-6796}{ORCID}) [contributor]
   \item Bronwen Lewis [contributor]
   \item Jill Brooks [contributor]
   \item Andrew Harwood [contributor]

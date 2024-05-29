@@ -1,12 +1,12 @@
 Package: teckfish
-Title: R Tools for Teck Fish and Aquatic Sciences Projects
+Title: R Tools for Teck Fish Projects
 Version: 0.4.0
 Authors@R: c(
     person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7683-4592")),
     person("Ayla", "Pearson", , "ayla@poissonconsulting.ca", role = "aut",
            comment = c(ORCID = "0000-0001-7388-1222")),
-    person("Sarah", "Lyons", role = "ctb",
+    person("Sarah", "Lyons", role = "aut",
            comment = c(ORCID = "0000-0002-6745-6796")),
     person("Bronwen", "Lewis", role = "ctb"),
     person("Jill", "Brooks", role = "ctb"),

@@ -15,9 +15,8 @@ MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org
 
 ## Introduction
 
-`teckfish` is an R package for Teck Fish and Aquatic Sciences Projects.
-It is intended to be used by Teck staff and contractors and anyone else
-who finds it useful.
+`teckfish` is an R package for Teck Fish Projects. It is intended to be
+used by Teck staff and contractors and anyone else who finds it useful.
 
 The intention is to eventually migrate it to the [Teck Resources RDS
 GitHub organization](https://github.com/TeckResourcesTDS).
