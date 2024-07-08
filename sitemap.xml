@@ -1,72 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/404.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/articles/classify-water-temp.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/index.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/classify_water_temp_data.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/freshwaterfish.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/gdd.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/gsdd.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/gsdd_cf.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/gss.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/gss_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/interpolate_numeric_vector.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://poissonconsulting.github.io/teckfish/reference/teckfish-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://poissonconsulting.github.io/teckfish/404.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/CONTRIBUTING.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/LICENSE-text.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/LICENSE.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/SUPPORT.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/articles/classify-water-temp.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/articles/index.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/authors.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/index.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/news/index.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/classify_water_temp_data.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/date_atus.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/freshwaterfish.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/gdd.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/gsdd.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/gsdd_cf.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/gss.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/gss_plot.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/index.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/interpolate_numeric_vector.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/reexports.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/teckfish/reference/teckfish-package.html</loc></url>
 </urlset>
+
