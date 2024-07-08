@@ -1,12 +1,9 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# teckfish 0.4.0.9000
+# teckfish 0.5.0
 
-- Exported `date_atus()` to calculate the date on which a specified number of accumulated thermal units are exceeded.
-
+- Added `date_atus()` from `gsdd` package to calculate the date on which a specified number of accumulated thermal units are exceeded.
 - `gss_plot()` now has `min_length = 60` by default.
-
-- Added `gss_plot()` to plot temperature time series and season(s).
 
 
 # teckfish 0.4.0
