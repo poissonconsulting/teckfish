@@ -69,6 +69,15 @@ gss(gsdd::temperature_data)
 gss_plot(gsdd::temperature_data)
 ```
 
+### ATUs
+
+`date_atus` calculates the date on which a specified number of accumulated thermal units are exceeded.
+
+```{r}
+date_atus(gsdd::temperature_data, start_date = as.Date("1972-06-15"), atus = 600)
+```
+
+
 ## Contribution
 
 Please report any [issues](https://github.com/poissonconsulting/teckfish/issues).

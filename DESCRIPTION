@@ -38,6 +38,7 @@ Imports:
 Suggests:
     ggplot2,
     knitr,
+    latex2exp,
     rmarkdown,
     scales,
     testthat (>= 3.0.0)

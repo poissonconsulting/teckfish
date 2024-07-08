@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -74,6 +75,21 @@ gss_plot(gsdd::temperature_data)
 ```
 
 ![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+
+### ATUs
+
+`date_atus` calculates the date on which a specified number of
+accumulated thermal units are exceeded.
+
+``` r
+date_atus(gsdd::temperature_data, start_date = as.Date("1972-06-15"), atus = 600)
+#> # A tibble: 2 × 4
+#> # Groups:   year [2]
+#>    year start_date end_date    atus
+#>   <int> <date>     <date>     <dbl>
+#> 1  2018 1971-06-15 NA           NA 
+#> 2  2019 1971-06-15 1971-07-09  613.
+```
 
 ## Contribution
 
