@@ -734,7 +734,7 @@ test_that("questionable and erroneous ranges align with checks", {
       questionable_min = -4,
       erroneous_min = -2
     ),
-    regexp = "`erroneous_min` must be less than -4, not -2."
+    regexp = "`erroneous_min` must be less than or equal to -4, not -2."
   )
   
   expect_error(
