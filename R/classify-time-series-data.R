@@ -223,7 +223,7 @@ classify_time_series_data <- function(data,
   gap <- data |>
     duckplyr::filter(.data$status_id != 1L) |>
     duckplyr::mutate(.status_id = pmin(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
-                     .status_id = 2L, # 2L, pmin or pmax??
+                     .status_id = 2L, # FIXME 2L, pmin or pmax??
                      .start_date_time = .data$.date_time,
                      .end_date_time = duckplyr::lead(.data$.date_time),
                      .keep = "none") |>
