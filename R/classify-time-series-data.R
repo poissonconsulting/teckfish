@@ -184,7 +184,7 @@ classify_time_series_data <- function(data,
     duckplyr::mutate(
       .date_time = as.numeric(.data$.date_time),
       .rate = c(NA_real_, diff(.data$.value) / diff(.data$.date_time)),
-      .rate = abs(.data$.rate) / 3600,
+      .rate = abs(.data$.rate) * 3600,
       status_id = duckplyr::case_when(
         .data$.value <= erroneous_min ~ 3L,
         .data$.value >= erroneous_max ~ 3L,

@@ -746,7 +746,7 @@ test_that("questionable and erroneous ranges align with checks", {
       questionable_max = 20,
       erroneous_max = 10
     ),
-    regexp = "`erroneous_max` must be greater than 20, not 10."
+    regexp = "`erroneous_max` must be greater than or equal to 20, not 10."
   )
   
   expect_error(
@@ -807,7 +807,7 @@ test_that("rates parameter checks", {
       ),
       questionable_rate = -2
     ),
-    regexp = "`questionable_rate` must be greater than or equal to 0, not -2."
+    regexp = "`questionable_rate` must be greater than 0, not -2."
   )
   
   expect_error(
@@ -818,7 +818,7 @@ test_that("rates parameter checks", {
       ),
       erroneous_rate = -2
     ),
-    regexp = "`erroneous_rate` must be greater than or equal to 0, not -2."
+    regexp = "`erroneous_rate` must be greater than 0, not -2."
   )
   
   expect_error(
