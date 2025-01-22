@@ -77,7 +77,7 @@ test_that("errors when reserved columns are already present in the data", {
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       value = c(4.2),
-      .lag_temp = c(1L)
+      .status_id = c(1L)
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
@@ -86,7 +86,17 @@ test_that("errors when reserved columns are already present in the data", {
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       value = c(4.2),
-      .diff_temp = c(1L)
+      .rate = c(1L)
+    )),
+    regexp = "`colnames\\(data\\)` must not have any values matching"
+  )
+
+  
+  expect_error(
+    classify_time_series_data(data.frame(
+      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
+      value = c(4.2),
+      .start_date_time = c(1L)
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
@@ -95,205 +105,7 @@ test_that("errors when reserved columns are already present in the data", {
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       value = c(4.2),
-      .lag_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .diff_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .rate_temp_per_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .lag_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .lead_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .id_row = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_higher_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_lower_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_higher_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_lower_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_higher_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_lower_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_higher_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_lower_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_higher_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .quest_lower_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_higher_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .error_lower_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .gap_fill_higher_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .gap_fill_higher_type = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .gap_fill_lower_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .gap_fill_lower_type = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
-      .gap_diff_time_h = c(1L)
+      .end_date_time = c(1L)
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
@@ -920,7 +732,7 @@ test_that("questionable and erroneous ranges align with checks", {
         value = c(45)
       ),
       questionable_min = -4,
-      erroneous_min = -2,
+      erroneous_min = -2
     ),
     regexp = "`erroneous_min` must be less than -4, not -2."
   )
@@ -932,7 +744,7 @@ test_that("questionable and erroneous ranges align with checks", {
         value = c(45)
       ),
       questionable_max = 20,
-      erroneous_max = 10,
+      erroneous_max = 10
     ),
     regexp = "`erroneous_max` must be greater than 20, not 10."
   )

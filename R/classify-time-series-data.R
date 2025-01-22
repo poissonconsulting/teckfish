@@ -20,7 +20,6 @@ check_time_series_args <- function(data,
   
   chk::chk_data(data)
   chk::chk_unused(...)
-  
   chk::chk_string(date_time)
   chk::chk_string(value)
   
@@ -30,7 +29,7 @@ check_time_series_args <- function(data,
     rlang::set_names(c(date_time, value))
   
   chk::check_data(data, values = values)
-  chk::chk_unique(data[[date_time]])
+  chk::chk_unique(data[[date_time]], x_name = paste0("`data$", date_time, "`"))
   
   chk::chk_not_subset(colnames(data), "status_id")
   chk::chk_not_subset(colnames(data), reserved_colnames())
@@ -146,7 +145,6 @@ classify_time_series_data <- function(data,
                                       questionable_buffer = 1,
                                       erroneous_buffer = 1,
                                       gap_range = 5) {
-  
   check_time_series_args(
     data,
     ...,
@@ -233,7 +231,8 @@ classify_time_series_data <- function(data,
                      .start_date_time = .data$.date_time,
                      .end_date_time = duckplyr::lead(.data$.date_time),
                      .keep = "none") |>
-    duckplyr::slice_tail()
+    duckplyr::slice_tail() |>
+    duckplyr::filter(.end_date_time - .start_date_time <= gap_range * 3600)
   
   data |>
     dplyr::left_join(gap, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
