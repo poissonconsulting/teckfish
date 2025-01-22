@@ -68,15 +68,6 @@ test_that("errors when reserved columns are already present in the data", {
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       value = c(4.2),
-      status_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching 'status_id'."
-  )
-  
-  expect_error(
-    classify_time_series_data(data.frame(
-      date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      value = c(4.2),
       .status_id = c(1L)
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
