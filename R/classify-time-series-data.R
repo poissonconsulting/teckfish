@@ -185,7 +185,7 @@ classify_time_series_data <- function(data,
   if(identical(nrow(missing_rows), nrow(data))) {
     data <- data |>
       duckplyr::rename(duckplyr::all_of(lookup))
-      return(data)    
+    return(data)    
   }
   
   tz <- attr(data$.date_time, "tzone")
@@ -210,7 +210,8 @@ classify_time_series_data <- function(data,
         duckplyr::lag(.data$status_id), 
         duckplyr::lead(.data$status_id),
         na.rm = TRUE
-      )
+      ),
+      .row_id = duckplyr::row_number()
     ) |>
     duckplyr::select(
       !".rate"
@@ -218,132 +219,130 @@ classify_time_series_data <- function(data,
   
   questionable_range <- data |>
     duckplyr::filter(status_id == 2L) |>
-    duckplyr::mutate(.start = .date_time + questionable_buffer,
-                     .end = .date_time - questionable_buffer)
+    duckplyr::mutate(.start = .date_time - questionable_buffer,
+                     .end = .date_time + questionable_buffer,
+                     .keep = "none")
   
   erroneous_range <- data |>
     duckplyr::filter(status_id == 3L) |>
-    duckplyr::mutate(.start = .date_time + erroneous_buffer,
-                     .end = .date_time - erroneous_buffer)
+    duckplyr::mutate(.start = .date_time - erroneous_buffer,
+                     .end = .date_time + erroneous_buffer,
+                     .keep = "none")
   
   data <- data |>
-    #   duckplyr::::mutate(
-    #     .id_row = duckplyr::::row_number()
-    #   ) |>
-    #   duckplyr::::rowwise() |>
-    #   duckplyr::::mutate(
-    #     # find closest questionable/erroneous value above and below
-    #     .quest_higher_next_id = list(
-    #       questionable_rows[which(questionable_rows > .data$.id_row)]
-    #     ),
-    #     .quest_lower_next_id = list(
-    #       questionable_rows[which(questionable_rows < .data$.id_row)]
-    #     ),
-    #     .error_higher_next_id = list(
-    #       error_rows[which(error_rows > .data$.id_row)]
-    #     ),
-    #     .error_lower_next_id = list(
-    #       error_rows[which(error_rows < .data$.id_row)]
-    #     )
-    #   ) |>
-    #   duckplyr::::ungroup() |>
-    duckplyr::mutate(
-      #     .quest_higher_next_id = purrr::map_int(.data$.quest_higher_next_id, min2),
-      #     .quest_lower_next_id = purrr::map_int(.data$.quest_lower_next_id, max2),
-      #     .error_higher_next_id = purrr::map_int(.data$.error_higher_next_id, min2),
-      #     .error_lower_next_id = purrr::map_int(.data$.error_lower_next_id, max2),
-      #     .quest_higher_next_time = .data$temperature_date_time[.data$.quest_higher_next_id],
-      #     .quest_lower_next_time = .data$temperature_date_time[.data$.quest_lower_next_id],
-      #     .error_higher_next_time = .data$temperature_date_time[.data$.error_higher_next_id],
-      #     .error_lower_next_time = .data$temperature_date_time[.data$.error_lower_next_id],
-      #     .quest_higher_time_diff_h = diff_hours(.data$.quest_higher_next_time, .data$temperature_date_time),
-      #     .quest_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.quest_lower_next_time),
-      #     .error_higher_time_diff_h = diff_hours(.data$.error_higher_next_time, .data$temperature_date_time),
-      #     .error_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.error_lower_next_time),
-      #     
-      #     # anything within questionable_buffer of a questionable value is questionable
-      #     status_id = duckplyr::::if_else(
-      #       .data$status_id == 1L & .data$.quest_higher_time_diff_h <= questionable_buffer,
-      #       2L,
-      #       .data$status_id,
-      #       .data$status_id
-      #     ),
-      #     status_id = duckplyr::::if_else(
-      #       .data$status_id == 1L & .data$.quest_lower_time_diff_h <= questionable_buffer,
-      #       2L,
-      #       .data$status_id,
-      #       .data$status_id
-      #     ),
-      #     
-      #     # anything within erroneous_buffer of an erroneous value is erroneous
-      #     status_id = duckplyr::::if_else(
-      #       .data$status_id %in% c(1L, 2L) & .data$.error_higher_time_diff_h <= erroneous_buffer,
-      #       3L,
-      #       .data$status_id,
-      #       .data$status_id
-      #     ),
-      #     status_id = duckplyr::::if_else(
-      #       .data$status_id %in% c(1L, 2L) & .data$.error_lower_time_diff_h <= erroneous_buffer,
-      #       3L,
-      #       .data$status_id,
-      #       .data$status_id
-      #     ),
-      #     
-      #     # Fill in gap between questionable/erroneous values
-      #     .gap_fill_higher_time = pmin(
-      #       .data$.error_higher_next_time, .data$.quest_higher_next_time,
-      #       na.rm = TRUE
-      #     ),
-      #     .gap_fill_higher_type = duckplyr::::case_when(
-      #       .data$.gap_fill_higher_time == .data$.error_higher_next_time ~ "err",
-      #       .data$.gap_fill_higher_time == .data$.quest_higher_next_time ~ "quest",
-      #       TRUE ~ NA_character_
-      #     ),
-      #     .gap_fill_lower_time = pmax(
-      #       .data$.error_lower_next_time, .data$.quest_lower_next_time,
-      #       na.rm = TRUE
-      #     ),
-      #     .gap_fill_lower_type = duckplyr::::case_when(
-      #       .data$.gap_fill_lower_time == .data$.error_lower_next_time ~ "err",
-      #       .data$.gap_fill_lower_time == .data$.quest_lower_next_time ~ "quest",
-      #       TRUE ~ NA_character_
-      #     ),
-      #     .gap_diff_time_h = diff_hours(.data$.gap_fill_higher_time, .data$.gap_fill_lower_time),
-      #     # if gap is less then gap range then code as questionable
-      #     status_id = duckplyr::::if_else(
-      #       .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range,
-      #       2L,
-      #       .data$status_id,
-      #       .data$status_id
-      #     ),
-      status_id = duckplyr::case_when(
-        .data$status_id == 3L ~ "erroneous",
-        .data$status_id == 2L ~ "questionable",
-        .data$status_id == 1L ~ "reasonable"
-      ),
-      status_id = factor(
-        .data$status_id,
-        levels = c("reasonable", "questionable", "erroneous"),
-        ordered = TRUE
-      )
-    ) |>
-    #   dplyr::select(
-    #     -".id_row",
-    #     -".quest_higher_next_id", -".quest_lower_next_id",
-    #     -".error_higher_next_id", -".error_lower_next_id",
-    #     -".quest_higher_next_time", -".quest_lower_next_time",
-    #     -".error_higher_next_time", -".error_lower_next_time",
-    #     -".quest_higher_time_diff_h", -".quest_lower_time_diff_h",
-    #     -".error_higher_time_diff_h", -".error_lower_time_diff_h",
-    #     -".gap_fill_higher_time", -".gap_fill_higher_type",
-    #     -".gap_fill_lower_time", -".gap_fill_lower_type",
-    #     -".gap_diff_time_h"
-    #   ) |>
+    duckplyr::left_join(questionable_range, by = dplyr::join_by(dplyr::closest(x$.date_time >= y$.start))) |>
+    duckplyr::mutate(status_id = duckplyr::if_else(.data$.date_time <= .data$.end, 2L, .data$status_id, .data$status_id)) |>
+    duckplyr::select(!c(".start", ".end")) |>
+    duckplyr::left_join(erroneous_range, by = dplyr::join_by(dplyr::closest(x$.date_time >= y$.start))) |>
+    duckplyr::mutate(status_id = duckplyr::if_else(.data$.date_time <= .data$.end, 3L, .data$status_id, .data$status_id)) |>
+    duckplyr::select(!c(".start", ".end"))
+  
+  #   duckplyr::::mutate(
+  #     .id_row = duckplyr::::row_number()
+  #   ) |>
+  #   duckplyr::::rowwise() |>
+  #   duckplyr::::mutate(
+  #     # find closest questionable/erroneous value above and below
+  #     .quest_higher_next_id = list(
+  #       questionable_rows[which(questionable_rows > .data$.id_row)]
+  #     ),
+  #     .quest_lower_next_id = list(
+  #       questionable_rows[which(questionable_rows < .data$.id_row)]
+  #     ),
+  #     .error_higher_next_id = list(
+  #       error_rows[which(error_rows > .data$.id_row)]
+  #     ),
+  #     .error_lower_next_id = list(
+  #       error_rows[which(error_rows < .data$.id_row)]
+  #     )
+  #   ) |>
+  #   duckplyr::::ungroup() |>
+  # duckplyr::mutate(
+  #     .quest_higher_next_id = purrr::map_int(.data$.quest_higher_next_id, min2),
+  #     .quest_lower_next_id = purrr::map_int(.data$.quest_lower_next_id, max2),
+  #     .error_higher_next_id = purrr::map_int(.data$.error_higher_next_id, min2),
+  #     .error_lower_next_id = purrr::map_int(.data$.error_lower_next_id, max2),
+  #     .quest_higher_next_time = .data$temperature_date_time[.data$.quest_higher_next_id],
+  #     .quest_lower_next_time = .data$temperature_date_time[.data$.quest_lower_next_id],
+  #     .error_higher_next_time = .data$temperature_date_time[.data$.error_higher_next_id],
+  #     .error_lower_next_time = .data$temperature_date_time[.data$.error_lower_next_id],
+  #     .quest_higher_time_diff_h = diff_hours(.data$.quest_higher_next_time, .data$temperature_date_time),
+  #     .quest_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.quest_lower_next_time),
+  #     .error_higher_time_diff_h = diff_hours(.data$.error_higher_next_time, .data$temperature_date_time),
+  #     .error_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.error_lower_next_time),
+  #     
+  #     # anything within questionable_buffer of a questionable value is questionable
+  #     status_id = duckplyr::::if_else(
+  #       .data$status_id == 1L & .data$.quest_higher_time_diff_h <= questionable_buffer,
+  #       2L,
+  #       .data$status_id,
+  #       .data$status_id
+  #     ),
+  #     status_id = duckplyr::::if_else(
+  #       .data$status_id == 1L & .data$.quest_lower_time_diff_h <= questionable_buffer,
+  #       2L,
+  #       .data$status_id,
+  #       .data$status_id
+  #     ),
+  #     
+  #     # anything within erroneous_buffer of an erroneous value is erroneous
+  #     status_id = duckplyr::::if_else(
+  #       .data$status_id %in% c(1L, 2L) & .data$.error_higher_time_diff_h <= erroneous_buffer,
+  #       3L,
+  #       .data$status_id,
+  #       .data$status_id
+  #     ),
+  #     status_id = duckplyr::::if_else(
+  #       .data$status_id %in% c(1L, 2L) & .data$.error_lower_time_diff_h <= erroneous_buffer,
+  #       3L,
+  #       .data$status_id,
+  #       .data$status_id
+  #     ),
+  #     
+  #     # Fill in gap between questionable/erroneous values
+  #     .gap_fill_higher_time = pmin(
+  #       .data$.error_higher_next_time, .data$.quest_higher_next_time,
+  #       na.rm = TRUE
+  #     ),
+  #     .gap_fill_higher_type = duckplyr::::case_when(
+  #       .data$.gap_fill_higher_time == .data$.error_higher_next_time ~ "err",
+  #       .data$.gap_fill_higher_time == .data$.quest_higher_next_time ~ "quest",
+  #       TRUE ~ NA_character_
+  #     ),
+  #     .gap_fill_lower_time = pmax(
+  #       .data$.error_lower_next_time, .data$.quest_lower_next_time,
+  #       na.rm = TRUE
+  #     ),
+  #     .gap_fill_lower_type = duckplyr::::case_when(
+  #       .data$.gap_fill_lower_time == .data$.error_lower_next_time ~ "err",
+  #       .data$.gap_fill_lower_time == .data$.quest_lower_next_time ~ "quest",
+  #       TRUE ~ NA_character_
+  #     ),
+  #     .gap_diff_time_h = diff_hours(.data$.gap_fill_higher_time, .data$.gap_fill_lower_time),
+  #     # if gap is less then gap range then code as questionable
+  #     status_id = duckplyr::::if_else(
+  #       .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range,
+  #       2L,
+  #       .data$status_id,
+  #       .data$status_id
+  #     ),
+  #   dplyr::select(
+  #     -".id_row",
+  #     -".quest_higher_next_id", -".quest_lower_next_id",
+  #     -".error_higher_next_id", -".error_lower_next_id",
+  #     -".quest_higher_next_time", -".quest_lower_next_time",
+  #     -".error_higher_next_time", -".error_lower_next_time",
+  #     -".quest_higher_time_diff_h", -".quest_lower_time_diff_h",
+  #     -".error_higher_time_diff_h", -".error_lower_time_diff_h",
+  #     -".gap_fill_higher_time", -".gap_fill_higher_type",
+  #     -".gap_fill_lower_time", -".gap_fill_lower_type",
+  #     -".gap_diff_time_h"
+  #   ) |>
+  data |>
+    set_status_id() |>
     duckplyr::mutate(.date_time = as.POSIXct(.data$.date_time, tz = tz)) |>
     duckplyr::bind_rows(missing_rows) |>
     duckplyr::arrange(.data$.date_time) |>
     duckplyr::rename(duckplyr::all_of(lookup)) |>
     duckplyr::as_tibble()
-  
-  data
 }
