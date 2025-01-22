@@ -31,7 +31,6 @@ check_time_series_args <- function(data,
   chk::check_data(data, values = values)
   chk::chk_unique(data[[date_time]], x_name = paste0("`data$", date_time, "`"))
   
-  chk::chk_not_subset(colnames(data), "status_id")
   chk::chk_not_subset(colnames(data), reserved_colnames())
   
   chk::chk_number(questionable_min)
@@ -65,10 +64,6 @@ check_time_series_args <- function(data,
 
 
 set_status_id <- function(data) {
-  if(!rlang::has_name(data, "status_id")) {
-    data <- data |>
-      duckplyr::mutate(status_id = rep(NA_integer_, nrow(data)))
-  }
   data |>
     duckplyr::mutate(
       status_id = duckplyr::case_when(
@@ -163,6 +158,7 @@ classify_time_series_data <- function(data,
   data <- data |>
     duckplyr::rename(.date_time = date_time, .value = value) |>
     duckplyr::arrange(.data$.date_time) |>
+    duckplyr::mutate(status_id = rep(NA_integer_, nrow(data))) |>
     set_status_id()
   
   missing_rows <- data |>
@@ -227,13 +223,12 @@ classify_time_series_data <- function(data,
   
   gap <- data |>
     duckplyr::filter(.data$status_id != 1L) |>
-    duckplyr::mutate(.status_id = pmax(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
+    duckplyr::mutate(.status_id = pmin(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
                      .start_date_time = .data$.date_time,
                      .end_date_time = duckplyr::lead(.data$.date_time),
                      .keep = "none") |>
-    duckplyr::slice_tail() |>
-    duckplyr::filter(.end_date_time - .start_date_time <= gap_range * 3600)
-  
+    duckplyr::filter(.data$.end_date_time - .data$.start_date_time <= gap_range * 3600)
+
   data |>
     dplyr::left_join(gap, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
     duckplyr::mutate(status_id = duckplyr::if_else(.data$.date_time <= .data$.end_date_time, .data$.status_id, .data$status_id, .data$status_id)) |>

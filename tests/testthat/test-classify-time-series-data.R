@@ -1890,7 +1890,7 @@ test_that("gaps are filled in", {
     dplyr::mutate(date_time = as.POSIXct(date_time))
   
   classified_data <- classify_time_series_data(
-    data,
+    data
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
   
