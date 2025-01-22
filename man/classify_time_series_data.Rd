@@ -23,6 +23,10 @@ classify_time_series_data(
 \arguments{
 \item{data}{A data frame.}
 
+\item{...}{These dots are for future extensions and must be empty.}
+
+\item{date_time}{A string indicating the column name of the POSIXct vector.}
+
 \item{questionable_min}{A numeric value indicating the lower bound of the
 questionable range of temperature values.}
 
@@ -37,21 +41,20 @@ erroneous range of temperature values.}
 
 \item{questionable_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered
-questionable.}
+questionable.
+@param value A string indicating the column name of the value vector.}
 
 \item{erroneous_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered erroneous.}
 
-\item{questionable_buffer}{A numeric value indicating a time buffer for
+\item{questionable_buffer}{A numeric value indicating the buffer in hours for
 questionable values.}
 
-\item{erroneous_buffer}{A numeric value indicating a time buffer for
+\item{erroneous_buffer}{A numeric value indicating the number of hours buffer for
 erroneous values.}
 
-\item{gap_range}{A numeric value indicating the range of hours between two
-non reasonable values that will be coded as questionable or erroneous.
-@param date_time A string indicating the column name of the date time vector.
-@param value A string indicating the column name of the value vector.}
+\item{gap_range}{A numeric value indicating the number of hours between two
+non reasonable values that will be coded as questionable or erroneous.}
 }
 \value{
 The original data frame sorted by date_time with a status_id column.

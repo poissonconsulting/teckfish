@@ -14,16 +14,24 @@ reserved_colnames <- function() {
   )
 }
 
-add_status_id <- function(data) {
-  status_id_value <- if(nrow(data)) NA_integer_ else integer()
+set_status_id <- function(data) {
+  if(!rlang::has_name(data, "status_id")) {
+    data <- data |>
+      duckplyr::mutate(status_id = rep(NA_integer_, nrow(data)))
+  }
   data |>
     duckplyr::mutate(
-      status_id = factor(
-        status_id_value,
+      status_id = duckplyr::case_when(
+        .data$status_id == 3L ~ "erroneous",
+        .data$status_id == 2L ~ "questionable",
+        .data$status_id == 1L ~ "reasonable",
+        TRUE ~ NA_character_),
+      status_id = ordered(
+        .data$status_id,
         levels = c("reasonable", "questionable", "erroneous"),
-        ordered = TRUE
       )
-    )
+    ) |>
+    duckplyr::as_tibble()
 }
 
 check_time_series_args <- function(data,
@@ -69,22 +77,21 @@ check_time_series_args <- function(data,
   chk::chk_lte(erroneous_min, questionable_min)
   
   chk::chk_number(questionable_rate)
-  chk::chk_gte(questionable_rate)
+  chk::chk_gt(questionable_rate)
   
   chk::chk_number(erroneous_rate)
-  chk::chk_gte(erroneous_rate)
+  chk::chk_gt(erroneous_rate)
   
   chk::chk_gte(erroneous_rate, questionable_rate)
   
   chk::chk_number(questionable_buffer)
-  chk::chk_gte(questionable_buffer, 0)
+  chk::chk_gte(questionable_buffer)
   
   chk::chk_number(erroneous_buffer)
-  chk::chk_gte(erroneous_buffer, 0)
+  chk::chk_gte(erroneous_buffer)
   
   chk::chk_number(gap_range)
-  chk::chk_gte(gap_range, 0)
-  
+  chk::chk_gte(gap_range)
 }
 
 #' Classify Time Series Data
@@ -92,29 +99,7 @@ check_time_series_args <- function(data,
 #' Time series data will be either classified as reasonable, questionable,
 #' or erroneous in the status_id column.
 #'
-#' @param data A data frame.
-#' @param questionable_min A numeric value indicating the lower bound of the
-#'   questionable range of temperature values.
-#' @param questionable_max A numeric value indicating the upper bound of the
-#'   questionable range of temperature values.
-#' @param erroneous_min A numeric value indicating the lower bound of the
-#'   erroneous range of temperature values.
-#' @param erroneous_max A numeric value indicating the upper bound of the
-#'   erroneous range of temperature values.
-#' @param questionable_rate A numeric value indicating the rate of change
-#'   (temperature per hour) of temperature values that is considered
-#'   questionable.
-#' @param erroneous_rate A numeric value indicating the rate of change
-#'   (temperature per hour) of temperature values that is considered erroneous.
-#' @param questionable_buffer A numeric value indicating a time buffer for
-#'   questionable values.
-#' @param erroneous_buffer A numeric value indicating a time buffer for
-#'   erroneous values.
-#' @param gap_range A numeric value indicating the range of hours between two
-#'   non reasonable values that will be coded as questionable or erroneous.
-#'  @param date_time A string indicating the column name of the date time vector.
-#'  @param value A string indicating the column name of the value vector.
-#'
+#' @inheritParams params
 #' @return The original data frame sorted by date_time with a status_id column.
 #' @export
 #' @details The function only works on a single deployment of a logger. The
@@ -187,40 +172,37 @@ classify_time_series_data <- function(data,
     gap_range = gap_range)
   
   data <- data |>
-    add_status_id() |>
-    tibble::as_tibble()
-  
-  if (!nrow(data)) {
-    return(data)
-  }
+    duckplyr::rename(.date_time = date_time, .value = value) |>
+    duckplyr::arrange(.data$.date_time) |>
+    set_status_id()
   
   missing_rows <- data |>
-    duckplyr::rename(.date_time = date_time, .value = value) |>
-    duckplyr::filter(is.na(.data$.value)) |>
-    print()
-  
-  if(identical(nrow(missing_rows), nrow(data))) {
-    return(data)    
-  }
+    duckplyr::filter(is.na(.data$.value))
   
   lookup <- c(".date_time", ".value") |>
     setNames(c(date_time, value))
   
+  if(identical(nrow(missing_rows), nrow(data))) {
+    data <- data |>
+      duckplyr::rename(duckplyr::all_of(lookup))
+      return(data)    
+  }
+  
+  tz <- attr(data$.date_time, "tzone")
+  
   data <- data |>
-    duckplyr::rename(.date_time = date_time, .value = value) |>
     duckplyr::filter(!is.na(.data$.value)) |>
-    duckplyr::arrange(.data$.date_time) |>
     duckplyr::mutate(
-      .diff_temp = c(NA_real_, abs(diff(.data$.value))),
-      .diff_time = c(NA_real_, diff(as.integer(.data$.date_time) / 3600)),
-      .rate_temp_per_time = .data$.diff_temp / .data$.diff_time,
+      .date_time = as.numeric(.data$.date_time),
+      .rate = c(NA_real_, diff(.data$.value) / diff(.data$.date_time)),
+      .rate = abs(.rate) / 3600,
       status_id = duckplyr::case_when(
         .data$.value <= erroneous_min ~ 3L,
         .data$.value >= erroneous_max ~ 3L,
-        .data$.rate_temp_per_time >= erroneous_rate ~ 3L,
+        .data$.rate >= erroneous_rate ~ 3L,
         .data$.value <= questionable_min ~ 2L,
         .data$.value >= questionable_max ~ 2L,
-        .data$.rate_temp_per_time >= questionable_rate ~ 2L,
+        .data$.rate >= questionable_rate ~ 2L,
         TRUE ~ 1L
       ),
       status_id = pmax(
@@ -231,38 +213,25 @@ classify_time_series_data <- function(data,
       )
     ) |>
     duckplyr::select(
-      !c(".diff_temp", ".diff_time", ".rate_temp_per_time")
+      !".rate"
     )
   
-  erroneous_rows <- 
-    tidyr::crossing(x = which(data$status_id == 3L), 
-                    y -erroneous_buffer:erroneous_buffer) |>
-    duckplyr::mutate(x = x + y) |>
-    duckplyr::distinct(.data$x)
+  questionable_range <- data |>
+    duckplyr::filter(status_id == 2L) |>
+    duckplyr::mutate(.start = .date_time + questionable_buffer,
+                     .end = .date_time - questionable_buffer)
   
-  questionable_rows <- 
-    tidyr::crossing(x = which(data$status_id == 2L), 
-                    y -questionable_buffer:questionable_buffer) |>
-    duckplyr::mutate(x = x + y) |>
-    duckplyr::distinct(.data$x) |>
-    duckplyr::anti_join(erroneous_rows, by = "x")
+  erroneous_range <- data |>
+    duckplyr::filter(status_id == 3L) |>
+    duckplyr::mutate(.start = .date_time + erroneous_buffer,
+                     .end = .date_time - erroneous_buffer)
   
   data <- data |>
-    duckplyr::mutate(
-      .id_row = duckplyr::row_number(),
-      status_id = duckplyr::case_when(
-        .data$.id_row %in% erroneous_rows$x ~ 3L,
-        .data$.id_row %in% questionable_rows$x ~ 2L,
-        TRUE ~ status_id
-      )
-    )
-  
-  data <- data |>
-    #   dplyr::mutate(
-    #     .id_row = dplyr::row_number()
+    #   duckplyr::::mutate(
+    #     .id_row = duckplyr::::row_number()
     #   ) |>
-    #   dplyr::rowwise() |>
-    #   dplyr::mutate(
+    #   duckplyr::::rowwise() |>
+    #   duckplyr::::mutate(
     #     # find closest questionable/erroneous value above and below
     #     .quest_higher_next_id = list(
     #       questionable_rows[which(questionable_rows > .data$.id_row)]
@@ -277,7 +246,7 @@ classify_time_series_data <- function(data,
     #       error_rows[which(error_rows < .data$.id_row)]
     #     )
     #   ) |>
-    #   dplyr::ungroup() |>
+    #   duckplyr::::ungroup() |>
     duckplyr::mutate(
       #     .quest_higher_next_id = purrr::map_int(.data$.quest_higher_next_id, min2),
       #     .quest_lower_next_id = purrr::map_int(.data$.quest_lower_next_id, max2),
@@ -293,13 +262,13 @@ classify_time_series_data <- function(data,
       #     .error_lower_time_diff_h = diff_hours(.data$temperature_date_time, .data$.error_lower_next_time),
       #     
       #     # anything within questionable_buffer of a questionable value is questionable
-      #     status_id = dplyr::if_else(
+      #     status_id = duckplyr::::if_else(
       #       .data$status_id == 1L & .data$.quest_higher_time_diff_h <= questionable_buffer,
       #       2L,
       #       .data$status_id,
       #       .data$status_id
       #     ),
-      #     status_id = dplyr::if_else(
+      #     status_id = duckplyr::::if_else(
       #       .data$status_id == 1L & .data$.quest_lower_time_diff_h <= questionable_buffer,
       #       2L,
       #       .data$status_id,
@@ -307,13 +276,13 @@ classify_time_series_data <- function(data,
       #     ),
       #     
       #     # anything within erroneous_buffer of an erroneous value is erroneous
-      #     status_id = dplyr::if_else(
+      #     status_id = duckplyr::::if_else(
       #       .data$status_id %in% c(1L, 2L) & .data$.error_higher_time_diff_h <= erroneous_buffer,
       #       3L,
       #       .data$status_id,
       #       .data$status_id
       #     ),
-      #     status_id = dplyr::if_else(
+      #     status_id = duckplyr::::if_else(
       #       .data$status_id %in% c(1L, 2L) & .data$.error_lower_time_diff_h <= erroneous_buffer,
       #       3L,
       #       .data$status_id,
@@ -325,7 +294,7 @@ classify_time_series_data <- function(data,
       #       .data$.error_higher_next_time, .data$.quest_higher_next_time,
       #       na.rm = TRUE
       #     ),
-      #     .gap_fill_higher_type = dplyr::case_when(
+      #     .gap_fill_higher_type = duckplyr::::case_when(
       #       .data$.gap_fill_higher_time == .data$.error_higher_next_time ~ "err",
       #       .data$.gap_fill_higher_time == .data$.quest_higher_next_time ~ "quest",
       #       TRUE ~ NA_character_
@@ -334,20 +303,20 @@ classify_time_series_data <- function(data,
       #       .data$.error_lower_next_time, .data$.quest_lower_next_time,
       #       na.rm = TRUE
       #     ),
-      #     .gap_fill_lower_type = dplyr::case_when(
+      #     .gap_fill_lower_type = duckplyr::::case_when(
       #       .data$.gap_fill_lower_time == .data$.error_lower_next_time ~ "err",
       #       .data$.gap_fill_lower_time == .data$.quest_lower_next_time ~ "quest",
       #       TRUE ~ NA_character_
       #     ),
       #     .gap_diff_time_h = diff_hours(.data$.gap_fill_higher_time, .data$.gap_fill_lower_time),
       #     # if gap is less then gap range then code as questionable
-      #     status_id = dplyr::if_else(
+      #     status_id = duckplyr::::if_else(
       #       .data$status_id == 1L & .data$.gap_diff_time_h <= gap_range,
       #       2L,
       #       .data$status_id,
       #       .data$status_id
       #     ),
-      status_id = dplyr::case_when(
+      status_id = duckplyr::case_when(
         .data$status_id == 3L ~ "erroneous",
         .data$status_id == 2L ~ "questionable",
         .data$status_id == 1L ~ "reasonable"
@@ -370,6 +339,7 @@ classify_time_series_data <- function(data,
     #     -".gap_fill_lower_time", -".gap_fill_lower_type",
     #     -".gap_diff_time_h"
     #   ) |>
+    duckplyr::mutate(.date_time = as.POSIXct(.data$.date_time, tz = tz)) |>
     duckplyr::bind_rows(missing_rows) |>
     duckplyr::arrange(.data$.date_time) |>
     duckplyr::rename(duckplyr::all_of(lookup)) |>
