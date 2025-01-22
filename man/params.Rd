@@ -39,8 +39,9 @@ questionable range of temperature values.}
 
 \item{questionable_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered
-questionable.
-@param value A string indicating the column name of the value vector.}
+questionable.}
+
+\item{value}{A string indicating the column name of the value vector.}
 }
 \description{
 Default parameter descriptions which may be overridden in individual

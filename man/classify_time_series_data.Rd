@@ -27,6 +27,8 @@ classify_time_series_data(
 
 \item{date_time}{A string indicating the column name of the POSIXct vector.}
 
+\item{value}{A string indicating the column name of the value vector.}
+
 \item{questionable_min}{A numeric value indicating the lower bound of the
 questionable range of temperature values.}
 
@@ -41,8 +43,7 @@ erroneous range of temperature values.}
 
 \item{questionable_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered
-questionable.
-@param value A string indicating the column name of the value vector.}
+questionable.}
 
 \item{erroneous_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered erroneous.}

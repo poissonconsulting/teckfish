@@ -25,5 +25,3 @@ index_begin_run <- function(x) {
   }
   index[c(TRUE, diff(index) > 1)]
 }
-
-.data <- NULL

@@ -29,7 +29,7 @@
 #' @param questionable_rate A numeric value indicating the rate of change
 #'   (temperature per hour) of temperature values that is considered
 #'   questionable.
-#'  @param value A string indicating the column name of the value vector.
+#' @param value A string indicating the column name of the value vector.
 #' @keywords internal
 #' @aliases parameters arguments args
 #' @usage NULL
