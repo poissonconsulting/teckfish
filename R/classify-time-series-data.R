@@ -1,83 +1,3 @@
-reserved_colnames <- function() {
-  c(
-    ".rate", ".status_id", ".start_date_time", ".end_date_time"
-  )
-}
-
-check_time_series_args <- function(data,
-                                   ...,
-                                   date_time = "date_time",
-                                   value = "value",
-                                   questionable_min = 0,
-                                   questionable_max = 30,
-                                   erroneous_min = -0.5,
-                                   erroneous_max = 40,
-                                   questionable_rate = 2,
-                                   erroneous_rate = 5,
-                                   questionable_buffer = 1,
-                                   erroneous_buffer = 1,
-                                   gap_range = 5) {
-  
-  chk::chk_data(data)
-  chk::chk_unused(...)
-  chk::chk_string(date_time)
-  chk::chk_string(value)
-  
-  values <- list(
-    as.POSIXct("2021-05-07 08:00:00"), 
-    c(1, NA_real_)) |>
-    rlang::set_names(c(date_time, value))
-  
-  chk::check_data(data, values = values)
-  chk::chk_unique(data[[date_time]], x_name = paste0("`data$", date_time, "`"))
-  
-  chk::chk_not_subset(colnames(data), reserved_colnames())
-  
-  chk::chk_number(questionable_min)
-  chk::chk_number(questionable_max)
-  chk::chk_gt(questionable_max, questionable_min)
-  
-  chk::chk_number(erroneous_min)
-  chk::chk_number(erroneous_max)
-  chk::chk_gt(erroneous_max, erroneous_min)
-  
-  chk::chk_gte(erroneous_max, questionable_max)
-  chk::chk_lte(erroneous_min, questionable_min)
-  
-  chk::chk_number(questionable_rate)
-  chk::chk_gt(questionable_rate)
-  
-  chk::chk_number(erroneous_rate)
-  chk::chk_gt(erroneous_rate)
-  
-  chk::chk_gte(erroneous_rate, questionable_rate)
-  
-  chk::chk_number(questionable_buffer)
-  chk::chk_gte(questionable_buffer)
-  
-  chk::chk_number(erroneous_buffer)
-  chk::chk_gte(erroneous_buffer)
-  
-  chk::chk_number(gap_range)
-  chk::chk_gte(gap_range)
-}
-
-set_status_id <- function(data) {
-  data |>
-    duckplyr::mutate(
-      status_id = duckplyr::case_when(
-        .data$status_id == 3L ~ "erroneous",
-        .data$status_id == 2L ~ "questionable",
-        .data$status_id == 1L ~ "reasonable",
-        TRUE ~ NA_character_),
-      status_id = ordered(
-        .data$status_id,
-        levels = c("reasonable", "questionable", "erroneous"),
-      )
-    ) |>
-    duckplyr::as_tibble()
-}
-
 #' Classify Time Series Data
 #'
 #' Time series data will be either classified as reasonable, questionable,
@@ -237,4 +157,84 @@ classify_time_series_data <- function(data,
     duckplyr::arrange(.data$.date_time) |>
     duckplyr::rename(duckplyr::all_of(lookup)) |>
     duckplyr::as_tibble()
+}
+
+check_time_series_args <- function(data,
+                                   ...,
+                                   date_time = "date_time",
+                                   value = "value",
+                                   questionable_min = 0,
+                                   questionable_max = 30,
+                                   erroneous_min = -0.5,
+                                   erroneous_max = 40,
+                                   questionable_rate = 2,
+                                   erroneous_rate = 5,
+                                   questionable_buffer = 1,
+                                   erroneous_buffer = 1,
+                                   gap_range = 5) {
+  
+  chk::chk_data(data)
+  chk::chk_unused(...)
+  chk::chk_string(date_time)
+  chk::chk_string(value)
+  
+  values <- list(
+    as.POSIXct("2021-05-07 08:00:00"), 
+    c(1, NA_real_)) |>
+    rlang::set_names(c(date_time, value))
+  
+  chk::check_data(data, values = values)
+  chk::chk_unique(data[[date_time]], x_name = paste0("`data$", date_time, "`"))
+  
+  chk::chk_not_subset(colnames(data), reserved_colnames())
+  
+  chk::chk_number(questionable_min)
+  chk::chk_number(questionable_max)
+  chk::chk_gt(questionable_max, questionable_min)
+  
+  chk::chk_number(erroneous_min)
+  chk::chk_number(erroneous_max)
+  chk::chk_gt(erroneous_max, erroneous_min)
+  
+  chk::chk_gte(erroneous_max, questionable_max)
+  chk::chk_lte(erroneous_min, questionable_min)
+  
+  chk::chk_number(questionable_rate)
+  chk::chk_gt(questionable_rate)
+  
+  chk::chk_number(erroneous_rate)
+  chk::chk_gt(erroneous_rate)
+  
+  chk::chk_gte(erroneous_rate, questionable_rate)
+  
+  chk::chk_number(questionable_buffer)
+  chk::chk_gte(questionable_buffer)
+  
+  chk::chk_number(erroneous_buffer)
+  chk::chk_gte(erroneous_buffer)
+  
+  chk::chk_number(gap_range)
+  chk::chk_gte(gap_range)
+}
+
+set_status_id <- function(data) {
+  data |>
+    duckplyr::mutate(
+      status_id = duckplyr::case_when(
+        .data$status_id == 3L ~ "erroneous",
+        .data$status_id == 2L ~ "questionable",
+        .data$status_id == 1L ~ "reasonable",
+        TRUE ~ NA_character_),
+      status_id = ordered(
+        .data$status_id,
+        levels = c("reasonable", "questionable", "erroneous"),
+      )
+    ) |>
+    duckplyr::as_tibble()
+}
+
+reserved_colnames <- function() {
+  c(
+    ".rate", ".status_id", ".start_date_time", ".end_date_time"
+  )
 }
