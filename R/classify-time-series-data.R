@@ -212,24 +212,22 @@ classify_time_series_data <- function(data,
                      .end_date_time = .data$.date_time + erroneous_buffer * 3600,
                      .keep = "none")
   
+  gap <- data |>
+    duckplyr::filter(.data$status_id != 1L) |>
+    duckplyr::mutate(.status_id = pmax(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
+                     .status_id = 2L, # TODO 2L, pmin or pmax?? - pmax
+                     .start_date_time = .data$.date_time,
+                     .end_date_time = duckplyr::lead(.data$.date_time),
+                     .keep = "none") |>
+    duckplyr::filter(.data$.end_date_time - .data$.start_date_time <= gap_range * 3600)
+  
   data <- data |>
     dplyr::left_join(questionable_range, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
     duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id == 1L & .data$.date_time <= .data$.end_date_time, 2L, .data$status_id, .data$status_id)) |>
     duckplyr::select(!c(".start_date_time", ".end_date_time")) |>
     dplyr::left_join(erroneous_range, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
     duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id != 3L & .data$.date_time <= .data$.end_date_time, 3L, .data$status_id, .data$status_id)) |>
-    duckplyr::select(!c(".start_date_time", ".end_date_time"))
-  
-  gap <- data |>
-    duckplyr::filter(.data$status_id != 1L) |>
-    duckplyr::mutate(.status_id = pmin(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
-                     .status_id = 2L, # FIXME 2L, pmin or pmax??
-                     .start_date_time = .data$.date_time,
-                     .end_date_time = duckplyr::lead(.data$.date_time),
-                     .keep = "none") |>
-    duckplyr::filter(.data$.end_date_time - .data$.start_date_time <= gap_range * 3600)
-
-  data |>
+    duckplyr::select(!c(".start_date_time", ".end_date_time")) |>
     dplyr::left_join(gap, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
     duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id < .data$.status_id & .data$.date_time <= .data$.end_date_time, .data$.status_id, .data$status_id, .data$status_id)) |>
     duckplyr::select(!c(".status_id", ".start_date_time", ".end_date_time")) |>

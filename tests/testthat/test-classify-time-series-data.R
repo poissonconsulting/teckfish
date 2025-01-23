@@ -1991,7 +1991,7 @@ test_that("gaps does not over fill gap difference is 2.5 and parameter set to 1"
   
   classified_data <- classify_time_series_data(
     data,
-    gap_range = 0.5 # FIXME this was 1!
+    gap_range = 1
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
   
@@ -2360,7 +2360,7 @@ test_that("check against hourly values", {
   
   classified_data <- classify_time_series_data(
     data,
-    gap_range = 4 # FIXME: this was default of 5
+    gap_range = 5
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
   
