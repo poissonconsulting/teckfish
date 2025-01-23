@@ -63,7 +63,7 @@ interpolate_numeric_vector <- function(x, span = 3, tails = FALSE) {
   chk_gte(span)
   chk_flag(tails)
 
-  if (!length(x) | !anyNA(x) | span == 0 | all(is.na(x))) {
+  if (!length(x) || !anyNA(x) || span == 0 || all(is.na(x))) {
     return(x)
   }
   which <- which_replace(x, max_span = span, ends = tails)

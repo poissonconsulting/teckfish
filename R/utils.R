@@ -1,7 +1,7 @@
 longest_run <- function(x) {
   rle <- rle(is.na(x))
   wch <- which.max(rle$length)
-  if (rle$length[wch] < 184 | rle$values[wch]) {
+  if (rle$length[wch] < 184 || rle$values[wch]) {
     return(NA_real_)
   }
   cumsum <- cumsum(rle$lengths)
