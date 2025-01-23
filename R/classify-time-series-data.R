@@ -97,7 +97,7 @@ classify_time_series_data <- function(data,
   data <- data |>
     duckplyr::filter(!is.na(.data$.value)) |>
     duckplyr::mutate(
-      .date_time = as.numeric(.data$.date_time),
+      .date_time = as.integer(.data$.date_time),
       .rate = c(NA_real_, diff(.data$.value) / diff(.data$.date_time)),
       .rate = abs(.data$.rate) * 3600,
       status_id = duckplyr::case_when(
@@ -190,7 +190,8 @@ check_time_series_args <- function(data,
     rlang::set_names(c(date_time, value))
 
   chk::check_data(data, values = values)
-  chk::chk_unique(data[[date_time]], x_name = paste0("`data$", date_time, "`"))
+  
+  chk::chk_unique(as.integer(data[[date_time]]), x_name = paste0("`data$", date_time, "`"))
 
   chk::chk_not_subset(colnames(data), reserved_colnames())
 
