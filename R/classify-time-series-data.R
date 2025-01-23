@@ -74,7 +74,8 @@ classify_time_series_data <- function(data,
   )
 
   data <- data |>
-    duckplyr::rename(.date_time = date_time, .value = value) |>
+    duckplyr::rename(.date_time = duckplyr::all_of(date_time), 
+                     .value = duckplyr::all_of(value)) |>
     duckplyr::arrange(.data$.date_time) |>
     duckplyr::mutate(status_id = rep(NA_integer_, nrow(data))) |>
     set_status_id()

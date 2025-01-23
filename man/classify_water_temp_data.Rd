@@ -14,7 +14,9 @@ classify_water_temp_data(
   erroneous_rate = 5,
   questionable_buffer = 1,
   erroneous_buffer = 1,
-  gap_range = 5
+  gap_range = 5,
+  date_time = "temperature_date_time",
+  value = "water_temperature"
 )
 }
 \arguments{
@@ -39,57 +41,25 @@ questionable.}
 \item{erroneous_rate}{A numeric value indicating the rate of change
 (temperature per hour) of temperature values that is considered erroneous.}
 
-\item{questionable_buffer}{A numeric value indicating a time buffer for
+\item{questionable_buffer}{A numeric value indicating the buffer in hours for
 questionable values.}
 
-\item{erroneous_buffer}{A numeric value indicating a time buffer for
+\item{erroneous_buffer}{A numeric value indicating the number of hours buffer for
 erroneous values.}
 
-\item{gap_range}{A numeric value indicating the range of hours between two
+\item{gap_range}{A numeric value indicating the number of hours between two
 non reasonable values that will be coded as questionable or erroneous.}
+
+\item{date_time}{A string indicating the column name of the POSIXct vector.}
+
+\item{value}{A string indicating the column name of the value vector.}
 }
 \value{
 A data frame
 }
 \description{
-Water temperature data will be either classified as reasonable, questionable,
-or erroneous in the status_id column.
-}
-\details{
-The function only works on a single deployment of a logger. The
-table output will be sorted by temperature_date_time.
-
-The function will error if you have columns with the following names as
-they are used internally: status_id,  ".lag_temp", ".diff_temp",
-".lag_time", ".diff_time", ".rate_temp_per_time", ".lag_id", ".lead_id",
-".id_row", ".quest_higher_next_id", ".quest_lower_next_id",
-".error_higher_next_id", ".error_lower_next_id", ".quest_higher_next_time",
-".quest_lower_next_time", ".error_higher_next_time",
-".error_lower_next_time", ".quest_higher_time_diff_h",
-".quest_lower_time_diff_h", ".error_higher_time_diff_h",
-".error_lower_time_diff_h", ".gap_fill_higher_time",
-".gap_fill_higher_type", ".gap_fill_lower_time", ".gap_fill_lower_type",
-".gap_diff_time_h"
-
-The function will error if there are missing temperature_date_time values
-missing. Missing values in water_temperature are ignored and treated as if
-they are not present. If you want to drop these values you can do that to
-the output by using \code{\link[tidyr:drop_na]{tidyr::drop_na()}}.
-
-The data is processed by:
-\enumerate{
-\item Classifying the temperature values based on their values
-(questionable_min, questionable_max, erroneous_min, erroneous_max). 2. The
-rate of change between adjacent values is calculate and values are
-classified based on the rate parameters (questionable_rate,
-erroneous_rate). 3. Adjacent values to questionable/erroneous are coded as
-questionable/erroneous. 4. A buffer is applied that any value within the
-buffer is classified as questionable/erroneous based on the buffer
-parameters (questionable_buffer, erroneous_buffer). 5. Reasonable values
-identified between two questionable/erroneous values are coded as
-questionable/erroneous based on the gap hour difference allowed
-(gap_range).
-}
+A wrapper on \code{classify_time_series_data()} with the arguments set for
+water temperature data.
 }
 \examples{
 data <- data.frame(
