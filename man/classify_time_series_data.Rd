@@ -58,35 +58,33 @@ erroneous values.}
 non reasonable values that will be coded as questionable or erroneous.}
 }
 \value{
-The original data frame sorted by date_time with a status_id column.
+The original data frame sorted by the date time with a status_id column.
 }
 \description{
 Time series data will be either classified as reasonable, questionable,
-or erroneous in the status_id column.
+or erroneous in the status_id column or NA if the value is missing.
 }
 \details{
-The function only works on a single deployment of a logger. The
-table output will be sorted by date_time.
+The function only works on a single time series.
 
-The function will error if there are missing date_time values
-missing.
+The function will error if there are missing or duplicated date time.
 
 The data is processed by:
 \enumerate{
-\item Classifying the temperature values based on their values
-(questionable_min, questionable_max, erroneous_min, erroneous_max).
+\item Classifying the time series values based on their values
+(`questionable_min, questionable_max, erroneous_min, erroneous_max).
 \item The
-rate of change between adjacent values is calculate and values are
-classified based on the rate parameters (questionable_rate,
+rate of change to each value is then calculated and the values are
+classified based on the absolute rate of change (questionable_rate,
 erroneous_rate).
-\item Adjacent values to questionable/erroneous are coded as
+\item Adjacent values to all questionable/erroneous are then coded as
 questionable/erroneous.
-\item A buffer is applied that any value within the
-buffer is classified as questionable/erroneous based on the buffer
-parameters (questionable_buffer, erroneous_buffer).
-\item Reasonable values
-identified between two questionable/erroneous values are coded as
-questionable/erroneous based on the gap hour difference allowed
+\item Next any value within the time
+buffer of a questionable/erroneous value is classified as questionable/erroneous
+(questionable_buffer, erroneous_buffer).
+\item In addition, ignoring the buffer, reasonable values
+between two questionable/erroneous values are coded as
+questionable if the hourly duration of the gap is within the
 (gap_range).
 }
 }
