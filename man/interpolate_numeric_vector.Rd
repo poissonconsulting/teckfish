@@ -27,10 +27,10 @@ Useful for filling in short runs of missing values in a time series.
 \code{interpolate_numeric_vector()} is essentially a wrapper on \code{\link[stats:approxfun]{stats::approx()}}.
 }
 \examples{
-interpolate_numeric_vector(c(1,NA,4))
-interpolate_numeric_vector(c(1L,NA,4L))
-interpolate_numeric_vector(c(1,NA,NA,NA,NA,3))
-interpolate_numeric_vector(c(1,NA,NA,NA,NA,3), span = 4)
-interpolate_numeric_vector(c(NA,NA,10,1,NA))
-interpolate_numeric_vector(c(NA,NA,10,1,NA), tails = TRUE)
+interpolate_numeric_vector(c(1, NA, 4))
+interpolate_numeric_vector(c(1L, NA, 4L))
+interpolate_numeric_vector(c(1, NA, NA, NA, NA, 3))
+interpolate_numeric_vector(c(1, NA, NA, NA, NA, 3), span = 4)
+interpolate_numeric_vector(c(NA, NA, 10, 1, NA))
+interpolate_numeric_vector(c(NA, NA, 10, 1, NA), tails = TRUE)
 }

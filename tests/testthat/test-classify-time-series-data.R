@@ -3,7 +3,7 @@ test_that("errors when date_time column is missing", {
     date_time2 = as.POSIXct(c("2021-05-07 08:00:00")),
     value = c(4.124)
   )
-  
+
   expect_error(
     classify_time_series_data(data)
   )
@@ -14,7 +14,7 @@ test_that("errors when date_time column type is not a date time", {
     date_time = as.Date(c("2021-05-07")),
     value = c(4.124)
   )
-  
+
   expect_error(
     classify_time_series_data(data)
   )
@@ -25,7 +25,7 @@ test_that("errors when value column is missing", {
     date_time = as.POSIXct(c("2021-05-07 08:00:00")),
     water_temp = c(4.124)
   )
-  
+
   expect_error(
     classify_time_series_data(data)
   )
@@ -36,7 +36,7 @@ test_that("errors when value column type is not numeric", {
     date_time = as.POSIXct(c("2021-05-07 08:00:00")),
     value = c("cold")
   )
-  
+
   expect_error(
     classify_time_series_data(data)
   )
@@ -48,10 +48,10 @@ test_that("additional columns are retained in the output", {
     value = c(4.124),
     comments = c("")
   )
-  
+
   classified_data <- classify_time_series_data(data) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tibble(
@@ -72,7 +72,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -82,7 +82,7 @@ test_that("errors when reserved columns are already present in the data", {
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
 
-  
+
   expect_error(
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -91,7 +91,7 @@ test_that("errors when reserved columns are already present in the data", {
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
-  
+
   expect_error(
     classify_time_series_data(data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -107,9 +107,9 @@ test_that("dataset with no rows is returned with no rows", {
     date_time = as.POSIXct(c()),
     value = numeric()
   )
-  
+
   classified_data <- classify_time_series_data(data)
-  
+
   expect_equal(
     classified_data,
     tibble::tibble(
@@ -141,7 +141,7 @@ test_that("status_id column is output as a factor", {
       value = c(0)
     )
   )
-  
+
   expect_type(output_1$status_id, "integer")
   expect_s3_class(output_1$status_id, c("ordered"))
   expect_s3_class(output_1$status_id, c("factor"))
@@ -154,7 +154,7 @@ test_that("table output type is tibble", {
       value = c(0)
     )
   )
-  
+
   expect_s3_class(output_1, c("tbl_df"))
   expect_s3_class(output_1, c("tbl"))
   expect_s3_class(output_1, c("data.frame"))
@@ -196,7 +196,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_1,
     tibble::tibble(
@@ -205,7 +205,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_2 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -213,7 +213,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_2,
     tibble::tibble(
@@ -222,7 +222,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -230,7 +230,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_3,
     tibble::tibble(
@@ -239,7 +239,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(1L)
     )
   )
-  
+
   output_4 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -247,7 +247,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_4,
     tibble::tibble(
@@ -256,7 +256,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_5 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -264,7 +264,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_5,
     tibble::tibble(
@@ -273,7 +273,7 @@ test_that("questionable temperatures are classified correctly with default value
       status_id = c(2L)
     )
   )
-  
+
   output_6 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 08:00:00")),
@@ -281,7 +281,7 @@ test_that("questionable temperatures are classified correctly with default value
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_6,
     tibble::tibble(
@@ -300,7 +300,7 @@ test_that("erroneous temperatures are classified correctly with default values",
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_2 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -308,7 +308,7 @@ test_that("erroneous temperatures are classified correctly with default values",
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_3 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -316,7 +316,7 @@ test_that("erroneous temperatures are classified correctly with default values",
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_4 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -324,7 +324,7 @@ test_that("erroneous temperatures are classified correctly with default values",
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_5 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -332,7 +332,7 @@ test_that("erroneous temperatures are classified correctly with default values",
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_1,
     tibble::tibble(
@@ -341,7 +341,7 @@ test_that("erroneous temperatures are classified correctly with default values",
       status_id = c(3L)
     )
   )
-  
+
   expect_equal(
     output_2,
     tibble::tibble(
@@ -350,7 +350,7 @@ test_that("erroneous temperatures are classified correctly with default values",
       status_id = c(3L)
     )
   )
-  
+
   expect_equal(
     output_3,
     tibble::tibble(
@@ -359,7 +359,7 @@ test_that("erroneous temperatures are classified correctly with default values",
       status_id = c(3L)
     )
   )
-  
+
   expect_equal(
     output_4,
     tibble::tibble(
@@ -368,7 +368,7 @@ test_that("erroneous temperatures are classified correctly with default values",
       status_id = c(3L)
     )
   )
-  
+
   expect_equal(
     output_5,
     tibble::tibble(
@@ -387,7 +387,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_1,
     tibble::tibble(
@@ -396,7 +396,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_2 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -404,7 +404,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_2,
     tibble::tibble(
@@ -413,7 +413,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -421,7 +421,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_3,
     tibble::tibble(
@@ -430,7 +430,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_4 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -438,7 +438,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_4,
     tibble::tibble(
@@ -447,7 +447,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_5 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -455,7 +455,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_5,
     tibble::tibble(
@@ -464,7 +464,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_6 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -472,7 +472,7 @@ test_that("erroneous and questionable temperature lower bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_6,
     tibble::tibble(
@@ -491,7 +491,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_1,
     tibble::tibble(
@@ -500,7 +500,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(1L)
     )
   )
-  
+
   output_2 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -508,7 +508,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_2,
     tibble::tibble(
@@ -517,7 +517,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_3 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -525,7 +525,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_3,
     tibble::tibble(
@@ -534,7 +534,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(2L)
     )
   )
-  
+
   output_4 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -542,7 +542,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_4,
     tibble::tibble(
@@ -551,7 +551,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_5 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -559,7 +559,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_5,
     tibble::tibble(
@@ -568,7 +568,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
       status_id = c(3L)
     )
   )
-  
+
   output_6 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -576,7 +576,7 @@ test_that("erroneous and questionable temperature upper bounds are classified co
     )
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_6,
     tibble::tibble(
@@ -599,7 +599,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_2 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -611,7 +611,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_3 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -623,7 +623,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_4 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -635,7 +635,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_5 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -647,7 +647,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   output_6 <- classify_time_series_data(
     data.frame(
       date_time = as.POSIXct(c("2021-05-07 13:00:00")),
@@ -659,7 +659,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
     erroneous_max = 25
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     output_1,
     tibble::tibble(
@@ -668,7 +668,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       status_id = c(1L)
     )
   )
-  
+
   expect_equal(
     output_2,
     tibble::tibble(
@@ -677,7 +677,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       status_id = c(2L)
     )
   )
-  
+
   expect_equal(
     output_3,
     tibble::tibble(
@@ -686,7 +686,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       status_id = c(3L)
     )
   )
-  
+
   expect_equal(
     output_4,
     tibble::tibble(
@@ -695,7 +695,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       status_id = c(2L)
     )
   )
-  
+
   expect_equal(
     output_5,
     tibble::tibble(
@@ -704,7 +704,7 @@ test_that("erroneous and questionable temperatures are classified correctly not 
       status_id = c(1L)
     )
   )
-  
+
   expect_equal(
     output_6,
     tibble::tibble(
@@ -727,7 +727,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`erroneous_min` must be less than or equal to -4, not -2."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -739,7 +739,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`erroneous_max` must be greater than or equal to 20, not 10."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -751,7 +751,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`questionable_max` must be greater than 40, not 20."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -763,7 +763,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`questionable_max` must be greater than -2, not -30."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -775,7 +775,7 @@ test_that("questionable and erroneous ranges align with checks", {
     ),
     regexp = "`erroneous_max` must be greater than 40, not 20."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -800,7 +800,7 @@ test_that("rates parameter checks", {
     ),
     regexp = "`questionable_rate` must be greater than 0, not -2."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -811,7 +811,7 @@ test_that("rates parameter checks", {
     ),
     regexp = "`erroneous_rate` must be greater than 0, not -2."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -836,7 +836,7 @@ test_that("buffer parameter checks", {
     ),
     regexp = "`questionable_buffer` must be greater than or equal to 0, not -2."
   )
-  
+
   expect_error(
     classify_time_series_data(
       data.frame(
@@ -866,17 +866,17 @@ test_that("small rates of changes are classified as reasonable", {
   data <-
     tibble::tribble(
       ~date_time, ~value,
-      "2021-05-07 08:00:00",  2.877,
-      "2021-05-07 08:15:00",  3.012,
-      "2021-05-07 08:30:00",  3.147,
-      "2021-05-07 08:45:00",  3.124,
-      "2021-05-07 09:00:00",  3.268,
-      "2021-05-07 09:15:00",  3.115,
-      "2021-05-07 09:30:00",  3.048,
-      "2021-05-07 09:45:00",  2.987
+      "2021-05-07 08:00:00", 2.877,
+      "2021-05-07 08:15:00", 3.012,
+      "2021-05-07 08:30:00", 3.147,
+      "2021-05-07 08:45:00", 3.124,
+      "2021-05-07 09:00:00", 3.268,
+      "2021-05-07 09:15:00", 3.115,
+      "2021-05-07 09:30:00", 3.048,
+      "2021-05-07 09:45:00", 2.987
     ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -884,19 +884,19 @@ test_that("small rates of changes are classified as reasonable", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              1L,
-      "2021-05-07 08:30:00",  3.147,              1L,
-      "2021-05-07 08:45:00",  3.124,              1L,
-      "2021-05-07 09:00:00",  3.268,              1L,
-      "2021-05-07 09:15:00",  3.115,              1L,
-      "2021-05-07 09:30:00",  3.048,              1L,
-      "2021-05-07 09:45:00",  2.987,              1L
+      "2021-05-07 08:00:00", 2.877, 1L,
+      "2021-05-07 08:15:00", 3.012, 1L,
+      "2021-05-07 08:30:00", 3.147, 1L,
+      "2021-05-07 08:45:00", 3.124, 1L,
+      "2021-05-07 09:00:00", 3.268, 1L,
+      "2021-05-07 09:15:00", 3.115, 1L,
+      "2021-05-07 09:30:00", 3.048, 1L,
+      "2021-05-07 09:45:00", 2.987, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -905,19 +905,19 @@ test_that("small rates of changes are classified as reasonable", {
 test_that("erroneous rates are classifed, bad values at end of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -925,21 +925,21 @@ test_that("erroneous rates are classifed, bad values at end of series", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              1L,
-      "2021-05-07 08:30:00",  3.147,              1L,
-      "2021-05-07 08:45:00",  3.124,              1L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 1L,
+      "2021-05-07 08:15:00", 3.012, 1L,
+      "2021-05-07 08:30:00", 3.147, 1L,
+      "2021-05-07 08:45:00", 3.124, 1L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -948,19 +948,19 @@ test_that("erroneous rates are classifed, bad values at end of series", {
 test_that("erroneous rates are classifed, bad values at beginning", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.789,
-    "2021-05-07 08:15:00",  6.257,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:15:00",  3.112,
-    "2021-05-07 10:35:00",  3.042
+    "2021-05-07 08:00:00", 4.789,
+    "2021-05-07 08:15:00", 6.257,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:15:00", 3.112,
+    "2021-05-07 10:35:00", 3.042
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -968,21 +968,21 @@ test_that("erroneous rates are classifed, bad values at beginning", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.789,              3L,
-      "2021-05-07 08:15:00",  6.257,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.068,              1L,
-      "2021-05-07 09:15:00",  2.877,              1L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:15:00",  3.112,              1L,
-      "2021-05-07 10:35:00",  3.042,              1L
+      "2021-05-07 08:00:00", 4.789, 3L,
+      "2021-05-07 08:15:00", 6.257, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.068, 1L,
+      "2021-05-07 09:15:00", 2.877, 1L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:15:00", 3.112, 1L,
+      "2021-05-07 10:35:00", 3.042, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -991,22 +991,22 @@ test_that("erroneous rates are classifed, bad values at beginning", {
 test_that("erroneous rates are classifed, bad values in middle of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  3.589,
-    "2021-05-07 07:45:00",  3.489,
-    "2021-05-07 08:00:00",  3.589,
-    "2021-05-07 08:15:00",  3.324,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  10.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120
+    "2021-05-07 07:30:00", 3.589,
+    "2021-05-07 07:45:00", 3.489,
+    "2021-05-07 08:00:00", 3.589,
+    "2021-05-07 08:15:00", 3.324,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 10.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -1014,24 +1014,24 @@ test_that("erroneous rates are classifed, bad values in middle of series", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  3.589,              1L,
-      "2021-05-07 07:45:00",  3.489,              1L,
-      "2021-05-07 08:00:00",  3.589,              1L,
-      "2021-05-07 08:15:00",  3.324,              1L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  10.124,             3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.100,              1L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 07:30:00", 3.589, 1L,
+      "2021-05-07 07:45:00", 3.489, 1L,
+      "2021-05-07 08:00:00", 3.589, 1L,
+      "2021-05-07 08:15:00", 3.324, 1L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 10.124, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 3L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.100, 1L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1040,19 +1040,19 @@ test_that("erroneous rates are classifed, bad values in middle of series", {
 test_that("questionable rates classifed, bad values at end of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  3.989,
-    "2021-05-07 09:30:00",  4.557,
-    "2021-05-07 09:45:00",  5.657
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 3.989,
+    "2021-05-07 09:30:00", 4.557,
+    "2021-05-07 09:45:00", 5.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -1060,21 +1060,21 @@ test_that("questionable rates classifed, bad values at end of series", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              1L,
-      "2021-05-07 08:30:00",  3.147,              1L,
-      "2021-05-07 08:45:00",  3.124,              1L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  3.989,              2L,
-      "2021-05-07 09:30:00",  4.557,              2L,
-      "2021-05-07 09:45:00",  5.657,              2L
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 1L,
+      "2021-05-07 08:15:00", 3.012, 1L,
+      "2021-05-07 08:30:00", 3.147, 1L,
+      "2021-05-07 08:45:00", 3.124, 1L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 3.989, 2L,
+      "2021-05-07 09:30:00", 4.557, 2L,
+      "2021-05-07 09:45:00", 5.657, 2L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1083,20 +1083,20 @@ test_that("questionable rates classifed, bad values at end of series", {
 test_that("questionable rates are classifed, bad values at beginning", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.189,
-    "2021-05-07 08:15:00",  3.657,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120,
+    "2021-05-07 08:00:00", 4.189,
+    "2021-05-07 08:15:00", 3.657,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120,
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -1104,22 +1104,22 @@ test_that("questionable rates are classifed, bad values at beginning", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.189,              2L,
-      "2021-05-07 08:15:00",  3.657,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.068,              1L,
-      "2021-05-07 09:15:00",  2.877,              1L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.100,              1L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 08:00:00", 4.189, 2L,
+      "2021-05-07 08:15:00", 3.657, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.068, 1L,
+      "2021-05-07 09:15:00", 2.877, 1L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.100, 1L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1128,22 +1128,22 @@ test_that("questionable rates are classifed, bad values at beginning", {
 test_that("questionable rates are classifed, bad values in middle of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  3.589,
-    "2021-05-07 07:45:00",  3.489,
-    "2021-05-07 08:00:00",  3.589,
-    "2021-05-07 08:15:00",  3.324,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120
+    "2021-05-07 07:30:00", 3.589,
+    "2021-05-07 07:45:00", 3.489,
+    "2021-05-07 08:00:00", 3.589,
+    "2021-05-07 08:15:00", 3.324,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -1151,24 +1151,24 @@ test_that("questionable rates are classifed, bad values in middle of series", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  3.589,              1L,
-      "2021-05-07 07:45:00",  3.489,              1L,
-      "2021-05-07 08:00:00",  3.589,              1L,
-      "2021-05-07 08:15:00",  3.324,              1L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.724,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.100,              1L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 07:30:00", 3.589, 1L,
+      "2021-05-07 07:45:00", 3.489, 1L,
+      "2021-05-07 08:00:00", 3.589, 1L,
+      "2021-05-07 08:15:00", 3.324, 1L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.724, 2L,
+      "2021-05-07 09:00:00", 3.068, 2L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.100, 1L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1177,24 +1177,24 @@ test_that("questionable rates are classifed, bad values in middle of series", {
 test_that("questionable and erroneous rates classfied", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 06:45:00",  3.142,
-    "2021-05-07 07:00:00",  3.042,
-    "2021-05-07 07:15:00",  3.142,
-    "2021-05-07 07:30:00",  3.345,
-    "2021-05-07 07:45:00",  3.478,
-    "2021-05-07 08:00:00",  20.124,
-    "2021-05-07 08:15:00",  18.782,
-    "2021-05-07 08:30:00",  14.579,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.022
+    "2021-05-07 06:45:00", 3.142,
+    "2021-05-07 07:00:00", 3.042,
+    "2021-05-07 07:15:00", 3.142,
+    "2021-05-07 07:30:00", 3.345,
+    "2021-05-07 07:45:00", 3.478,
+    "2021-05-07 08:00:00", 20.124,
+    "2021-05-07 08:15:00", 18.782,
+    "2021-05-07 08:30:00", 14.579,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.022
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
@@ -1202,26 +1202,26 @@ test_that("questionable and erroneous rates classfied", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 06:45:00",  3.142,              1L,
-      "2021-05-07 07:00:00",  3.042,              1L,
-      "2021-05-07 07:15:00",  3.142,              1L,
-      "2021-05-07 07:30:00",  3.345,              1L,
-      "2021-05-07 07:45:00",  3.478,              3L,
-      "2021-05-07 08:00:00",  20.124,             3L,
-      "2021-05-07 08:15:00",  18.782,             3L,
-      "2021-05-07 08:30:00",  14.579,             3L,
-      "2021-05-07 08:45:00",  3.724,              3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.022,              1L,
+      "2021-05-07 06:45:00", 3.142, 1L,
+      "2021-05-07 07:00:00", 3.042, 1L,
+      "2021-05-07 07:15:00", 3.142, 1L,
+      "2021-05-07 07:30:00", 3.345, 1L,
+      "2021-05-07 07:45:00", 3.478, 3L,
+      "2021-05-07 08:00:00", 20.124, 3L,
+      "2021-05-07 08:15:00", 18.782, 3L,
+      "2021-05-07 08:30:00", 14.579, 3L,
+      "2021-05-07 08:45:00", 3.724, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.022, 1L,
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1230,18 +1230,18 @@ test_that("questionable and erroneous rates classfied", {
 test_that("questionable and erroneous rates of change set with parameter", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  20.124,
-    "2021-05-07 08:15:00",  18.782,
-    "2021-05-07 08:30:00",  14.579,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122
+    "2021-05-07 08:00:00", 20.124,
+    "2021-05-07 08:15:00", 18.782,
+    "2021-05-07 08:30:00", 14.579,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_rate = 5,
@@ -1251,20 +1251,20 @@ test_that("questionable and erroneous rates of change set with parameter", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  20.124,             2L,
-      "2021-05-07 08:15:00",  18.782,             2L,
-      "2021-05-07 08:30:00",  14.579,             3L,
-      "2021-05-07 08:45:00",  3.724,              3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              1L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L
+      "2021-05-07 08:00:00", 20.124, 2L,
+      "2021-05-07 08:15:00", 18.782, 2L,
+      "2021-05-07 08:30:00", 14.579, 3L,
+      "2021-05-07 08:45:00", 3.724, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 1L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1273,18 +1273,18 @@ test_that("questionable and erroneous rates of change set with parameter", {
 test_that("questionable rate of change set with parameter", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  20.124,
-    "2021-05-07 08:15:00",  18.782,
-    "2021-05-07 08:30:00",  14.579,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.168,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122
+    "2021-05-07 08:00:00", 20.124,
+    "2021-05-07 08:15:00", 18.782,
+    "2021-05-07 08:30:00", 14.579,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.168,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_rate = 1,
@@ -1293,20 +1293,20 @@ test_that("questionable rate of change set with parameter", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  20.124,             3L,
-      "2021-05-07 08:15:00",  18.782,             3L,
-      "2021-05-07 08:30:00",  14.579,             3L,
-      "2021-05-07 08:45:00",  3.724,              3L,
-      "2021-05-07 09:00:00",  3.168,              3L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L
+      "2021-05-07 08:00:00", 20.124, 3L,
+      "2021-05-07 08:15:00", 18.782, 3L,
+      "2021-05-07 08:30:00", 14.579, 3L,
+      "2021-05-07 08:45:00", 3.724, 3L,
+      "2021-05-07 09:00:00", 3.168, 3L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 2L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1315,18 +1315,18 @@ test_that("questionable rate of change set with parameter", {
 test_that("erroneous rate of change set with parameter", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  20.124,
-    "2021-05-07 08:15:00",  18.782,
-    "2021-05-07 08:30:00",  14.579,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.168,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122
+    "2021-05-07 08:00:00", 20.124,
+    "2021-05-07 08:15:00", 18.782,
+    "2021-05-07 08:30:00", 14.579,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.168,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     erroneous_rate = 15,
@@ -1335,20 +1335,20 @@ test_that("erroneous rate of change set with parameter", {
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  20.124,             2L,
-      "2021-05-07 08:15:00",  18.782,             3L,
-      "2021-05-07 08:30:00",  14.579,             3L,
-      "2021-05-07 08:45:00",  3.724,              3L,
-      "2021-05-07 09:00:00",  3.168,              3L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L
+      "2021-05-07 08:00:00", 20.124, 2L,
+      "2021-05-07 08:15:00", 18.782, 3L,
+      "2021-05-07 08:30:00", 14.579, 3L,
+      "2021-05-07 08:45:00", 3.724, 3L,
+      "2021-05-07 09:00:00", 3.168, 3L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1357,39 +1357,39 @@ test_that("erroneous rate of change set with parameter", {
 test_that("erroneous rates are buffered, bad values at end of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1398,39 +1398,39 @@ test_that("erroneous rates are buffered, bad values at end of series", {
 test_that("erroneous rates are buffered, bad values at beginning", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.789,
-    "2021-05-07 08:15:00",  6.257,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:15:00",  3.112,
-    "2021-05-07 10:35:00",  3.042
+    "2021-05-07 08:00:00", 4.789,
+    "2021-05-07 08:15:00", 6.257,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:15:00", 3.112,
+    "2021-05-07 10:35:00", 3.042
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.789,              3L,
-      "2021-05-07 08:15:00",  6.257,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:15:00",  3.112,              1L,
-      "2021-05-07 10:35:00",  3.042,              1L
+      "2021-05-07 08:00:00", 4.789, 3L,
+      "2021-05-07 08:15:00", 6.257, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 3L,
+      "2021-05-07 09:30:00", 2.987, 3L,
+      "2021-05-07 09:45:00", 3.012, 3L,
+      "2021-05-07 10:15:00", 3.112, 1L,
+      "2021-05-07 10:35:00", 3.042, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1439,47 +1439,47 @@ test_that("erroneous rates are buffered, bad values at beginning", {
 test_that("erroneous rates are buffered, bad values in middle of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:15:00",  3.489,
-    "2021-05-07 07:30:00",  3.589,
-    "2021-05-07 07:45:00",  3.489,
-    "2021-05-07 08:00:00",  3.589,
-    "2021-05-07 08:15:00",  3.324,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  10.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120
+    "2021-05-07 07:15:00", 3.489,
+    "2021-05-07 07:30:00", 3.589,
+    "2021-05-07 07:45:00", 3.489,
+    "2021-05-07 08:00:00", 3.589,
+    "2021-05-07 08:15:00", 3.324,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 10.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:15:00",  3.489,              1L,
-      "2021-05-07 07:30:00",  3.589,              3L,
-      "2021-05-07 07:45:00",  3.489,              3L,
-      "2021-05-07 08:00:00",  3.589,              3L,
-      "2021-05-07 08:15:00",  3.324,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  10.124,             3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              3L,
-      "2021-05-07 10:15:00",  3.100,              3L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 07:15:00", 3.489, 1L,
+      "2021-05-07 07:30:00", 3.589, 3L,
+      "2021-05-07 07:45:00", 3.489, 3L,
+      "2021-05-07 08:00:00", 3.589, 3L,
+      "2021-05-07 08:15:00", 3.324, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 10.124, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 3L,
+      "2021-05-07 09:30:00", 2.987, 3L,
+      "2021-05-07 09:45:00", 3.012, 3L,
+      "2021-05-07 10:00:00", 3.122, 3L,
+      "2021-05-07 10:15:00", 3.100, 3L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1488,39 +1488,39 @@ test_that("erroneous rates are buffered, bad values in middle of series", {
 test_that("questionable rates are buffered, bad values at end of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  3.989,
-    "2021-05-07 09:30:00",  4.557,
-    "2021-05-07 09:45:00",  5.657
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 3.989,
+    "2021-05-07 09:30:00", 4.557,
+    "2021-05-07 09:45:00", 5.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              2L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  3.989,              2L,
-      "2021-05-07 09:30:00",  4.557,              2L,
-      "2021-05-07 09:45:00",  5.657,              2L
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 2L,
+      "2021-05-07 08:15:00", 3.012, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 3.989, 2L,
+      "2021-05-07 09:30:00", 4.557, 2L,
+      "2021-05-07 09:45:00", 5.657, 2L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1529,41 +1529,41 @@ test_that("questionable rates are buffered, bad values at end of series", {
 test_that("questionable rates are buffered, bad values at beginning", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.189,
-    "2021-05-07 08:15:00",  3.657,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120,
+    "2021-05-07 08:00:00", 4.189,
+    "2021-05-07 08:15:00", 3.657,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120,
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.189,              2L,
-      "2021-05-07 08:15:00",  3.657,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
-      "2021-05-07 09:45:00",  3.012,              2L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.100,              1L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 08:00:00", 4.189, 2L,
+      "2021-05-07 08:15:00", 3.657, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.068, 2L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 2L,
+      "2021-05-07 09:45:00", 3.012, 2L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.100, 1L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1572,47 +1572,47 @@ test_that("questionable rates are buffered, bad values at beginning", {
 test_that("questionable rates are buffered, bad values in middle of series", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:15:00",  3.489,
-    "2021-05-07 07:30:00",  3.589,
-    "2021-05-07 07:45:00",  3.489,
-    "2021-05-07 08:00:00",  3.589,
-    "2021-05-07 08:15:00",  3.324,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120
+    "2021-05-07 07:15:00", 3.489,
+    "2021-05-07 07:30:00", 3.589,
+    "2021-05-07 07:45:00", 3.489,
+    "2021-05-07 08:00:00", 3.589,
+    "2021-05-07 08:15:00", 3.324,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:15:00",  3.489,              1L,
-      "2021-05-07 07:30:00",  3.589,              2L,
-      "2021-05-07 07:45:00",  3.489,              2L,
-      "2021-05-07 08:00:00",  3.589,              2L,
-      "2021-05-07 08:15:00",  3.324,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.724,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
-      "2021-05-07 09:45:00",  3.012,              2L,
-      "2021-05-07 10:00:00",  3.122,              2L,
-      "2021-05-07 10:15:00",  3.100,              2L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 07:15:00", 3.489, 1L,
+      "2021-05-07 07:30:00", 3.589, 2L,
+      "2021-05-07 07:45:00", 3.489, 2L,
+      "2021-05-07 08:00:00", 3.589, 2L,
+      "2021-05-07 08:15:00", 3.324, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.724, 2L,
+      "2021-05-07 09:00:00", 3.068, 2L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 2L,
+      "2021-05-07 09:45:00", 3.012, 2L,
+      "2021-05-07 10:00:00", 3.122, 2L,
+      "2021-05-07 10:15:00", 3.100, 2L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1621,53 +1621,53 @@ test_that("questionable rates are buffered, bad values in middle of series", {
 test_that("questionable and erroneous rates buffered", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 06:30:00",  3.042,
-    "2021-05-07 06:45:00",  3.142,
-    "2021-05-07 07:00:00",  3.042,
-    "2021-05-07 07:15:00",  3.142,
-    "2021-05-07 07:30:00",  3.345,
-    "2021-05-07 07:45:00",  3.478,
-    "2021-05-07 08:00:00",  20.124,
-    "2021-05-07 08:15:00",  18.782,
-    "2021-05-07 08:30:00",  14.579,
-    "2021-05-07 08:45:00",  3.724,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.022,
-    "2021-05-07 10:30:00",  3.122
+    "2021-05-07 06:30:00", 3.042,
+    "2021-05-07 06:45:00", 3.142,
+    "2021-05-07 07:00:00", 3.042,
+    "2021-05-07 07:15:00", 3.142,
+    "2021-05-07 07:30:00", 3.345,
+    "2021-05-07 07:45:00", 3.478,
+    "2021-05-07 08:00:00", 20.124,
+    "2021-05-07 08:15:00", 18.782,
+    "2021-05-07 08:30:00", 14.579,
+    "2021-05-07 08:45:00", 3.724,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.022,
+    "2021-05-07 10:30:00", 3.122
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 06:30:00",  3.042,              1L,
-      "2021-05-07 06:45:00",  3.142,              3L,
-      "2021-05-07 07:00:00",  3.042,              3L,
-      "2021-05-07 07:15:00",  3.142,              3L,
-      "2021-05-07 07:30:00",  3.345,              3L,
-      "2021-05-07 07:45:00",  3.478,              3L,
-      "2021-05-07 08:00:00",  20.124,             3L,
-      "2021-05-07 08:15:00",  18.782,             3L,
-      "2021-05-07 08:30:00",  14.579,             3L,
-      "2021-05-07 08:45:00",  3.724,              3L,
-      "2021-05-07 09:00:00",  3.068,              3L,
-      "2021-05-07 09:15:00",  2.877,              3L,
-      "2021-05-07 09:30:00",  2.987,              3L,
-      "2021-05-07 09:45:00",  3.012,              3L,
-      "2021-05-07 10:00:00",  3.122,              3L,
-      "2021-05-07 10:15:00",  3.022,              2L,
-      "2021-05-07 10:30:00",  3.122,              1L
+      "2021-05-07 06:30:00", 3.042, 1L,
+      "2021-05-07 06:45:00", 3.142, 3L,
+      "2021-05-07 07:00:00", 3.042, 3L,
+      "2021-05-07 07:15:00", 3.142, 3L,
+      "2021-05-07 07:30:00", 3.345, 3L,
+      "2021-05-07 07:45:00", 3.478, 3L,
+      "2021-05-07 08:00:00", 20.124, 3L,
+      "2021-05-07 08:15:00", 18.782, 3L,
+      "2021-05-07 08:30:00", 14.579, 3L,
+      "2021-05-07 08:45:00", 3.724, 3L,
+      "2021-05-07 09:00:00", 3.068, 3L,
+      "2021-05-07 09:15:00", 2.877, 3L,
+      "2021-05-07 09:30:00", 2.987, 3L,
+      "2021-05-07 09:45:00", 3.012, 3L,
+      "2021-05-07 10:00:00", 3.122, 3L,
+      "2021-05-07 10:15:00", 3.022, 2L,
+      "2021-05-07 10:30:00", 3.122, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1676,42 +1676,42 @@ test_that("questionable and erroneous rates buffered", {
 test_that("questionable buffer set with parameter to be smaller", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.189,
-    "2021-05-07 08:15:00",  3.657,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120,
+    "2021-05-07 08:00:00", 4.189,
+    "2021-05-07 08:15:00", 3.657,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120,
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0,
     questionable_buffer = 0.5
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.189,              2L,
-      "2021-05-07 08:15:00",  3.657,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              1L,
-      "2021-05-07 09:45:00",  3.012,              1L,
-      "2021-05-07 10:00:00",  3.122,              1L,
-      "2021-05-07 10:15:00",  3.100,              1L,
-      "2021-05-07 10:30:00",  3.120,              1L
+      "2021-05-07 08:00:00", 4.189, 2L,
+      "2021-05-07 08:15:00", 3.657, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.068, 2L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 1L,
+      "2021-05-07 09:45:00", 3.012, 1L,
+      "2021-05-07 10:00:00", 3.122, 1L,
+      "2021-05-07 10:15:00", 3.100, 1L,
+      "2021-05-07 10:30:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1720,48 +1720,48 @@ test_that("questionable buffer set with parameter to be smaller", {
 test_that("questionable buffer set with parameter to be larger", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 08:00:00",  4.189,
-    "2021-05-07 08:15:00",  3.657,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.068,
-    "2021-05-07 09:15:00",  2.877,
-    "2021-05-07 09:30:00",  2.987,
-    "2021-05-07 09:45:00",  3.012,
-    "2021-05-07 10:00:00",  3.122,
-    "2021-05-07 10:15:00",  3.100,
-    "2021-05-07 10:30:00",  3.120,
-    "2021-05-07 10:45:00",  3.152,
-    "2021-05-07 11:00:00",  3.100,
-    "2021-05-07 11:15:00",  3.120
+    "2021-05-07 08:00:00", 4.189,
+    "2021-05-07 08:15:00", 3.657,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.068,
+    "2021-05-07 09:15:00", 2.877,
+    "2021-05-07 09:30:00", 2.987,
+    "2021-05-07 09:45:00", 3.012,
+    "2021-05-07 10:00:00", 3.122,
+    "2021-05-07 10:15:00", 3.100,
+    "2021-05-07 10:30:00", 3.120,
+    "2021-05-07 10:45:00", 3.152,
+    "2021-05-07 11:00:00", 3.100,
+    "2021-05-07 11:15:00", 3.120
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0,
     questionable_buffer = 2
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 08:00:00",  4.189,              2L,
-      "2021-05-07 08:15:00",  3.657,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.068,              2L,
-      "2021-05-07 09:15:00",  2.877,              2L,
-      "2021-05-07 09:30:00",  2.987,              2L,
-      "2021-05-07 09:45:00",  3.012,              2L,
-      "2021-05-07 10:00:00",  3.122,              2L,
-      "2021-05-07 10:15:00",  3.100,              2L,
-      "2021-05-07 10:30:00",  3.120,              2L,
-      "2021-05-07 10:45:00",  3.152,              2L,
-      "2021-05-07 11:00:00",  3.100,              1L,
-      "2021-05-07 11:15:00",  3.120,              1L
+      "2021-05-07 08:00:00", 4.189, 2L,
+      "2021-05-07 08:15:00", 3.657, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.068, 2L,
+      "2021-05-07 09:15:00", 2.877, 2L,
+      "2021-05-07 09:30:00", 2.987, 2L,
+      "2021-05-07 09:45:00", 3.012, 2L,
+      "2021-05-07 10:00:00", 3.122, 2L,
+      "2021-05-07 10:15:00", 3.100, 2L,
+      "2021-05-07 10:30:00", 3.120, 2L,
+      "2021-05-07 10:45:00", 3.152, 2L,
+      "2021-05-07 11:00:00", 3.100, 1L,
+      "2021-05-07 11:15:00", 3.120, 1L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1770,40 +1770,40 @@ test_that("questionable buffer set with parameter to be larger", {
 test_that("erroneous buffer set with parameter to be smaller", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     erroneous_buffer = 0.25,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              1L,
-      "2021-05-07 08:15:00",  3.012,              1L,
-      "2021-05-07 08:30:00",  3.147,              1L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 1L,
+      "2021-05-07 08:15:00", 3.012, 1L,
+      "2021-05-07 08:30:00", 3.147, 1L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1812,46 +1812,46 @@ test_that("erroneous buffer set with parameter to be smaller", {
 test_that("erroneous buffer set with parameter to be larger", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     erroneous_buffer = 2,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 06:45:00",  2.917,              1L,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              3L,
-      "2021-05-07 07:45:00",  2.867,              3L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 06:45:00", 2.917, 1L,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 3L,
+      "2021-05-07 07:45:00", 2.867, 3L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1860,52 +1860,52 @@ test_that("erroneous buffer set with parameter to be larger", {
 test_that("gaps are filled in", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              3L,
-      "2021-05-07 06:45:00",  2.917,              3L,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              2L,
-      "2021-05-07 07:45:00",  2.867,              2L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 3L,
+      "2021-05-07 06:45:00", 2.917, 3L,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 2L,
+      "2021-05-07 07:45:00", 2.867, 2L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1914,53 +1914,53 @@ test_that("gaps are filled in", {
 test_that("gaps not filled in when set to zero", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              3L,
-      "2021-05-07 06:45:00",  2.917,              3L,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 3L,
+      "2021-05-07 06:45:00", 2.917, 3L,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -1969,53 +1969,53 @@ test_that("gaps not filled in when set to zero", {
 test_that("gaps does not over fill gap difference is 2.5 and parameter set to 1", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 1
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              3L,
-      "2021-05-07 06:45:00",  2.917,              3L,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              3L,
-      "2021-05-07 08:15:00",  3.012,              3L,
-      "2021-05-07 08:30:00",  3.147,              3L,
-      "2021-05-07 08:45:00",  3.124,              3L,
-      "2021-05-07 09:00:00",  3.268,              3L,
-      "2021-05-07 09:15:00",  4.789,              3L,
-      "2021-05-07 09:30:00",  6.257,              3L,
-      "2021-05-07 09:45:00",  8.657,              3L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 3L,
+      "2021-05-07 06:45:00", 2.917, 3L,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 3L,
+      "2021-05-07 08:15:00", 3.012, 3L,
+      "2021-05-07 08:30:00", 3.147, 3L,
+      "2021-05-07 08:45:00", 3.124, 3L,
+      "2021-05-07 09:00:00", 3.268, 3L,
+      "2021-05-07 09:15:00", 4.789, 3L,
+      "2021-05-07 09:30:00", 6.257, 3L,
+      "2021-05-07 09:45:00", 8.657, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -2024,54 +2024,54 @@ test_that("gaps does not over fill gap difference is 2.5 and parameter set to 1"
 test_that("gaps fills with questionable values when erroneous and questionable nexts", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.189,
-    "2021-05-07 09:30:00",  4.157,
-    "2021-05-07 09:45:00",  4.957
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.189,
+    "2021-05-07 09:30:00", 4.157,
+    "2021-05-07 09:45:00", 4.957
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              2L,
-      "2021-05-07 06:45:00",  2.917,              2L,
-      "2021-05-07 07:00:00",  2.817,              2L,
-      "2021-05-07 07:15:00",  2.917,              2L,
-      "2021-05-07 07:30:00",  2.817,              2L,
-      "2021-05-07 07:45:00",  2.867,              2L,
-      "2021-05-07 08:00:00",  2.877,              2L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  4.189,              2L,
-      "2021-05-07 09:30:00",  4.157,              2L,
-      "2021-05-07 09:45:00",  4.957,              2L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 2L,
+      "2021-05-07 06:45:00", 2.917, 2L,
+      "2021-05-07 07:00:00", 2.817, 2L,
+      "2021-05-07 07:15:00", 2.917, 2L,
+      "2021-05-07 07:30:00", 2.817, 2L,
+      "2021-05-07 07:45:00", 2.867, 2L,
+      "2021-05-07 08:00:00", 2.877, 2L,
+      "2021-05-07 08:15:00", 3.012, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 4.189, 2L,
+      "2021-05-07 09:30:00", 4.157, 2L,
+      "2021-05-07 09:45:00", 4.957, 2L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -2080,54 +2080,54 @@ test_that("gaps fills with questionable values when erroneous and questionable n
 test_that("gaps fills with questionable values", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  3.557,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.189,
-    "2021-05-07 09:30:00",  4.157,
-    "2021-05-07 09:45:00",  4.957
+    "2021-05-07 05:45:00", 3.557,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.189,
+    "2021-05-07 09:30:00", 4.157,
+    "2021-05-07 09:45:00", 4.957
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  3.557,              2L,
-      "2021-05-07 06:00:00",  2.817,              2L,
-      "2021-05-07 06:15:00",  2.917,              2L,
-      "2021-05-07 06:30:00",  2.817,              2L,
-      "2021-05-07 06:45:00",  2.917,              2L,
-      "2021-05-07 07:00:00",  2.817,              2L,
-      "2021-05-07 07:15:00",  2.917,              2L,
-      "2021-05-07 07:30:00",  2.817,              2L,
-      "2021-05-07 07:45:00",  2.867,              2L,
-      "2021-05-07 08:00:00",  2.877,              2L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  4.189,              2L,
-      "2021-05-07 09:30:00",  4.157,              2L,
-      "2021-05-07 09:45:00",  4.957,              2L
+      "2021-05-07 05:45:00", 3.557, 2L,
+      "2021-05-07 06:00:00", 2.817, 2L,
+      "2021-05-07 06:15:00", 2.917, 2L,
+      "2021-05-07 06:30:00", 2.817, 2L,
+      "2021-05-07 06:45:00", 2.917, 2L,
+      "2021-05-07 07:00:00", 2.817, 2L,
+      "2021-05-07 07:15:00", 2.917, 2L,
+      "2021-05-07 07:30:00", 2.817, 2L,
+      "2021-05-07 07:45:00", 2.867, 2L,
+      "2021-05-07 08:00:00", 2.877, 2L,
+      "2021-05-07 08:15:00", 3.012, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 4.189, 2L,
+      "2021-05-07 09:30:00", 4.157, 2L,
+      "2021-05-07 09:45:00", 4.957, 2L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -2136,56 +2136,56 @@ test_that("gaps fills with questionable values", {
 test_that("gaps fills only reasonable", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  2.917,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  3.147,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.189,
-    "2021-05-07 09:30:00",  4.157,
-    "2021-05-07 09:45:00",  4.957,
-    "2021-05-07 10:00:00",  7.957,
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", 2.917,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", 3.147,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.189,
+    "2021-05-07 09:30:00", 4.157,
+    "2021-05-07 09:45:00", 4.957,
+    "2021-05-07 10:00:00", 7.957,
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     questionable_buffer = 0,
     erroneous_buffer = 0
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              2L,
-      "2021-05-07 06:45:00",  2.917,              2L,
-      "2021-05-07 07:00:00",  2.817,              2L,
-      "2021-05-07 07:15:00",  2.917,              2L,
-      "2021-05-07 07:30:00",  2.817,              2L,
-      "2021-05-07 07:45:00",  2.867,              2L,
-      "2021-05-07 08:00:00",  2.877,              2L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  3.147,              2L,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  4.189,              2L,
-      "2021-05-07 09:30:00",  4.157,              2L,
-      "2021-05-07 09:45:00",  4.957,              3L,
-      "2021-05-07 10:00:00",  7.957,              3L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 2L,
+      "2021-05-07 06:45:00", 2.917, 2L,
+      "2021-05-07 07:00:00", 2.817, 2L,
+      "2021-05-07 07:15:00", 2.917, 2L,
+      "2021-05-07 07:30:00", 2.817, 2L,
+      "2021-05-07 07:45:00", 2.867, 2L,
+      "2021-05-07 08:00:00", 2.877, 2L,
+      "2021-05-07 08:15:00", 3.012, 2L,
+      "2021-05-07 08:30:00", 3.147, 2L,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 4.189, 2L,
+      "2021-05-07 09:30:00", 4.157, 2L,
+      "2021-05-07 09:45:00", 4.957, 3L,
+      "2021-05-07 10:00:00", 7.957, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )
@@ -2194,29 +2194,29 @@ test_that("gaps fills only reasonable", {
 test_that("missing values in water temp are retained", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  NA_real_,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  NA_real_,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  4.789,
-    "2021-05-07 09:30:00",  6.257,
-    "2021-05-07 09:45:00",  8.657
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", NA_real_,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", NA_real_,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 4.789,
+    "2021-05-07 09:30:00", 6.257,
+    "2021-05-07 09:45:00", 8.657
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(data) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
@@ -2246,52 +2246,52 @@ test_that("missing values in water temp are retained", {
 test_that("status id values are coded as correct factor levels and integer values", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 05:45:00",  6.257,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 06:15:00",  2.917,
-    "2021-05-07 06:30:00",  2.817,
-    "2021-05-07 06:45:00",  NA_real_,
-    "2021-05-07 07:00:00",  2.817,
-    "2021-05-07 07:15:00",  2.917,
-    "2021-05-07 07:30:00",  2.817,
-    "2021-05-07 07:45:00",  2.867,
-    "2021-05-07 08:00:00",  2.877,
-    "2021-05-07 08:15:00",  3.012,
-    "2021-05-07 08:30:00",  NA_real_,
-    "2021-05-07 08:45:00",  3.124,
-    "2021-05-07 09:00:00",  3.268,
-    "2021-05-07 09:15:00",  3.789,
-    "2021-05-07 09:30:00",  4.104,
-    "2021-05-07 09:45:00",  4.178
+    "2021-05-07 05:45:00", 6.257,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 06:15:00", 2.917,
+    "2021-05-07 06:30:00", 2.817,
+    "2021-05-07 06:45:00", NA_real_,
+    "2021-05-07 07:00:00", 2.817,
+    "2021-05-07 07:15:00", 2.917,
+    "2021-05-07 07:30:00", 2.817,
+    "2021-05-07 07:45:00", 2.867,
+    "2021-05-07 08:00:00", 2.877,
+    "2021-05-07 08:15:00", 3.012,
+    "2021-05-07 08:30:00", NA_real_,
+    "2021-05-07 08:45:00", 3.124,
+    "2021-05-07 09:00:00", 3.268,
+    "2021-05-07 09:15:00", 3.789,
+    "2021-05-07 09:30:00", 4.104,
+    "2021-05-07 09:45:00", 4.178
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 0
   )
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              "erroneous",
-      "2021-05-07 06:00:00",  2.817,              "erroneous",
-      "2021-05-07 06:15:00",  2.917,              "erroneous",
-      "2021-05-07 06:30:00",  2.817,              "erroneous",
-      "2021-05-07 06:45:00",  NA_real_,           NA_character_,
-      "2021-05-07 07:00:00",  2.817,              "erroneous",
-      "2021-05-07 07:15:00",  2.917,              "erroneous",
-      "2021-05-07 07:30:00",  2.817,              "reasonable",
-      "2021-05-07 07:45:00",  2.867,              "reasonable",
-      "2021-05-07 08:00:00",  2.877,              "questionable",
-      "2021-05-07 08:15:00",  3.012,              "questionable",
-      "2021-05-07 08:30:00",  NA_real_,           NA_character_,
-      "2021-05-07 08:45:00",  3.124,              "questionable",
-      "2021-05-07 09:00:00",  3.268,              "questionable",
-      "2021-05-07 09:15:00",  3.789,              "questionable",
-      "2021-05-07 09:30:00",  4.104,              "questionable",
-      "2021-05-07 09:45:00",  4.178,              "questionable"
+      "2021-05-07 05:45:00", 6.257, "erroneous",
+      "2021-05-07 06:00:00", 2.817, "erroneous",
+      "2021-05-07 06:15:00", 2.917, "erroneous",
+      "2021-05-07 06:30:00", 2.817, "erroneous",
+      "2021-05-07 06:45:00", NA_real_, NA_character_,
+      "2021-05-07 07:00:00", 2.817, "erroneous",
+      "2021-05-07 07:15:00", 2.917, "erroneous",
+      "2021-05-07 07:30:00", 2.817, "reasonable",
+      "2021-05-07 07:45:00", 2.867, "reasonable",
+      "2021-05-07 08:00:00", 2.877, "questionable",
+      "2021-05-07 08:15:00", 3.012, "questionable",
+      "2021-05-07 08:30:00", NA_real_, NA_character_,
+      "2021-05-07 08:45:00", 3.124, "questionable",
+      "2021-05-07 09:00:00", 3.268, "questionable",
+      "2021-05-07 09:15:00", 3.789, "questionable",
+      "2021-05-07 09:30:00", 4.104, "questionable",
+      "2021-05-07 09:45:00", 4.178, "questionable"
     ) |>
       dplyr::mutate(
         date_time = as.POSIXct(date_time),
@@ -2302,31 +2302,31 @@ test_that("status id values are coded as correct factor levels and integer value
         )
       )
   )
-  
+
   classified_data <- classified_data |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 05:45:00",  6.257,              3L,
-      "2021-05-07 06:00:00",  2.817,              3L,
-      "2021-05-07 06:15:00",  2.917,              3L,
-      "2021-05-07 06:30:00",  2.817,              3L,
-      "2021-05-07 06:45:00",  NA_real_,           NA_integer_,
-      "2021-05-07 07:00:00",  2.817,              3L,
-      "2021-05-07 07:15:00",  2.917,              3L,
-      "2021-05-07 07:30:00",  2.817,              1L,
-      "2021-05-07 07:45:00",  2.867,              1L,
-      "2021-05-07 08:00:00",  2.877,              2L,
-      "2021-05-07 08:15:00",  3.012,              2L,
-      "2021-05-07 08:30:00",  NA_real_,           NA_integer_,
-      "2021-05-07 08:45:00",  3.124,              2L,
-      "2021-05-07 09:00:00",  3.268,              2L,
-      "2021-05-07 09:15:00",  3.789,              2L,
-      "2021-05-07 09:30:00",  4.104,              2L,
-      "2021-05-07 09:45:00",  4.178,              2L
+      "2021-05-07 05:45:00", 6.257, 3L,
+      "2021-05-07 06:00:00", 2.817, 3L,
+      "2021-05-07 06:15:00", 2.917, 3L,
+      "2021-05-07 06:30:00", 2.817, 3L,
+      "2021-05-07 06:45:00", NA_real_, NA_integer_,
+      "2021-05-07 07:00:00", 2.817, 3L,
+      "2021-05-07 07:15:00", 2.917, 3L,
+      "2021-05-07 07:30:00", 2.817, 1L,
+      "2021-05-07 07:45:00", 2.867, 1L,
+      "2021-05-07 08:00:00", 2.877, 2L,
+      "2021-05-07 08:15:00", 3.012, 2L,
+      "2021-05-07 08:30:00", NA_real_, NA_integer_,
+      "2021-05-07 08:45:00", 3.124, 2L,
+      "2021-05-07 09:00:00", 3.268, 2L,
+      "2021-05-07 09:15:00", 3.789, 2L,
+      "2021-05-07 09:30:00", 4.104, 2L,
+      "2021-05-07 09:45:00", 4.178, 2L
     ) |>
       dplyr::mutate(
         date_time = as.POSIXct(date_time)
@@ -2337,55 +2337,55 @@ test_that("status id values are coded as correct factor levels and integer value
 test_that("check against hourly values", {
   data <- tibble::tribble(
     ~date_time, ~value,
-    "2021-05-07 01:00:00",  6.257,
-    "2021-05-07 02:00:00",  2.817,
-    "2021-05-07 03:00:00",  2.917,
-    "2021-05-07 04:00:00",  2.817,
-    "2021-05-07 05:00:00",  2.917,
-    "2021-05-07 06:00:00",  2.817,
-    "2021-05-07 07:00:00",  2.917,
-    "2021-05-07 08:00:00",  2.817,
-    "2021-05-07 09:00:00",  2.867,
-    "2021-05-07 10:00:00",  2.877,
-    "2021-05-07 11:00:00",  10.012,
-    "2021-05-07 12:00:00",  3.147,
-    "2021-05-07 13:00:00",  3.124,
-    "2021-05-07 14:00:00",  3.268,
-    "2021-05-07 15:00:00",  4.189,
-    "2021-05-07 16:00:00",  4.157,
-    "2021-05-07 17:00:00",  4.957,
-    "2021-05-07 18:00:00",  10.957,
+    "2021-05-07 01:00:00", 6.257,
+    "2021-05-07 02:00:00", 2.817,
+    "2021-05-07 03:00:00", 2.917,
+    "2021-05-07 04:00:00", 2.817,
+    "2021-05-07 05:00:00", 2.917,
+    "2021-05-07 06:00:00", 2.817,
+    "2021-05-07 07:00:00", 2.917,
+    "2021-05-07 08:00:00", 2.817,
+    "2021-05-07 09:00:00", 2.867,
+    "2021-05-07 10:00:00", 2.877,
+    "2021-05-07 11:00:00", 10.012,
+    "2021-05-07 12:00:00", 3.147,
+    "2021-05-07 13:00:00", 3.124,
+    "2021-05-07 14:00:00", 3.268,
+    "2021-05-07 15:00:00", 4.189,
+    "2021-05-07 16:00:00", 4.157,
+    "2021-05-07 17:00:00", 4.957,
+    "2021-05-07 18:00:00", 10.957,
   ) |>
     dplyr::mutate(date_time = as.POSIXct(date_time))
-  
+
   classified_data <- classify_time_series_data(
     data,
     gap_range = 5
   ) |>
     dplyr::mutate(status_id = as.integer(status_id))
-  
+
   expect_equal(
     classified_data,
     tibble::tribble(
       ~date_time, ~value, ~status_id,
-      "2021-05-07 01:00:00",  6.257,              2L,
-      "2021-05-07 02:00:00",  2.817,              2L,
-      "2021-05-07 03:00:00",  2.917,              2L,
-      "2021-05-07 04:00:00",  2.817,              2L,
-      "2021-05-07 05:00:00",  2.917,              1L,
-      "2021-05-07 06:00:00",  2.817,              1L,
-      "2021-05-07 07:00:00",  2.917,              1L,
-      "2021-05-07 08:00:00",  2.817,              1L,
-      "2021-05-07 09:00:00",  2.867,              3L,
-      "2021-05-07 10:00:00",  2.877,              3L,
-      "2021-05-07 11:00:00",  10.012,             3L,
-      "2021-05-07 12:00:00",  3.147,              3L,
-      "2021-05-07 13:00:00",  3.124,              3L,
-      "2021-05-07 14:00:00",  3.268,              3L,
-      "2021-05-07 15:00:00",  4.189,              2L,
-      "2021-05-07 16:00:00",  4.157,              3L,
-      "2021-05-07 17:00:00",  4.957,              3L,
-      "2021-05-07 18:00:00",  10.957,             3L
+      "2021-05-07 01:00:00", 6.257, 2L,
+      "2021-05-07 02:00:00", 2.817, 2L,
+      "2021-05-07 03:00:00", 2.917, 2L,
+      "2021-05-07 04:00:00", 2.817, 2L,
+      "2021-05-07 05:00:00", 2.917, 1L,
+      "2021-05-07 06:00:00", 2.817, 1L,
+      "2021-05-07 07:00:00", 2.917, 1L,
+      "2021-05-07 08:00:00", 2.817, 1L,
+      "2021-05-07 09:00:00", 2.867, 3L,
+      "2021-05-07 10:00:00", 2.877, 3L,
+      "2021-05-07 11:00:00", 10.012, 3L,
+      "2021-05-07 12:00:00", 3.147, 3L,
+      "2021-05-07 13:00:00", 3.124, 3L,
+      "2021-05-07 14:00:00", 3.268, 3L,
+      "2021-05-07 15:00:00", 4.189, 2L,
+      "2021-05-07 16:00:00", 4.157, 3L,
+      "2021-05-07 17:00:00", 4.957, 3L,
+      "2021-05-07 18:00:00", 10.957, 3L
     ) |>
       dplyr::mutate(date_time = as.POSIXct(date_time))
   )

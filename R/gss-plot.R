@@ -1,6 +1,6 @@
 #' Plot Growing Seasons (GSS)
-#' 
-#' A wrapper on [gsdd::gss_plot()] to by default 
+#'
+#' A wrapper on [gsdd::gss_plot()] to by default
 #' plot all Growing Seasons ignoring truncation.
 #' For more information see [gsdd::gss_plot()].
 #'
@@ -18,18 +18,18 @@ gss_plot <- function(
     latex = FALSE,
     nrow = NULL,
     ncol = NULL,
-    msgs = TRUE
-) {
+    msgs = TRUE) {
   chk_whole_number(min_length)
   chk_range(min_length, c(14, 274))
-  
+
   gsdd::gss_plot(
-    x, 
-    min_length = min_length, 
+    x,
+    min_length = min_length,
     ignore_truncation = ignore_truncation,
     pick = pick,
     latex = latex,
     nrow = nrow,
     ncol = ncol,
-    msgs = msgs)
+    msgs = msgs
+  )
 }

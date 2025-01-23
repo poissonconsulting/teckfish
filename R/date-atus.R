@@ -1,6 +1,6 @@
 #' Calculate Date of Accumulated Thermal Units (ATUs)
-#' 
-#' A wrapper on [gsdd::date_atus()] to calculats the date on which a 
+#'
+#' A wrapper on [gsdd::date_atus()] to calculats the date on which a
 #' specified number of Accumulated Thermal Units (ATUs) are exceeded.
 #'
 #' @inheritParams gsdd::date_atus
@@ -12,11 +12,10 @@
 date_atus <- function(
     x,
     atus = 600,
-    start_date = as.Date("1972-03-01")
-) {
-  
+    start_date = as.Date("1972-03-01")) {
   gsdd::date_atus(
-    x, 
+    x,
     atus = atus,
-    start_date = start_date)
+    start_date = start_date
+  )
 }
