@@ -136,6 +136,10 @@ the function will ignore the value and not classify it.</li>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">classified_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_water_temp_data.html">classify_water_temp_data</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; The <span style="color: #0000BB;">duckplyr</span> package is configured to fall back to <span style="color: #0000BB;">dplyr</span> when it encounters an</span></span>
+<span><span class="co">#&gt; incompatibility. Fallback events can be collected and uploaded for analysis to</span></span>
+<span><span class="co">#&gt; guide future development. By default, no data will be collected or uploaded.</span></span>
+<span><span class="co">#&gt; → Run `duckplyr::fallback_sitrep()` to review the current settings.</span></span>
 <span></span>
 <span><span class="va">classified_data</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 3</span></span></span>
@@ -192,21 +196,7 @@ the function will ignore the value and not classify it.</li>
 <span>  <span class="va">data</span>,</span>
 <span>  questionable_max <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  erroneous_max <span class="op">=</span> <span class="fl">20</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 3</span></span></span>
-<span><span class="co">#&gt;    temperature_date_time water_temperature status_id   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-05-07 <span style="color: #949494;">00:00:00</span>               40.1  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-05-07 <span style="color: #949494;">01:00:00</span>               20.3  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-05-07 <span style="color: #949494;">02:00:00</span>                6.26 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-05-07 <span style="color: #949494;">03:00:00</span>                5.24 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-05-07 <span style="color: #949494;">04:00:00</span>                2.57 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-05-07 <span style="color: #949494;">05:00:00</span>                2.69 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-05-07 <span style="color: #949494;">06:00:00</span>                2.17 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-05-07 <span style="color: #949494;">07:00:00</span>                2.82 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-05-07 <span style="color: #949494;">08:00:00</span>                2.92 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-05-07 <span style="color: #949494;">09:00:00</span>                2.82 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more rows</span></span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="changing-rate-of-change-parameters">Changing rate of change parameters<a class="anchor" aria-label="anchor" href="#changing-rate-of-change-parameters"></a>
@@ -216,21 +206,7 @@ the function will ignore the value and not classify it.</li>
 <span>  <span class="va">data</span>,</span>
 <span>  questionable_rate <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  erroneous_rate <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 3</span></span></span>
-<span><span class="co">#&gt;    temperature_date_time water_temperature status_id   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-05-07 <span style="color: #949494;">00:00:00</span>               40.1  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-05-07 <span style="color: #949494;">01:00:00</span>               20.3  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-05-07 <span style="color: #949494;">02:00:00</span>                6.26 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-05-07 <span style="color: #949494;">03:00:00</span>                5.24 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-05-07 <span style="color: #949494;">04:00:00</span>                2.57 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-05-07 <span style="color: #949494;">05:00:00</span>                2.69 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-05-07 <span style="color: #949494;">06:00:00</span>                2.17 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-05-07 <span style="color: #949494;">07:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-05-07 <span style="color: #949494;">08:00:00</span>                2.92 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-05-07 <span style="color: #949494;">09:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more rows</span></span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="removing-the-time-buffer">Removing the time buffer<a class="anchor" aria-label="anchor" href="#removing-the-time-buffer"></a>
@@ -240,21 +216,7 @@ the function will ignore the value and not classify it.</li>
 <span>  <span class="va">data</span>,</span>
 <span>  questionable_buffer <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  erroneous_buffer <span class="op">=</span> <span class="fl">0</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 3</span></span></span>
-<span><span class="co">#&gt;    temperature_date_time water_temperature status_id   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-05-07 <span style="color: #949494;">00:00:00</span>               40.1  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-05-07 <span style="color: #949494;">01:00:00</span>               20.3  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-05-07 <span style="color: #949494;">02:00:00</span>                6.26 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-05-07 <span style="color: #949494;">03:00:00</span>                5.24 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-05-07 <span style="color: #949494;">04:00:00</span>                2.57 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-05-07 <span style="color: #949494;">05:00:00</span>                2.69 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-05-07 <span style="color: #949494;">06:00:00</span>                2.17 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-05-07 <span style="color: #949494;">07:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-05-07 <span style="color: #949494;">08:00:00</span>                2.92 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-05-07 <span style="color: #949494;">09:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more rows</span></span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="removing-the-gap-filling">Removing the gap filling<a class="anchor" aria-label="anchor" href="#removing-the-gap-filling"></a>
@@ -263,21 +225,7 @@ the function will ignore the value and not classify it.</li>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/classify_water_temp_data.html">classify_water_temp_data</a></span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
 <span>  gap_range <span class="op">=</span> <span class="fl">0</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 3</span></span></span>
-<span><span class="co">#&gt;    temperature_date_time water_temperature status_id   </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-05-07 <span style="color: #949494;">00:00:00</span>               40.1  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-05-07 <span style="color: #949494;">01:00:00</span>               20.3  erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-05-07 <span style="color: #949494;">02:00:00</span>                6.26 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-05-07 <span style="color: #949494;">03:00:00</span>                5.24 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-05-07 <span style="color: #949494;">04:00:00</span>                2.57 erroneous   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-05-07 <span style="color: #949494;">05:00:00</span>                2.69 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-05-07 <span style="color: #949494;">06:00:00</span>                2.17 questionable</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-05-07 <span style="color: #949494;">07:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-05-07 <span style="color: #949494;">08:00:00</span>                2.92 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-05-07 <span style="color: #949494;">09:00:00</span>                2.82 reasonable  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more rows</span></span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
