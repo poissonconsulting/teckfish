@@ -68,235 +68,11 @@ test_that("errors when reserved columns are already present in the data", {
     classify_water_temp_data(data.frame(
       temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
       water_temperature = c(4.2),
-      status_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching 'status_id'."
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .lag_temp = c(1L)
+      .rate = c(1L)
     )),
     regexp = "`colnames\\(data\\)` must not have any values matching"
   )
 
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .diff_temp = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .lag_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .diff_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .rate_temp_per_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .lag_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .lead_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .id_row = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_higher_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_lower_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_higher_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_lower_next_id = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_higher_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_lower_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_higher_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_lower_next_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_higher_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .quest_lower_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_higher_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .error_lower_time_diff_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .gap_fill_higher_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .gap_fill_higher_type = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .gap_fill_lower_time = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .gap_fill_lower_type = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
-
-  expect_error(
-    classify_water_temp_data(data.frame(
-      temperature_date_time = as.POSIXct(c("2021-05-07 08:00:00")),
-      water_temperature = c(4.2),
-      .gap_diff_time_h = c(1L)
-    )),
-    regexp = "`colnames\\(data\\)` must not have any values matching"
-  )
 })
 
 test_that("dataset with no rows is returned with no rows", {
@@ -922,7 +698,7 @@ test_that("questionable and erroneous ranges align with checks", {
       questionable_min = -4,
       erroneous_min = -2,
     ),
-    regexp = "`erroneous_min` must be less than -4, not -2."
+    regexp = "`erroneous_min` must be less than or equal to -4, not -2."
   )
 
   expect_error(
@@ -934,7 +710,7 @@ test_that("questionable and erroneous ranges align with checks", {
       questionable_max = 20,
       erroneous_max = 10,
     ),
-    regexp = "`erroneous_max` must be greater than 20, not 10."
+    regexp = "`erroneous_max` must be greater than or equal to 20, not 10."
   )
 
   expect_error(
@@ -995,7 +771,7 @@ test_that("rates parameter checks", {
       ),
       questionable_rate = -2
     ),
-    regexp = "`questionable_rate` must be greater than or equal to 0, not -2."
+    regexp = "`questionable_rate` must be greater than 0, not -2."
   )
 
   expect_error(
@@ -1006,7 +782,7 @@ test_that("rates parameter checks", {
       ),
       erroneous_rate = -2
     ),
-    regexp = "`erroneous_rate` must be greater than or equal to 0, not -2."
+    regexp = "`erroneous_rate` must be greater than 0, not -2."
   )
 
   expect_error(

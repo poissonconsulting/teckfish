@@ -1,12 +1,12 @@
 longest_run <- function(x) {
   rle <- rle(is.na(x))
   wch <- which.max(rle$length)
-  if(rle$length[wch] < 184 | rle$values[wch]) {
+  if (rle$length[wch] < 184 || rle$values[wch]) {
     return(NA_real_)
   }
   cumsum <- cumsum(rle$lengths)
   to <- cumsum[wch]
-  from <- if(wch == 1) 1L else cumsum[wch-1] + 1L
+  from <- if (wch == 1) 1L else cumsum[wch - 1] + 1L
   x[from:to]
 }
 
@@ -25,5 +25,3 @@ index_begin_run <- function(x) {
   }
   index[c(TRUE, diff(index) > 1)]
 }
-
-.data <- NULL
