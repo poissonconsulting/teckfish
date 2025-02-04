@@ -74,33 +74,33 @@ classify_time_series_data <- function(data,
   )
 
   data <- data |>
-    duckplyr::rename(.date_time = duckplyr::all_of(date_time), 
-                     .value = duckplyr::all_of(value)) |>
-    duckplyr::arrange(.data$.date_time) |>
-    duckplyr::mutate(status_id = rep(NA_integer_, nrow(data))) |>
+    dplyr::rename(.date_time = dplyr::all_of(date_time), 
+                     .value = dplyr::all_of(value)) |>
+    dplyr::arrange(.data$.date_time) |>
+    dplyr::mutate(status_id = rep(NA_integer_, nrow(data))) |>
     set_status_id()
 
   missing_rows <- data |>
-    duckplyr::filter(is.na(.data$.value))
+    dplyr::filter(is.na(.data$.value))
 
   lookup <- c(".date_time", ".value") |>
     rlang::set_names(c(date_time, value))
 
   if (identical(nrow(missing_rows), nrow(data))) {
     data <- data |>
-      duckplyr::rename(duckplyr::all_of(lookup))
+      dplyr::rename(dplyr::all_of(lookup))
     return(data)
   }
 
   tz <- attr(data$.date_time, "tzone")
 
   data <- data |>
-    duckplyr::filter(!is.na(.data$.value)) |>
-    duckplyr::mutate(
+    dplyr::filter(!is.na(.data$.value)) |>
+    dplyr::mutate(
       .date_time = as.integer(.data$.date_time),
       .rate = c(NA_real_, diff(.data$.value) / diff(.data$.date_time)),
       .rate = abs(.data$.rate) * 3600,
-      status_id = duckplyr::case_when(
+      status_id = dplyr::case_when(
         .data$.value <= erroneous_min ~ 3L,
         .data$.value >= erroneous_max ~ 3L,
         .data$.rate >= erroneous_rate ~ 3L,
@@ -111,58 +111,58 @@ classify_time_series_data <- function(data,
       ),
       status_id = pmax(
         .data$status_id,
-        duckplyr::lag(.data$status_id),
-        duckplyr::lead(.data$status_id),
+        dplyr::lag(.data$status_id),
+        dplyr::lead(.data$status_id),
         na.rm = TRUE
       )
     ) |>
-    duckplyr::select(
+    dplyr::select(
       !".rate"
     )
 
   questionable_range <- data |>
-    duckplyr::filter(.data$status_id == 2L) |>
-    duckplyr::mutate(
+    dplyr::filter(.data$status_id == 2L) |>
+    dplyr::mutate(
       .start_date_time = .data$.date_time - questionable_buffer * 3600,
       .end_date_time = .data$.date_time + questionable_buffer * 3600,
       .keep = "none"
     )
 
   erroneous_range <- data |>
-    duckplyr::filter(.data$status_id == 3L) |>
-    duckplyr::mutate(
+    dplyr::filter(.data$status_id == 3L) |>
+    dplyr::mutate(
       .start_date_time = .data$.date_time - erroneous_buffer * 3600,
       .end_date_time = .data$.date_time + erroneous_buffer * 3600,
       .keep = "none"
     )
 
   gap <- data |>
-    duckplyr::filter(.data$status_id != 1L) |>
-    duckplyr::mutate(
-      .status_id = pmax(.data$status_id, duckplyr::lead(.data$status_id), na.rm = TRUE),
+    dplyr::filter(.data$status_id != 1L) |>
+    dplyr::mutate(
+      .status_id = pmax(.data$status_id, dplyr::lead(.data$status_id), na.rm = TRUE),
       .status_id = 2L, # TODO 2L, pmin or pmax?? - pmax
       .start_date_time = .data$.date_time,
-      .end_date_time = duckplyr::lead(.data$.date_time),
+      .end_date_time = dplyr::lead(.data$.date_time),
       .keep = "none"
     ) |>
-    duckplyr::filter(.data$.end_date_time - .data$.start_date_time <= gap_range * 3600)
+    dplyr::filter(.data$.end_date_time - .data$.start_date_time <= gap_range * 3600)
 
   data <- data |>
     dplyr::left_join(questionable_range, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
-    duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id == 1L & .data$.date_time <= .data$.end_date_time, 2L, .data$status_id, .data$status_id)) |>
-    duckplyr::select(!c(".start_date_time", ".end_date_time")) |>
+    dplyr::mutate(status_id = dplyr::if_else(.data$status_id == 1L & .data$.date_time <= .data$.end_date_time, 2L, .data$status_id, .data$status_id)) |>
+    dplyr::select(!c(".start_date_time", ".end_date_time")) |>
     dplyr::left_join(erroneous_range, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
-    duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id != 3L & .data$.date_time <= .data$.end_date_time, 3L, .data$status_id, .data$status_id)) |>
-    duckplyr::select(!c(".start_date_time", ".end_date_time")) |>
+    dplyr::mutate(status_id = dplyr::if_else(.data$status_id != 3L & .data$.date_time <= .data$.end_date_time, 3L, .data$status_id, .data$status_id)) |>
+    dplyr::select(!c(".start_date_time", ".end_date_time")) |>
     dplyr::left_join(gap, by = dplyr::join_by(closest(x$.date_time >= y$.start_date_time))) |>
-    duckplyr::mutate(status_id = duckplyr::if_else(.data$status_id < .data$.status_id & .data$.date_time <= .data$.end_date_time, .data$.status_id, .data$status_id, .data$status_id)) |>
-    duckplyr::select(!c(".status_id", ".start_date_time", ".end_date_time")) |>
+    dplyr::mutate(status_id = dplyr::if_else(.data$status_id < .data$.status_id & .data$.date_time <= .data$.end_date_time, .data$.status_id, .data$status_id, .data$status_id)) |>
+    dplyr::select(!c(".status_id", ".start_date_time", ".end_date_time")) |>
     set_status_id() |>
-    duckplyr::mutate(.date_time = as.POSIXct(.data$.date_time, tz = tz)) |>
-    duckplyr::bind_rows(missing_rows) |>
-    duckplyr::arrange(.data$.date_time) |>
-    duckplyr::rename(duckplyr::all_of(lookup)) |>
-    duckplyr::as_tibble()
+    dplyr::mutate(.date_time = as.POSIXct(.data$.date_time, tz = tz)) |>
+    dplyr::bind_rows(missing_rows) |>
+    dplyr::arrange(.data$.date_time) |>
+    dplyr::rename(dplyr::all_of(lookup)) |>
+    dplyr::as_tibble()
 }
 
 check_time_series_args <- function(data,
@@ -226,8 +226,8 @@ check_time_series_args <- function(data,
 
 set_status_id <- function(data) {
   data |>
-    duckplyr::mutate(
-      status_id = duckplyr::case_when(
+    dplyr::mutate(
+      status_id = dplyr::case_when(
         .data$status_id == 3L ~ "erroneous",
         .data$status_id == 2L ~ "questionable",
         .data$status_id == 1L ~ "reasonable",
@@ -238,7 +238,7 @@ set_status_id <- function(data) {
         levels = c("reasonable", "questionable", "erroneous"),
       )
     ) |>
-    duckplyr::as_tibble()
+    dplyr::as_tibble()
 }
 
 reserved_colnames <- function() {
