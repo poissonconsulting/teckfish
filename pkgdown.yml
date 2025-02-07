@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   classify-water-temp: classify-water-temp.html
-last_built: 2025-02-04T20:14Z
+last_built: 2025-02-07T14:30Z
 urls:
   reference: https://poissonconsulting.github.io/teckfish/reference
   article: https://poissonconsulting.github.io/teckfish/articles
