@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# teckfish 0.5.0.9000
+
+- `gss()` now only ignores end truncation by default.
+
+- Switching to dplyr as duckplyr is undergoing some updates (#33).
+
+
 # teckfish 0.5.0
 
 - Added `date_atus()` from `gsdd` package to calculate the date on which a specified number of accumulated thermal units are exceeded.
