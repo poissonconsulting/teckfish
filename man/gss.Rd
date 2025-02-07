@@ -4,7 +4,7 @@
 \alias{gss}
 \title{Calculate Growing Seasons (GSS)}
 \usage{
-gss(x, min_length = 120, ignore_truncation = TRUE, pick = "all", msgs = TRUE)
+gss(x, min_length = 120, ignore_truncation = "end", pick = "all", msgs = TRUE)
 }
 \arguments{
 \item{x}{A data frame with two columns \code{date} and \code{temperature}.
@@ -17,7 +17,10 @@ Must be at least twice the window width but no more than 365.
 If NULL then set to be the difference between \code{start_date} and \code{end_date}
 (ignoring the year).}
 
-\item{ignore_truncation}{A flag specifying whether to ignore start truncation (end truncation is always ignored).}
+\item{ignore_truncation}{A flag specifying whether to ignore truncation
+of the mean daily water temperature vector
+or a string of "start", "end", "none" (equivalent to FALSE) or "both"
+(equivalent to TRUE) specifying which type of truncation to ignore.}
 
 \item{pick}{A string specifying whether to pick the
 "longest", "shortest", "first" or "last" 'season' or the season with the

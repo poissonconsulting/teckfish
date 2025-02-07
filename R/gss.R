@@ -4,7 +4,7 @@
 #' get all Growing Seasons ignoring truncation.
 #' For more information see [gsdd::gss()].
 #'
-#' @inheritParams gsdd::gdd
+#' @inheritParams gsdd::gss
 #' @seealso [gsdd::gss()], [gsdd()] and [gss()].
 #' @export
 #'
@@ -13,7 +13,7 @@
 gss <- function(
     x,
     min_length = 120,
-    ignore_truncation = TRUE,
+    ignore_truncation = "end",
     pick = "all",
     msgs = TRUE) {
   chk_whole_number(min_length)
